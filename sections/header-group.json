@@ -1,0 +1,20 @@
+{
+  "name": "Header",
+  "type": "header",
+  "sections": {
+    "announcements": {
+      "type": "announcements",
+      "settings": {
+      }
+    },
+    "header": {
+      "type": "header",
+      "settings": {
+      }
+    }
+  },
+  "order": [
+    "announcements",
+    "header"
+  ]
+}
