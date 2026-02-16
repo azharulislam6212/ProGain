@@ -22,14 +22,20 @@ const ThemeObj = {
   // Shopify section hydration
   initSection(section) {
     if (!section) return;
-    if (typeof window.initVariantPicker === 'function') window.initVariantPicker(section);
+    
     if (typeof window.initProductForms === 'function') window.initProductForms(section);
+    if (Theme.template.name === 'product') {
+        import('@theme/variant-picker').then(() => {
+            if (typeof window.initVariantPicker === 'function') window.initVariantPicker();
+        });
+     }
+
   },
 
   init() {
     // DOM ready
     document.addEventListener('DOMContentLoaded', () => {
-      this.initModules(); // ✅ arrow function + this = ThemeObj
+      this.initModules();  
     });
 
     // Shopify section load
