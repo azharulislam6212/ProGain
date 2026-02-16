@@ -3,6 +3,7 @@
 // ------------------------
 import '@theme/utilities.js';
 import { ThemeEvents } from '@theme/events';
+import '@theme/product-form.js';
 
 // ------------------------
 // Theme Object
