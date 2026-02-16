@@ -4,13 +4,11 @@
   "sections": {
     "announcements": {
       "type": "announcements",
-      "settings": {
-      }
+      "settings": {}
     },
     "header": {
       "type": "header",
-      "settings": {
-      }
+      "settings": {}
     }
   },
   "order": [

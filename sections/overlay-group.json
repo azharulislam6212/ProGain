@@ -1,38 +1,38 @@
 {
-    "name": "Overlay",
-    "type": "aside",
-    "sections": {
-        "menu-drawer": {
-            "type": "menu-drawer",
-            "settings": {}
-        },
-        "cart-drawer": {
-            "type": "cart-drawer",
-            "settings": {}
-        },
-        "search-drawer": {
-            "type": "search-drawer",
-            "settings": {}
-        },
-        "newsletter-popup": {
-            "type": "newsletter-popup",
-            "settings": {}
-        },
-        "age-verifier": {
-            "type": "age-verifier",
-            "settings": {}
-        },
-        "mobile-dock": {
-            "type": "mobile-dock",
-            "settings": {}
-        }
+  "name": "Overlay",
+  "type": "aside",
+  "sections": {
+    "menu-drawer": {
+      "type": "menu-drawer",
+      "settings": {}
     },
-    "order": [
-        "menu-drawer",
-        "cart-drawer",
-        "search-drawer",
-        "newsletter-popup",
-        "age-verifier",
-        "mobile-dock"
-    ]
+    "cart-drawer": {
+      "type": "cart-drawer",
+      "settings": {}
+    },
+    "search-drawer": {
+      "type": "search-drawer",
+      "settings": {}
+    },
+    "newsletter-popup": {
+      "type": "newsletter-popup",
+      "settings": {}
+    },
+    "age-verifier": {
+      "type": "age-verifier",
+      "settings": {}
+    },
+    "mobile-dock": {
+      "type": "mobile-dock",
+      "settings": {}
+    }
+  },
+  "order": [
+    "menu-drawer",
+    "cart-drawer",
+    "search-drawer",
+    "newsletter-popup",
+    "age-verifier",
+    "mobile-dock"
+  ]
 }

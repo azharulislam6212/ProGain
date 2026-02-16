@@ -6,7 +6,7 @@
       <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
     {%- endif -%}
     {%- render 'meta-tags' -%}
-    {% render 'micodata-schema' %}
+    {%- render 'micodata-schema' -%}
     {%- render 'stylesheets' -%}
     {%- render 'fonts' -%}
     {%- render 'scripts' -%}
@@ -15,7 +15,6 @@
     {{ content_for_header }}
   </head>
   <body class="template-{{ request.page_type }}{% if template.suffix %} template--{{- template.suffix -}}{% endif %}">
-
     {% render 'skip-to-content-link', href: '#MainContent', text: 'accessibility.skip_to_text' %}
     <div id="header-group">
       {%- liquid

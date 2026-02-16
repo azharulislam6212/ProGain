@@ -1,0 +1,52 @@
+ 
+{% # theme-check-disable %}
+{%- comment -%} Initialize preloaded_fonts as an array {%- endcomment -%}
+{%- assign preloaded_fonts = preloaded_fonts | default: '' | split: ',' -%}
+
+{%- comment -%} ===== Body Font ===== {%- endcomment -%}
+{%- unless settings.type_body_font.system? -%}
+  <link
+    rel="preload"
+    as="font"
+    href="{{ settings.type_body_font | font_url }}"
+    type="font/woff2"
+    crossorigin="anonymous"
+    fetchpriority="high"
+  >
+{%- endunless -%}
+
+{%- comment -%} ===== Heading Font ===== {%- endcomment -%}
+{%- unless settings.type_heading_font.system? -%}
+  <link
+    rel="preload"
+    as="font"
+    href="{{ settings.type_heading_font | font_url }}"
+    type="font/woff2"
+    crossorigin="anonymous"
+    fetchpriority="high"
+  >
+{%- endunless -%}
+
+{%- comment -%} ===== Subheading Font ===== {%- endcomment -%}
+{%- unless settings.type_subheading_font.system? -%}
+  <link
+    rel="preload"
+    as="font"
+    href="{{ settings.type_subheading_font | font_url }}"
+    type="font/woff2"
+    crossorigin="anonymous"
+  >
+{%- endunless -%}
+
+{%- comment -%} ===== Accent Font ===== {%- endcomment -%}
+{%- unless settings.type_accent_font.system? -%}
+  <link
+    rel="preload"
+    as="font"
+    href="{{ settings.type_accent_font | font_url }}"
+    type="font/woff2"
+    crossorigin="anonymous"
+  >
+{%- endunless -%}
+
+{% # theme-check-enable %}

@@ -1,0 +1,23 @@
+
+
+
+{% style %}
+
+{% for scheme in settings.color_schemes -%}
+{% assign scheme_classes = scheme_classes | append: ', .color-' | append: scheme.id %}
+	{% if forloop.index == 1 -%}
+		:root,
+	{%- endif %} 
+    
+    .color-{{ scheme.id }} {
+     --color-background: {{ scheme.settings.background.rgb }};
+     --color-foreground: {{ scheme.settings.foreground.rgb }};
+}
+{% endfor %}
+
+:where([class*='color-scheme-']) {
+    background-color: rgb(var(--color-background));
+    color: rgb(var(--color-foreground));
+}
+
+{% endstyle %}

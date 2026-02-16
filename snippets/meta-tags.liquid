@@ -3,6 +3,10 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="">
 <link rel="canonical" href="{{ canonical_url }}">
+{%- comment -%}Few prefetch to increase performance on commonly used third-parties{%- endcomment -%}
+<link rel="preconnect" href="https://cdn.shopify.com">
+<link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
+<link rel="dns-prefetch" href="https://productreviews.shopifycdn.com">
 
 {%- liquid
   assign og_title = page_title | default: shop.name

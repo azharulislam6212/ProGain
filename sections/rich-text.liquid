@@ -1,6 +1,8 @@
+<div class="color-{{ section.settings.color_scheme }}">
+  
 
 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dignissimos et repudiandae error, velit aliquid, eligendi ullam esse dolore ratione reprehenderit necessitatibus! Modi aliquid amet, id deserunt illo architecto praesentium perspiciatis?</p>
-
+</div>
 
 {% schema %}
 {
@@ -8,6 +10,12 @@
   "tag": "section",
   "class": "section",
   "settings": [
+        {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:settings.color_scheme",
+      "default": "primary"
+    }
   ],
   "presets": [
     {
