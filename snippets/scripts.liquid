@@ -9,30 +9,30 @@
 }
 </script>
 
-<script type="module"> 
-const Theme = {
-    translations: {
-      placeholder_image: `{{ 'content.placeholder_image' | t }}`,
-      added: `{{ 'actions.added' | t }}`,
-      recipient_form_fields_visible: `{{ 'content.recipient_form_fields_visible' | t }}`,
-      recipient_form_fields_hidden: `{{ 'content.recipient_form_fields_hidden' | t }}`,
-      recipient_form_error: `{{ 'content.recipient_form_error' | t }}`,
-      items_added_to_cart_one: `{{ 'content.items_added_to_cart.one' | t }}`,
-      items_added_to_cart_other: `{{ 'content.items_added_to_cart.other' | t }}`,
-    },
+<script>
+window.__THEME__ = {
+  translations: {
+    placeholder_image: `{{ 'content.placeholder_image' | t }}`,
+    added: `{{ 'actions.added' | t }}`,
+    recipient_form_fields_visible: `{{ 'content.recipient_form_fields_visible' | t }}`,
+    recipient_form_fields_hidden: `{{ 'content.recipient_form_fields_hidden' | t }}`,
+    recipient_form_error: `{{ 'content.recipient_form_error' | t }}`,
+    items_added_to_cart_one: `{{ 'content.items_added_to_cart.one' | t }}`,
+    items_added_to_cart_other: `{{ 'content.items_added_to_cart.other' | t }}`,
+  },
   routes: {
-      cart_add_url: '{{ routes.cart_add_url | append: '.js' }}',
-      cart_change_url: '{{ routes.cart_change_url }}',
-      cart_update_url: '{{ routes.cart_update_url }}',
-      cart_url: '{{ routes.cart_url }}',
-      predictive_search_url: '{{ routes.predictive_search_url }}',
-      search_url: '{{ routes.search_url }}',
-    },
-   template: {
-      name: '{{ template }}',
-    },
+    cart_add_url: '{{ routes.cart_add_url | append: ".js" }}',
+    cart_change_url: '{{ routes.cart_change_url }}',
+    cart_update_url: '{{ routes.cart_update_url }}',
+    cart_url: '{{ routes.cart_url }}',
+    predictive_search_url: '{{ routes.predictive_search_url }}',
+    search_url: '{{ routes.search_url }}',
+  },
+  template: { name: '{{ template }}' },
+  cartType: {{ settings.cart_type | json }}
 }
 </script>
+
 
 <!-- Theme.js module -->
 <script  src="{{ 'theme.js' | asset_url }}" type="module"></script>

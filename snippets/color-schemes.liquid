@@ -14,8 +14,7 @@
      --color-foreground: {{ scheme.settings.foreground.rgb }};
 }
 {% endfor %}
-
-:where([class*='color-scheme-']) {
+{{scheme_classes | prepend: 'body'}}{
     background-color: rgb(var(--color-background));
     color: rgb(var(--color-foreground));
 }

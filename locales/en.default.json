@@ -1,5 +1,6 @@
 {
   "accessibility": {
+    "home": "Home",
     "account": "Account",
     "cart": "Cart",
     "cart_count": "Total items in cart",
