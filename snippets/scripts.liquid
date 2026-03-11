@@ -1,12 +1,12 @@
 <!-- Importmap: module paths mapping -->
 <script type="importmap">
-{
-  "imports": {
-    "@theme/events": "{{ 'events.js' | asset_url }}",
-    "@theme/utilities.js": "{{ 'utilities.js' | asset_url }}",
-    "@theme/product-form.js": "{{ 'product-form.js' | asset_url }}"
+  {
+    "imports": {
+      "@theme/events": "{{ 'events.js' | asset_url }}",
+      "@theme/utilities.js": "{{ 'utilities.js' | asset_url }}",
+      "@theme/product-form.js": "{{ 'product-form.js' | asset_url }}"
+    }
   }
-}
 </script>
 
 <script>
@@ -34,5 +34,9 @@ window.__THEME__ = {
 </script>
 
 
+<script src="{{ 'gsap-bundle.min.js' | asset_url }}" defer></script>
+<script src="{{ 'animation.js' | asset_url }}"  defer></script>  
+
 <!-- Theme.js module -->
-<script  src="{{ 'theme.js' | asset_url }}" type="module"></script>
+
+<script src="{{ 'theme.js' | asset_url }}" type="module"></script>

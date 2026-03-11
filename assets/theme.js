@@ -31,7 +31,7 @@ class Theme {
           .catch(err => console.error('Variant Picker Failed', err))
       );
       loaders.push(
-        import('@theme/product-form.js')
+        import('@theme/product-form')
           .then(m => m.default && new m.default())
           .catch(err => console.error('Product Form Failed', err))
       );
@@ -74,7 +74,11 @@ class Theme {
   // ------------------------
   start() {
     // DOM ready
-    document.addEventListener('DOMContentLoaded', () => this.initTemplateModules());
+    if (document.readyState !== 'loading') {
+      this.initTemplateModules();
+    } else {
+      document.addEventListener('DOMContentLoaded', () => this.initTemplateModules());
+    }
 
     // Shopify section hydration
     document.addEventListener('shopify:section:load', (event) => this.initSection(event.target));
