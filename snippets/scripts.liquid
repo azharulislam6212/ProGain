@@ -3,11 +3,17 @@
   {
     "imports": {
       "@theme/events": "{{ 'events.js' | asset_url }}",
-      "@theme/utilities.js": "{{ 'utilities.js' | asset_url }}",
-      "@theme/product-form.js": "{{ 'product-form.js' | asset_url }}"
+      "@theme/utilities": "{{ 'utilities.js' | asset_url }}",
+      "@theme/product-form": "{{ 'product-form.js' | asset_url }}",
+      "@theme/lenis": "{{ 'lenis.js' | asset_url }}"
     }
   }
 </script>
+
+<link rel="modulepreload" href="{{ 'events.js' | asset_url }}" fetchpriority="low">
+<link rel="modulepreload" href="{{ 'utilities.js' | asset_url }}" fetchpriority="low">
+<link rel="modulepreload" href="{{ 'product-form.js' | asset_url }}" fetchpriority="low">
+<link rel="modulepreload" href="{{ 'lenis.js' | asset_url }}" fetchpriority="low">
 
 <script>
 window.__THEME__ = {
@@ -29,14 +35,17 @@ window.__THEME__ = {
     search_url: '{{ routes.search_url }}',
   },
   template: { name: '{{ template }}' },
-  cartType: {{ settings.cart_type | json }}
+  cartType: {{ settings.cart_type | json }},
+  settings: {
+      pageTransitionsEnabled: true,
+      smoothScroll: true,
+    },
+  moneyFormat: '${{amount}}',
 }
 </script>
 
-
 <script src="{{ 'gsap-bundle.min.js' | asset_url }}" defer></script>
-<script src="{{ 'animation.js' | asset_url }}"  defer></script>  
+<script src="{{ 'animation.js' | asset_url }}" defer></script>
 
 <!-- Theme.js module -->
-
-<script src="{{ 'theme.js' | asset_url }}" type="module"></script>
+<script type="module" src="{{ 'theme.js' | asset_url }}"></script>

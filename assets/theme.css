@@ -1,8 +1,907 @@
 * {
   box-sizing: border-box;
+  margin: 0;
+}
+
+/* ========================================*/
+/*  NO JS FALLBACKS                        */
+/* ========================================*/
+
+.no-js:not(html) {
+  display: none !important;
+}
+
+html,
+body {
+  scrollbar-gutter: stable;
+}
+
+html.no-js .no-js:not(html) {
+  display: block !important;
+}
+
+.no-js-inline {
+  display: none !important;
+}
+
+html.no-js .no-js-inline {
+  display: inline-block !important;
+}
+
+.no-js-flex {
+  display: none !important;
+}
+
+html.no-js .no-js-flex {
+  display: flex !important;
+}
+
+html.js .js-hidden {
+  display: none !important;
+}
+
+html.no-js .no-js-block {
+  display: block !important;
+}
+
+html.no-js .no-js-hidden {
+  display: none !important;
+}
+
+html {
+  -moz-text-size-adjust: none;
+  -webkit-text-size-adjust: none;
+  text-size-adjust: none;
 }
 
 
-    .animate-scroll { opacity: 0; transform: translateY(50px); transition: all 0.3s; }
-    .animate-split {    margin: 50px 0;   }
-    .animate-text { font-size: 1.5rem; margin: 50px 0; min-height: 2em; }
+/* ========================================*/
+/* FOCUS RING                              */
+/* ========================================*/
+
+*:focus {
+  outline: 0;
+  box-shadow: none;
+}
+
+*:focus-visible,
+.focus-within:focus-within {
+  outline: 0.1rem solid currentColor;
+  outline-offset: 0.2rem;
+}
+
+/* Fallback - for browsers that don't support :focus-visible, a fallback is set for :focus */
+.focused,
+.no-js *:focus {
+  outline: 0.1rem solid currentColor;
+  outline-offset: 0.2rem;
+}
+
+/* Negate the fallback side-effect for browsers that support :focus-visible */
+.no-js *:focus:not(:focus-visible) {
+  outline: 0;
+  box-shadow: none;
+}
+
+/*
+  Focus ring - inset
+*/
+
+.focus-inset:focus-visible {
+  outline: 0.1rem solid currentColor;
+  outline-offset: -0.2rem;
+}
+
+.focused.focus-inset,
+.no-js .focus-inset:focus {
+  outline: 0.1rem solid currentColor;
+  outline-offset: -0.2rem;
+}
+
+.no-js .focus-inset:focus:not(:focus-visible) {
+  outline: 0;
+  box-shadow: none;
+}
+
+/* ========================================*/
+/*    BASIC ELEMENT                        */
+/* ========================================*/
+
+/* Box sizing reset */
+*,
+::before,
+::after {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+
+
+
+/* Chrome/Edge/Safari */
+::-webkit-scrollbar {
+  width: var(--scrollbar-width);
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  border: 3px solid #f1f1f1;  
+  background-color: rgba(0, 0, 0, 0.3); /* normal opacity */
+  border-radius: 10px;
+  transition: background-color 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(0, 0, 0, 0.6); /* hover opacity */
+}
+
+/* Firefox */
+* {
+  scrollbar-width: var(--scrollbar-width);
+  scrollbar-color: rgba(0,0,0,0.3) transparent;
+}
+
+*::-webkit-scrollbar-thumb:active {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+
+body {
+  margin: 0;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+html {
+   font-size: 62.5%;
+    scroll-behavior: smooth;
+}
+
+html.scroll-locked,
+html:has(.has-dropdown-menu, .search-open) {
+  overflow: hidden;
+}
+html.scroll-locked:not(.lenis-enabled),
+html:has(.has-dropdown-menu, .search-open):not(.lenis-enabled) {
+  padding-inline-end: var(--scrollbar-width, 0);
+}
+
+ 
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+svg * {
+  vector-effect: non-scaling-stroke;
+}
+
+
+input,
+textarea,
+select {
+  font: inherit;
+  border-radius: var(--style-border-radius-inputs);
+  font-family: var(--font-body-family);
+}
+
+select {
+  background-color: var(--color-background);
+  color: currentcolor;
+}
+
+dialog {
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+}
+
+a:not([href]) {
+  cursor: not-allowed;
+}
+
+p {
+  font-size: 16px;
+}
+
+p {
+  text-wrap: pretty;
+  font-family: var(--font-body-family);
+  letter-spacing: 0;
+  font-size: 16px;
+}
+
+a {
+  text-wrap: pretty;
+  font-family: inherit;
+  letter-spacing: 0;
+  color: inherit;
+
+}
+
+strong {
+  font-family: var(--font-body-family);
+  letter-spacing: 0;
+}
+
+span,
+small {
+  font-family: var(--font-body-family);
+  letter-spacing: 0;
+  /*  */
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
+}
+
+h2,
+h3,
+h4,
+h5 {
+  margin-bottom: 5px;
+  margin-bottom: 5px;
+}
+
+iframe {
+  max-width: 100%;
+}
+
+table {
+  border: 1px solid #ececec;
+  margin: 10px 0;
+}
+
+p:empty {
+  display: none;
+}
+
+:is(p, h1, h2, h3, h4, h5, h6):first-child,
+:empty:first-child+ :where(p, h1, h2, h3, h4, h5, h6) {
+  margin-block-start: 0;
+}
+
+:is(p, h1, h2, h3, h4, h5, h6):last-child,
+:where(p, h1, h2, h3, h4, h5, h6)+ :has(+ :empty:last-child) {
+  margin-block-end: 0;
+}
+
+.rte ul,
+.rte ol,
+ul,
+ol {
+  list-style-position: inside;
+}
+
+select {
+  cursor: pointer;
+}
+
+.rte a {
+  color: var(--color-primary);
+  text-underline-offset: 0.2rem;
+}
+
+.rte h1,
+.rte h2,
+.rte h3,
+.rte h4,
+.rte h5,
+.rte h6 {
+  color: var(--color-heading);
+  margin: 1rem 0 1rem;
+}
+
+.shopify-policy__body h1,
+.shopify-policy__body h2,
+.shopify-policy__body h3,
+.shopify-policy__body h4,
+.shopify-policy__body h5,
+.shopify-policy__body h6 {
+  margin: 1.5rem 0;
+}
+
+.rte img {
+  max-width: 100%;
+  height: auto;
+}
+
+details>* {
+  box-sizing: border-box;
+}
+
+summary {
+  cursor: pointer;
+  list-style: none;
+  position: relative;
+}
+
+summary::-webkit-details-marker {
+  display: none;
+}
+
+
+/* ========================================*/
+/*  LAYOUT UTILITIES                       */
+/* ========================================*/
+.hidden {
+  display: none !important;
+}
+
+/* Ratio Box (Aspect Ratio Support) */
+.ratio {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+}
+
+.ratio::before {
+  content: "";
+  position: relative;
+  top: 0;
+  left: 0;
+  padding-bottom: var(--aspect-ratio);
+}
+
+/* ========================================*/
+/* ACCESSIBILITY                           */
+/* ========================================*/
+.overflow-hidden {
+  overflow: hidden;
+}
+
+.list-unstyled {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.full-unstyled-link {
+  text-decoration: none;
+  color: currentColor;
+  display: block;
+}
+
+.inline-unstyled-link {
+  text-decoration: none;
+  color: currentColor;
+  display: inline-block;
+}
+
+.visually-hidden {
+  position: absolute !important;
+  overflow: hidden;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  clip: rect(0 0 0 0);
+  word-wrap: normal !important;
+}
+
+.visually-hidden--inline {
+  margin: 0;
+  height: 1em;
+}
+
+.skip-to-content-link {
+  position: absolute !important;
+  overflow: hidden !important;
+  height: 1px !important;
+  left: -99999px !important;
+  /* stylelint-disable-next-line declaration-no-important */
+  overflow-wrap: normal !important;
+}
+
+.skip-to-content-link:focus {
+  z-index: var(--layer-temporary);
+  overflow: auto;
+  width: auto !important;
+  height: auto !important;
+  left: 1rem !important;
+  top: 1rem;
+}
+
+.full-width-link {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 2;
+}
+
+.link-anim {
+  background: linear-gradient(90deg, currentColor, currentColor 100%) !important;
+  background-size: 0% 0.1rem !important;
+  background-repeat: no-repeat !important;
+  background-position: right bottom !important;
+  transition: background-size 0.5s var(--transition-cubic-bezier) !important;
+}
+
+.link-anim:hover {
+  background-size: 100% 0.1rem !important;
+  background-position: left bottom !important;
+}
+
+/* ========================================*/
+/* TYPOGRAPHY                              */
+/* ========================================*/
+
+body,
+.paragraph>*,
+.paragraph :is(ul, ol) :is(h1, h2, h3, h4, h5, h6),
+.paragraph:not(.button) {
+  font-family: var(--font-body--family);
+  font-style: var(--font-body--style);
+  font-weight: var(--font-body--weight);
+  line-height: var(--font-paragraph--line-height);
+  font-size: var(--font-size--paragraph);
+  color: var(--color, var(--color-foreground));
+  -webkit-font-smoothing: antialiased;
+}
+/* Ensure inputs with type presets maintain minimum 16px on mobile to prevent iOS zoom */
+@media screen and (max-width: 1200px) {
+  input.paragraph.paragraph,
+  input.paragraph.paragraph:not([type]),
+  textarea.paragraph.paragraph,
+  select.paragraph.paragraph {
+    font-size: max(1rem, var(--font-paragraph--size));
+  }
+}
+
+.paragraph > small {
+  font-size: smaller;
+}
+
+/* Typography presets */
+
+h1,
+.h1.h1,
+.text-block.h1 > *,
+.text-block.h1 :is(h1, h2, h3, h4, h5, h6) {
+  font-family: var(--font-h1--family);
+  font-style: var(--font-h1--style);
+  font-weight: var(--font-h1--weight);
+  font-size: var(--font-h1--size);
+  line-height: var(--font-h1--line-height);
+  letter-spacing: var(--font-h1--letter-spacing);
+  text-transform: var(--font-h1--case);
+  color: var(--color, var(--font-h1-color));
+}
+
+@media screen and (max-width: 1200px) {
+  input.h1.h1,
+  textarea.h1.h1,
+  select.h1.h1 {
+    font-size: max(1rem, var(--font-h1--size));
+  }
+}
+
+h2,
+.h2.h2,
+.text-block.h2 > *,
+.text-block.h2 :is(h1, h2, h3, h4, h5, h6) {
+  font-family: var(--font-h2--family);
+  font-style: var(--font-h2--style);
+  font-weight: var(--font-h2--weight);
+  font-size: var(--font-h2--size);
+  line-height: var(--font-h2--line-height);
+  letter-spacing: var(--font-h2--letter-spacing);
+  text-transform: var(--font-h2--case);
+  color: var(--color, var(--font-h2-color));
+}
+
+@media screen and (max-width: 1200px) {
+  input.h2.h2,
+  textarea.h2.h2,
+  select.h2.h2 {
+    font-size: max(1rem, var(--font-h2--size));
+  }
+}
+
+h3,
+.h3,
+.h3.h3,
+.text-block.h3 > *,
+.text-block.h3 :is(h1, h2, h3, h4, h5, h6) {
+  font-family: var(--font-h3--family);
+  font-style: var(--font-h3--style);
+  font-weight: var(--font-h3--weight);
+  font-size: var(--font-h3--size);
+  line-height: var(--font-h3--line-height);
+  letter-spacing: var(--font-h3--letter-spacing);
+  text-transform: var(--font-h3--case);
+  color: var(--color, var(--font-h3-color));
+}
+
+@media screen and (max-width: 1200px) {
+  input.h3,
+  textarea.h3,
+  select.h3 {
+    font-size: max(1rem, var(--font-h3--size));
+  }
+}
+
+h4,
+.h4.h4,
+.text-block.h4 > *,
+.text-block.h4 :is(h1, h2, h3, h4, h5, h6) {
+  font-family: var(--font-h4--family);
+  font-style: var(--font-h4--style);
+  font-weight: var(--font-h4--weight);
+  font-size: var(--font-h4--size);
+  line-height: var(--font-h4--line-height);
+  letter-spacing: var(--font-h4--letter-spacing);
+  text-transform: var(--font-h4--case);
+  color: var(--color, var(--font-h4-color));
+}
+
+@media screen and (max-width: 1200px) {
+  input.h4.h4,
+  textarea.h4.h4,
+  select.h4.h4 {
+    font-size: max(1rem, var(--font-h4--size));
+  }
+}
+
+h5,
+.h5.h5,
+.text-block.h5 > *,
+.text-block.h5 :is(h1, h2, h3, h4, h5, h6) {
+  font-family: var(--font-h5--family);
+  font-style: var(--font-h5--style);
+  font-weight: var(--font-h5--weight);
+  font-size: var(--font-h5--size);
+  line-height: var(--font-h5--line-height);
+  letter-spacing: var(--font-h5--letter-spacing);
+  text-transform: var(--font-h5--case);
+  color: var(--color, var(--font-h5-color));
+}
+
+@media screen and (max-width: 1200px) {
+  input.h5.h5,
+  textarea.h5.h5,
+  select.h5.h5 {
+    font-size: max(1rem, var(--font-h5--size));
+  }
+}
+
+h6,
+.h6.h6,
+.text-block.h6 > *,
+.text-block.h6 :is(h1, h2, h3, h4, h5, h6) {
+  font-family: var(--font-h6--family);
+  font-style: var(--font-h6--style);
+  font-weight: var(--font-h6--weight);
+  font-size: var(--font-h6--size);
+  line-height: var(--font-h6--line-height);
+  letter-spacing: var(--font-h6--letter-spacing);
+  text-transform: var(--font-h6--case);
+  color: var(--color, var(--font-h6-color));
+}
+
+@media screen and (max-width: 1200px) {
+  input.h6.h6,
+  textarea.h6.h6,
+  select.h6.h6 {
+    font-size: max(1rem, var(--font-h6--size));
+  }
+}
+
+:first-child:is(.h1, .h2, .h3, .h4, .h5, .h6) {
+  margin-block-start: 0;
+}
+
+:last-child:is(.h1, .h2, .h3, .h4, .h5, .h6) {
+  margin-block-end: 0;
+}
+
+
+/* Fast tap on touch devices - removes 300ms delay */
+a,
+button,
+input,
+select,
+textarea,
+label {
+  touch-action: manipulation;
+}
+
+/* Links */
+a {
+  color: rgb(var(--link-color, var(--color-foreground)));
+  text-decoration-color: transparent;
+  text-decoration-thickness: 0.075em;
+  text-underline-offset: 0.125em;
+    transition: text-decoration-color var(--animation-speed) var(--animation-easing),
+    color var(--animation-speed) var(--animation-easing);
+}
+
+.link {
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+  text-decoration: none;
+  text-underline-offset: 0.2rem;
+  cursor: pointer;
+}
+
+.link--underline {
+  text-decoration: underline;
+}
+
+@media (hover: hover) {
+  .link--underline:hover {
+    text-decoration-thickness: 0.2rem;
+  }
+}
+
+:is(h1, h2, h3, h4, h5, h6, p) > a:hover {
+  --button-color: var(--color, var(--color-primary-hover));
+}
+
+/* Add underline to text using our paragraph styles only. */
+p:not(.h1, .h2, .h3, .h4, .h5, .h6) a:where(:not(.button, .button-secondary)),
+.rte :is(p, ul, ol, table):not(.h1, .h2, .h3, .h4, .h5, .h6) a:where(:not(.button, .button-secondary)) {
+  text-decoration-color: currentcolor;
+
+  &:hover {
+    text-decoration-color: transparent;
+    color: var(--color-primary-hover);
+  }
+}
+
+
+/* ========================================*/
+/*   RTE                           */
+/* ========================================*/
+.rte {
+  /* Only apply margin-block-end to the higher level list, not nested lists */
+}
+
+.rte :is(h1, h2, h3, h4, h5, h6) {
+  margin-block: 0 var(--font-heading--spacing);
+}
+
+.rte p {
+  margin-block: 0 var(--font-paragraph--spacing);
+}
+
+.rte :last-child:is(p, h1, h2, h3, h4, h5, h6),
+.rte :where(p, h1, h2, h3, h4, h5, h6):nth-child(2):has(+ :last-child:empty) {
+  margin-block-end: 0;
+}
+
+.rte ul,
+.rte ol {
+  margin-block-start: 0;
+  padding-inline-start: 0.7em;
+  list-style-position: inside;
+}
+
+.rte :is(ul, ol):not(:is(ul, ol) :is(ul, ol)) {
+  margin-block: 0 2.4rem;
+}
+
+.rte :is(ul, ol) :is(h1, h2, h3, h4, h5, h6) {
+  display: inline-block;
+}
+
+.rte hr {
+  margin-block: 0.8em;
+}
+
+.rte blockquote {
+  margin-inline: 2.4rem 3.2rem;
+  margin-block: 3.2rem;
+  padding-inline-start: 1.6rem;
+  border-inline-start: 0.4rem solid rgb(var(--color-border)/var(--color-border-alpha));
+  font-style: italic;
+  font-weight: 500;
+}
+
+.rte .rte-table-wrapper {
+  overflow-x: auto;
+}
+
+.rte table {
+  /* stylelint-disable-next-line declaration-no-important */
+  width: 100% !important;
+  border-collapse: collapse;
+  margin-block: 0 2.4rem;
+}
+
+.rte tr:not(:has(td)),
+.rte thead {
+  background-color: rgb(var(--color-foreground-rgb)/5%);
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.rte tr:has(td) {
+  border-bottom: 1px solid rgb(var(--color-border)/var(--color-border-alpha));
+}
+
+.rte th,
+.rte td {
+  text-align: start;
+  padding: 1.6rem 1.2rem;
+}
+
+.rte iframe,
+.rte image {
+  display: inline-block;
+  max-width: 100%;
+}
+
+.rte a {
+  position: relative;
+  display: inline-block;
+  color: currentcolor;
+  text-decoration-color: currentcolor;
+}
+
+@media (hover: hover) {
+  .rte a:hover {
+    text-decoration-thickness: 0.2rem;
+  }
+}
+
+.text-block {
+  /* This is to deal with the margin applied to the p when custom styles are enabled. The p isn't the first child anymore due to the style tag */
+}
+
+.text-block :is(h1, h2, h3, h4, h5, h6),
+.text-block:is(.h1, .h2, .h3, .h4, .h5, .h6)>* {
+  margin-block: 0 var(--font-heading--spacing);
+  display: inline;
+}
+
+.text-block p,
+.text-block.p>* {
+  margin-block: 0 var(--font-paragraph--spacing);
+}
+
+.text-block p:first-child,
+.text-block.p>*:first-child {
+  margin-block-start: 0;
+}
+
+.text-block p:last-child,
+.text-block.p>*:last-child {
+  margin-block-end: 0;
+}
+
+.text-block>*:first-child {
+  margin-block-start: 0;
+}
+
+.text-block>*:last-child {
+  margin-block-end: 0;
+}
+
+.text-block>style+* {
+  margin-block-start: 0;
+}
+
+.text-block :is(ul, ol) {
+  margin-block: 0 2.4rem;
+  padding-inline-start: 1.6em;
+}
+
+.text-block :is(h1, h2, h3, h4, h5, h6) :is(ul, ol) :is(h1, h2, h3, h4, h5, h6),
+.text-block:is(.h1, .h2, .h3, .h4, .h5, .h6) :is(ul, ol) :is(h1, h2, h3, h4, h5, h6) {
+  font-size: inherit;
+  line-height: inherit;
+}
+
+.text-block :where(ul, ol) {
+  list-style-position: inside;
+}
+ 
+/* ========================================*/
+/* PAGE WIDTH                              */
+/* ========================================*/
+
+:root {
+  --page-padding: 1.6rem;
+  /* stylelint-disable-next-line media-feature-range-notation */
+}
+
+@media (min-width: 990px) {
+  :root {
+    --page-padding: 4rem;
+  }
+}
+
+@media (min-width: 1200px) {
+  :root {
+    --page-padding: 6.4rem;
+  }
+}
+@media (min-width: 1536px) {
+  :root {
+     --page-padding: max(13.5rem, 50vw - var(--scrollbar-width, 15px) / 2 - var(--page-width) / 2)
+  }
+
+}
+
+.section-grid {
+  width: 100%;
+  display: grid;
+  grid-template-columns: var(--page-padding) minmax(0, 1fr) var(--page-padding);
+}
+.section-grid--full > * {
+  grid-column: 1/-1;
+}
+.section-grid--fixed > * {
+  grid-column: 2;
+}
+
+.page-width {
+  margin: 0 auto;
+  padding-inline: var(--page-padding);
+}
+
+
+/* ========================================*/
+/* GRID                                    */
+/* ========================================*/
+
+/* ========================================*/
+/* ALIGNMENT                               */
+/* ========================================*/
+
+/* ========================================*/
+/* MEDIA                                   */
+/* ========================================*/
+
+/* ========================================*/
+/*  GROUP CONTENT                          */
+/* ========================================*/
+
+
+/* ========================================*/
+/* HIDDEN                                  */
+/* ========================================*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -124,14 +124,22 @@
   %}
 
   :root {
-    /* Page Layout */
-    --sidebar-width: 25rem;
-    --narrow-content-width: 36rem;
-    --normal-content-width: 42rem;
-    --wide-content-width: 46rem;
-    --narrow-page-width: 90rem;
-    --normal-page-width: 120rem;
-    --wide-page-width: 150rem;
+  /* Page Layout */
+  /* Sidebar */
+  --sidebar-width: 40rem;
+
+  /* Content Widths */
+  --content-width-narrow: 57.6rem;
+  --content-width-normal: 75rem;
+  --content-width-wide: 89rem;
+
+  /* Page Widths */
+  
+  --page-width-narrow: 144.0rem;
+  --page-width-normal: 192.0rem;
+  --page-width-wide: 240.0rem;
+  --page-width-custom: 148.0rem;
+  --page-width: {{ settings.page_width }};
 
     /* Section Heights */
     --section-height-small: 15rem;
@@ -149,6 +157,9 @@
       --section-height-medium: 65svh;
       --section-height-large: 80svh;
     }
+
+
+
 
     /* Letter spacing */
     --letter-spacing-sm: 0.06em;
@@ -305,13 +316,13 @@
           comment
             Calculate the fluid and maximum size for each font size
           endcomment
-          assign fluid_size_min_rem = fluid_font_size_min | divided_by: 16.0
+          assign fluid_size_min_rem = fluid_font_size_min | divided_by: 10.0
           assign fluid_size = font_size_value | times: 0.1
-          assign fluid_size_max_rem = font_size_value | divided_by: 16.0
+          assign fluid_size_max_rem = font_size_value | divided_by: 10.0
 
           echo '--font-size--[font_size]: clamp([fluid_size_min_rem]rem, [fluid_size]vw, [fluid_size_max_rem]rem);' | replace: '[font_size]', font_size | replace: '[fluid_size_min_rem]', fluid_size_min_rem | replace: '[fluid_size]', fluid_size | replace: '[fluid_size_max_rem]', fluid_size_max_rem
         else
-          assign fluid_size_rem = font_size_value | divided_by: 16.0
+          assign fluid_size_rem = font_size_value | divided_by: 10.0
           echo '--font-size--[font_size]: [fluid_size_rem]rem;' | replace: '[font_size]', font_size | replace: '[fluid_size_rem]', fluid_size_rem
         endif
       endfor
@@ -495,6 +506,7 @@
     --animation-timing-default: cubic-bezier(0, 0, 0.2, 1);
     --animation-timing-fade-in: cubic-bezier(0.16, 1, 0.3, 1);
     --animation-timing-fade-out: cubic-bezier(0.4, 0, 0.2, 1);
+
     /* Spring definitions suffixed with perceptual duration (d<ms>) and bounce (b<%>)*/
     --spring-d300-b0-easing: linear(0, 0.0033 0.81%, 0.027 2.42%, 0.0916 4.84%, 0.4745 15.32%, 0.6422 20.97%, 0.7175, 0.7789, 0.8283 30.64%, 0.876, 0.9111 38.71%, 0.941, 0.9611 48.39%, 0.9707, 0.978 54.84%, 0.9885 62.1%, 0.9949 70.97%, 0.9982 82.26%, 0.9997 100%);
     --spring-d300-b0-duration: 0.4980s;
@@ -683,5 +695,33 @@
     --cart-secondary-font-family: var(--font-{{ settings.cart_price_font }}--family);
     --cart-secondary-font-style: var(--font-{{ settings.cart_price_font }}--style);
     --cart-secondary-font-weight: var(--font-{{ settings.cart_price_font }}--weight);
+  }
+
+
+  
+  
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+
+  .lenis:not(.lenis-autoToggle).lenis-stopped {
+    overflow: clip;
+  }
+
+  .lenis [data-lenis-prevent],
+  .lenis [data-lenis-prevent-wheel],
+  .lenis [data-lenis-prevent-touch] {
+    overscroll-behavior: contain;
+  }
+
+  .lenis.lenis-smooth iframe {
+    pointer-events: none;
+  }
+
+  .lenis.lenis-autoToggle {
+    transition-property: overflow;
+    transition-duration: 1ms;
+    transition-behavior: allow-discrete;
   }
 {% endstyle %}

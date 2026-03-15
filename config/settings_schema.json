@@ -317,13 +317,13 @@
       {
         "type": "font_picker",
         "id": "type_heading_font",
-        "default": "anonymous_pro_n4",
+        "default": "dm_sans_n4",
         "label": "t:options.heading"
       },
       {
         "type": "font_picker",
         "id": "type_accent_font",
-        "default": "anonymous_pro_n4",
+        "default": "dm_sans_n4",
         "label": "t:options.accent"
       },
       {
@@ -1301,6 +1301,35 @@
           }
         ],
         "default": "none"
+      }
+    ]
+  },
+    {
+    "name": "t:names.page_layout",
+    "settings": [
+      {
+        "type": "select",
+        "id": "page_width",
+        "label": "t:settings.page_width",
+        "options": [
+          {
+            "value": "var(--page-width-narrow)",
+            "label": "t:options.narrow"
+          },
+          {
+            "value": "var(--page-width-normal)",
+            "label": "t:options.normal"
+          },
+          {
+            "value": "var(--page-width-wide)",
+            "label": "t:options.wide"
+          },
+            {
+            "value": "var(--page-width-custom)",
+            "label": "Custom"
+          }
+        ],
+        "default": "var(--page-width-narrow)"
       }
     ]
   },
