@@ -4,6 +4,7 @@
     "type_accent_font": "dm_sans_n4",
     "type_size_paragraph": "16",
     "page_width": "var(--page-width-custom)",
+    "custom_width": 1290,
     "content_for_index": [],
     "color_schemes": {
       "scheme-1": {

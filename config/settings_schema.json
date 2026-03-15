@@ -1330,6 +1330,17 @@
           }
         ],
         "default": "var(--page-width-narrow)"
+      },
+      {
+        "type": "range",
+        "id": "custom_width",
+        "label": "Width",
+        "visible_if": "{{ settings.page_width == 'var(--page-width-custom)' }}",
+        "min": 1200,
+        "max": 3000,
+        "step": 30,
+        "unit": "px",
+        "default": 1320
       }
     ]
   }
