@@ -1304,7 +1304,7 @@
       }
     ]
   },
-    {
+  {
     "name": "t:names.page_layout",
     "settings": [
       {
@@ -1324,7 +1324,7 @@
             "value": "var(--page-width-wide)",
             "label": "t:options.wide"
           },
-            {
+          {
             "value": "var(--page-width-custom)",
             "label": "Custom"
           }
@@ -1332,5 +1332,5 @@
         "default": "var(--page-width-narrow)"
       }
     ]
-  },
+  }
 ]

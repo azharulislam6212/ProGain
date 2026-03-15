@@ -1,8 +1,9 @@
 {
   "current": {
-    "type_heading_font": "dm_sans_n4",
+    "type_heading_font": "dm_sans_n7",
     "type_accent_font": "dm_sans_n4",
     "type_size_paragraph": "16",
+    "page_width": "var(--page-width-custom)",
     "content_for_index": [],
     "color_schemes": {
       "scheme-1": {
