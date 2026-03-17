@@ -1,27 +1,30 @@
-// animation.js (Shopify module, class-based, lazy scroll optimized)
  
+import { gsap } from "@theme/gsap";
+import { ScrollTrigger } from "@theme/ScrollTrigger";
+import { SplitText } from "@theme/SplitText";
+import { TextPlugin } from "@theme/TextPlugin";
+
+
+gsap.registerPlugin(ScrollTrigger, SplitText, TextPlugin);
+
+ 
+
 class ShopifyAnimations {
   constructor() {
-    // Safety check
-    if (!window.gsap) {
-      console.error("GSAP is not loaded yet!");
+    // Directly use imported module variables
+    if (!gsap || !ScrollTrigger) {
+      console.error("GSAP or ScrollTrigger not loaded!");
       return;
     }
 
-    this.gsap = window.gsap;
-    this.ScrollTrigger = window.ScrollTrigger;
-    this.SplitText = window.SplitText;
-    this.TextPlugin = window.TextPlugin;
+    this.gsap = gsap;
+    this.ScrollTrigger = ScrollTrigger;
+    this.SplitText = SplitText; // optional
+    this.TextPlugin = TextPlugin; // optional
 
-    // Register plugins
-    if (this.gsap && this.ScrollTrigger && this.SplitText && this.TextPlugin) {
-      this.gsap.registerPlugin(this.ScrollTrigger, this.SplitText, this.TextPlugin);
-    } else {
-      console.error("One or more GSAP plugins are missing!");
-      return;
-    }
+    // Register plugins (if not already registered in gsap-index.js)
+    this.gsap.registerPlugin(this.ScrollTrigger, this.SplitText, this.TextPlugin);
 
-    // Wait for DOM
     document.addEventListener("DOMContentLoaded", () => this.init());
   }
 
@@ -31,40 +34,27 @@ class ShopifyAnimations {
     this.animateTextPluginLazy();
   }
 
-  // -----------------------
-  // Lazy scroll animation for .animate-scroll
-  animateScrollLazy() {
-    const elements = document.querySelectorAll(".animate-scroll");
-    elements.forEach(el => {
-      const observer = new IntersectionObserver(entries => {
-        entries.forEach(entry => {
-          if(entry.isIntersecting){
-            this.gsap.to(entry.target, {
-              y: 100,
-              opacity: 1,
-              duration: 1.5,
-              scrollTrigger: {
-                trigger: entry.target,
-                start: "top 80%",
-                end: "bottom 20%",
-                scrub: true,
-                markers: false
-              }
-            });
-            observer.unobserve(entry.target); // animate only once
-          }
-        });
-      }, { threshold: 0.1 });
-      observer.observe(el);
+animateScrollLazy() {
+  this.gsap.utils.toArray(".animate-scroll").forEach(el => {
+    this.gsap.from(el, {
+      y: 100,
+      opacity: 0,
+      duration: 1.5,
+      scrollTrigger: {
+        trigger: el,
+        start: "top 80%",
+        end: "bottom 20%",
+        scrub: true,
+        markers: false
+      }
     });
-  }
+  });
+}
 
-  // -----------------------
-  // Lazy SplitText animation for .animate-split
   animateSplitTextLazy() {
-    const elements = document.querySelectorAll(".animate-split");
-    elements.forEach(el => {
-      if (!this.SplitText) return;
+    if (!this.SplitText) return;
+
+    document.querySelectorAll(".animate-split").forEach(el => {
       const observer = new IntersectionObserver(entries => {
         entries.forEach(entry => {
           if(entry.isIntersecting){
@@ -89,12 +79,10 @@ class ShopifyAnimations {
     });
   }
 
-  // -----------------------
-  // Lazy TextPlugin typing effect for .animate-text
   animateTextPluginLazy() {
-    const elements = document.querySelectorAll(".animate-text");
-    elements.forEach(el => {
-      if (!this.TextPlugin) return;
+    if (!this.TextPlugin) return;
+
+    document.querySelectorAll(".animate-text").forEach(el => {
       const observer = new IntersectionObserver(entries => {
         entries.forEach(entry => {
           if(entry.isIntersecting){
@@ -117,5 +105,5 @@ class ShopifyAnimations {
   }
 }
 
-// Initialize the animations
+// Initialize
 new ShopifyAnimations();

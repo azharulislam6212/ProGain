@@ -5,6 +5,11 @@
       "@theme/events": "{{ 'events.js' | asset_url }}",
       "@theme/utilities": "{{ 'utilities.js' | asset_url }}",
       "@theme/product-form": "{{ 'product-form.js' | asset_url }}",
+      "@theme/swiper": "{{ 'swiper.js' | asset_url }}",
+      "@theme/gsap": "{{ 'gsap.js' | asset_url }}",
+      "@theme/ScrollTrigger": "{{ 'ScrollTrigger.js' | asset_url }}",
+      "@theme/SplitText": "{{ 'SplitText.js' | asset_url }}",
+      "@theme/TextPlugin": "{{ 'TextPlugin.js' | asset_url }}",
       "@theme/lenis": "{{ 'lenis.js' | asset_url }}"
     }
   }
@@ -13,6 +18,11 @@
 <link rel="modulepreload" href="{{ 'events.js' | asset_url }}" fetchpriority="low">
 <link rel="modulepreload" href="{{ 'utilities.js' | asset_url }}" fetchpriority="low">
 <link rel="modulepreload" href="{{ 'product-form.js' | asset_url }}" fetchpriority="low">
+<link rel="modulepreload" href="{{ 'swiper.js' | asset_url }}" fetchpriority="low">
+<link rel="modulepreload" href="{{ 'gsap.js' | asset_url }}" fetchpriority="low">
+<link rel="modulepreload" href="{{ 'ScrollTrigger.js' | asset_url }}" fetchpriority="low">
+<link rel="modulepreload" href="{{ 'SplitText.js' | asset_url }}" fetchpriority="low">
+<link rel="modulepreload" href="{{ 'TextPlugin.js' | asset_url }}" fetchpriority="low">
 <link rel="modulepreload" href="{{ 'lenis.js' | asset_url }}" fetchpriority="low">
 
 <script>
@@ -44,8 +54,7 @@ window.__THEME__ = {
 }
 </script>
 
-<script src="{{ 'gsap-bundle.min.js' | asset_url }}" defer></script>
-<script src="{{ 'animation.js' | asset_url }}" defer></script>
+<script type="module" src="{{ 'animation.js' | asset_url }}"></script>
 
 <!-- Theme.js module -->
 <script type="module" src="{{ 'theme.js' | asset_url }}"></script>
