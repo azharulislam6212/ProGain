@@ -7,11 +7,11 @@
     {%- endif -%}
     {%- render 'meta-tags' -%}
     {% render 'micodata-schema' %}
-    {%- render 'stylesheets' -%}
     {%- render 'fonts' -%}
     {%- render 'scripts' -%}
     {%- render 'style-variables' -%}
     {%- render 'color-schemes' -%}
+    {%- render 'stylesheets' -%}
     {{ content_for_header }}
   </head>
   <body class="template-{{ request.page_type }}{% if template.suffix %} template--{{- template.suffix -}}{% endif %}">

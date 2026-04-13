@@ -1,24 +1,42 @@
 
-
-<div class="section">
+{%- assign section_settings = section.settings -%}
+<div class="section  bg-secondary color-{{ section_settings.color_scheme }} rte">
 
 <div class="page-width">
-<h2>Header</h2>
+<h2 >Heading This is animated text!</h2>
   <h1 class="animate-scroll">Scroll me</h1> 
 <h2 class="animate-split">SplitText Animation</h2>
-<p class="animate-text">dfsdf sdfsdfsdf</p>
+Lorem ipsum dolor sit amet consectetur, adipisicing elit. <a href="">Voluptatum</a> magni omnis doloremque deleniti, delectus tenetur quas est perferendis eum iure sequi, id necessitatibus, hic dignissimos iusto impedit nemo dolorum? Aspernatur?
+
+
+<p class="animate-text color-gradient color-{{ section_settings.color_scheme_gradient }}">dfsdf sdfsdfsdf</p>
 </div>
 </div>
 
 
 
-
+<div class="hero-banner height--medium ">
+    banner  
+</div>
 
 {% schema %}
 {
   "name": "Header",
   "tag": "section",
   "class": "section",
-  "settings": []
+  "settings": [
+   {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+   {
+      "type": "color_scheme",
+      "id": "color_scheme_gradient",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    }
+  ]
 }
 {% endschema %}

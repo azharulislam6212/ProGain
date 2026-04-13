@@ -1,19 +1,102 @@
 {% style %}
+  {% for scheme in settings.color_schemes -%}
+  {% assign scheme_classes = scheme_classes | append: ', .color-' | append: scheme.id %}
+  	{% if forloop.index == 1 -%}
+  		:root,
+  	{%- endif %}
 
-{% for scheme in settings.color_schemes -%}
-{% assign scheme_classes = scheme_classes | append: ', .color-' | append: scheme.id %}
-	{% if forloop.index == 1 -%}
-		:root,
-	{%- endif %} 
-    
-    .color-{{ scheme.id }} {
-     --color-background: {{ scheme.settings.background.rgb }};
-     --color-foreground: {{ scheme.settings.foreground.rgb }};
-}
-{% endfor %}
-{{scheme_classes | prepend: 'body'}}{
-    background-color: rgb(var(--color-background));
-    color: rgb(var(--color-foreground));
-}
+      .color-{{ scheme.id }} {
+          --color-background: rgb({{ scheme.settings.background.rgba }});
+          --color-background-rgb: {{ scheme.settings.background.rgb }};
+         
+          {% if scheme.settings.secondary_background != empty %}
+  		    --color-secondary-background: {{ scheme.settings.secondary_background.rgb }};
+  		  {% else %}
+  		    --color-secondary-background: rgb({{ scheme.settings.background.rgba }});
+  		  {% endif %}
+          
 
+          {% if scheme.settings.background_gradient != empty %}
+  		   --gradient-background: {{ scheme.settings.background_gradient }};
+  		  {% else %}
+  		   --gradient-background: rgb({{ scheme.settings.background.rgba }});
+  		  {% endif %}
+
+          --color-foreground: rgb({{ scheme.settings.foreground.rgba }});
+          --color-foreground-rgb: {{ scheme.settings.foreground.rgb }};
+          --color-foreground-heading: rgb({{ scheme.settings.foreground_heading.rgba }});
+          --color-foreground-heading-rgb: {{ scheme.settings.foreground_heading.rgb }};
+          --color-accent-text: rgb({{ scheme.settings.accent_text.rgba }});
+          --color-accent-text-rgb: {{ scheme.settings.accent_text.rgb }};
+          --color-sale-price: rgb({{ scheme.settings.sale_price.rgba }});
+          --color-sale-price-rgb: {{ scheme.settings.sale_price.rgb }};
+          --color-link: rgb({{ scheme.settings.link_color.rgba }});
+          --color-link-rgb: {{ scheme.settings.link_color.rgb }};
+          --color-link-hover: rgb({{ scheme.settings.link_hover.rgba }});
+          --color-link-hover-rgb: {{ scheme.settings.link_hover.rgb }};
+
+          --color-primary-button-background: rgb({{ scheme.settings.primary_button_background.rgba }});
+          --color-primary-button-text: rgb({{ scheme.settings.primary_button_text.rgba }});
+          --color-primary-button-border: rgb({{ scheme.settings.primary_button_border.rgba }});
+          --color-primary-button-hover-background: rgb({{ scheme.settings.primary_button_hover_background.rgba }});
+          --color-primary-button-hover-text: rgb({{ scheme.settings.primary_button_hover_text.rgba }});
+          --color-primary-button-hover-border: rgb({{ scheme.settings.primary_button_hover_border.rgba }});
+          --color-primary-button-outline: rgb({{ scheme.settings.primary_outline_button.rgba }});
+          --color-primary-button-hover-outline: rgb({{ scheme.settings.primary_outline_button_hover.rgba }});
+
+          --color-secondary-button-background: rgb({{ scheme.settings.secondary_button_background.rgba }});
+          --color-secondary-button-text: rgb({{ scheme.settings.secondary_button_text.rgba }});
+          --color-secondary-button-border: rgb({{ scheme.settings.secondary_button_border.rgba }});
+          --color-secondary-button-hover-background: rgb({{ scheme.settings.secondary_button_hover_background.rgba }});
+          --color-secondary-button-hover-text: rgb({{ scheme.settings.secondary_button_hover_text.rgba }});
+          --color-secondary-button-hover-border: rgb({{ scheme.settings.secondary_button_hover_border.rgba }});
+          --color-secondary-button-outline: rgb({{ scheme.settings.secondary_outline_button.rgba }});
+          --color-secondary-button-hover-outline: rgb({{ scheme.settings.secondary_outline_button_hover.rgba }});
+
+          --color-input-background: rgb({{ scheme.settings.input_background.rgba }});
+          --color-input-text: rgb({{ scheme.settings.input_text_color.rgba }});
+          --color-input-text-rgb: {{ scheme.settings.input_text_color.rgb }};
+          --color-input-border: rgb({{ scheme.settings.input_border_color.rgba }});
+          --color-input-hover-background: rgb({{ scheme.settings.input_hover_background.rgba }});
+
+          --color-card-background: rgb({{ scheme.settings.card_background.rgba }});
+          --color-card-border: rgb({{ scheme.settings.card_border.rgba }});
+          --color-card-border-rgb: {{ scheme.settings.card_border.rgb }};
+   
+          --color-overlay-background-rgb: {{ scheme.settings.overlay_background.rgb }};
+          --color-overlay-background: rgb({{ scheme.settings.overlay_background.rgba }});
+
+          {% if scheme.settings.overlay_gradient != empty %}
+  		  --gradient-overlay-background: {{ scheme.settings.overlay_gradient }};
+  		  {% else %}
+  		  --gradient-overlay-background: rgb({{ scheme.settings.overlay_background.rgba }});
+  		  {% endif %}
+	
+        --color-icon-social: rgb({{ scheme.settings.color_icon_social.rgba }});
+        --color-background-social: rgb({{ scheme.settings.color_background_social.rgba }});
+        --color-border-social: rgb({{ scheme.settings.color_border_social.rgba }});
+        --color-icon-social-hover: rgb({{ scheme.settings.color_icon_social_hover.rgba }});
+        --color-background-social-hover: rgb({{ scheme.settings.color_background_social_hover.rgba }});
+        --color-border-social-hover: rgb({{ scheme.settings.color_border_social_hover.rgba }});
+
+        --color-slider-arrow-icon: rgb({{ scheme.settings.slider_arrow_icon.rgba }});
+        --color-slider-arrow-background: rgb({{ scheme.settings.slider_arrow_background.rgba }});
+        --color-slider-arrow-border: rgb({{ scheme.settings.slider_arrow_border.rgba }});
+        --color-slider-arrow-icon-hover: rgb({{ scheme.settings.slider_arrow_icon_hover.rgba }});
+        --color-slider-arrow-background-hover: rgb({{ scheme.settings.slider_arrow_background_hover.rgba }});
+        --color-slider-arrow-border-hover: rgb({{ scheme.settings.slider_arrow_border_hover.rgba }});
+        --color-slider-indicator: rgb({{ scheme.settings.slider_indicator_color.rgba }});
+        --color-slider-indicator-active: rgb({{ scheme.settings.slider_indicator_active_color.rgba }});
+
+        --color-border: rgb({{ scheme.settings.border.rgba }});
+        --color-border-rgb: {{ scheme.settings.border.rgb }};
+        --color-shadow: rgb({{ scheme.settings.shadow.rgba }});
+        --color-shadow-rgb: {{ scheme.settings.shadow.rgb }};
+
+  }
+  {% endfor %}
+  {{ scheme_classes | prepend: 'body'}}{
+      background-color: rgb(var(--color-background));
+      color: rgb(var(--color-foreground));
+  }
 {% endstyle %}
