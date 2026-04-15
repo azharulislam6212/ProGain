@@ -509,7 +509,7 @@
       --ease-smooth: cubic-bezier(0.3, 1, 0.3, 1);
       --ease-overlay: cubic-bezier(0.7, 0, 0.2, 1);
       --animation-easing: ease-in-out;
- 
+
       /* ======================
         SPEEDS / DURATIONS
         ====================== */
@@ -524,7 +524,7 @@
       --duration-long: 0.6s;
       --drawer-animation-speed: 0.2s;
 
- 
+
       /* ======================
         ANIMATION VALUES (combined)
         ====================== */
@@ -550,114 +550,137 @@
       --focus-outline-width: 0.15rem;   /* same visual width as before */
       --focus-outline-offset: 0.2em;    /* keep relative to font size */
 
-      /* Base Border */
-      --border-width-base: 1px;
-
-      /* Radius Scale */
-      --radius-xs: 0.2rem;
-      --radius-sm: 0.6rem;
-      --radius-md: 0.8rem;
-      --radius-lg: 1rem;
-      --radius-round: 50%;
-
-      /* Component Radius */
-      --radius-pill: {{ settings.pills_border_radius }}px;
-      --radius-input: {{ settings.inputs_border_radius }}px;
-      --radius-btn-primary: {{ settings.button_border_radius_primary }}px;
-      --radius-btn-secondary: {{ settings.button_border_radius_secondary }}px;
-      --radius-popover: {{ settings.popover_border_radius }}px;
-
-      /* Border Width (Component) */
-      --border-width-btn-primary: {{ settings.primary_button_border_width }}px;
-      --border-width-btn-secondary: {{ settings.secondary_button_border_width }}px;
-      --border-width-input: {{ settings.input_border_width }}px;
-
-      /* Complex Borders */
-      --border-popover: {{ settings.popover_border_width }}px {{ settings.popover_border }} rgb(var(--color-border-rgb) / {{ settings.popover_border_opacity }}%);
-      --border-drawer: {{ settings.drawer_border_width }}px {{ settings.drawer_border }} rgb(var(--color-border-rgb) / {{ settings.drawer_border_opacity }}%);
-
-      /* Swatch Border */
-      --swatch-border-opacity: {{ settings.variant_swatch_border_opacity }}%;
-      --swatch-border-width: {{ settings.variant_swatch_border_width }}px;
-      --swatch-border-style: {{ settings.variant_swatch_border_style }};
-
-      /* Icon Size Scale */
-      --icon-xs-2: 0.6rem;
-      --icon-xs: 0.85rem;
-      --icon-sm: 1.25rem;
-      --icon-md: 1.375rem;
-      --icon-lg: 1.5rem;
-
-      /* Icon Stroke */
-      --icon-stroke: {% if settings.icon_stroke == 'thin' %}1px{% elsif settings.icon_stroke == 'heavy' %}2px{% else %}1.5px{% endif %};
-
-
+     
+      /* ======================
+        Button style
+        ====================== */
          /* Button size */
-        --button-size-sm: 30px;
-        --button-size-md: 36px;
-        --button-size: var(--minimum-touch-target);
-        --button-padding-inline: 24px;
-        --button-padding-block: 16px;
+        --button-height: {{ settings.button_height |  divided_by: 10.0 | append: 'rem'}};
+        --button-height-mobile: {{ settings.button_height_mobile | divided_by: 10.0 | append: 'rem'}};
+        --button-padding-block: {{ settings.button_padding_block | divided_by: 10.0 | append: 'rem'}};
+        --button-padding-inline: {{ settings.button_padding_inline | divided_by: 10.0 | append: 'rem'}};
+
+         /* Button Borders */
+        --border-width-button-primary: {{ settings.primary_button_border_width | divided_by: 10.0 | append: 'rem'}};
+        --border-width-button-secondary: {{ settings.secondary_button_border_width | divided_by: 10.0 | append: 'rem'}};
 
         /* Button font-family */
         --button-font-family-primary: var(--font-{{ settings.type_font_button_primary }}--family);
         --button-font-family-secondary: var(--font-{{ settings.type_font_button_secondary }}--family);
 
+        /* Button letter spacing */
+        --button-letter-spacing-primary:  {{ settings.primary_button_letter_spacing | append: 'em' }} ;
+        --button-letter-spacing-secondary:  {{ settings.secondary_button_letter_spacing  | append: 'em'}} ;
+
         /* Button text case */
-        --button-text-case: {{ settings.button_text_case }};
         --button-text-case-primary: {{ settings.button_text_case_primary }};
         --button-text-case-secondary: {{ settings.button_text_case_secondary }};
 
+        --button-radius-primary: {{ settings.button_border_radius_primary | divided_by: 10.0 | append: 'rem'}};
+        --button-radius-secondary: {{ settings.button_border_radius_secondary | divided_by: 10.0 | append: 'rem'}};
+
+       
+
+        /* ======================
+        Borders 
+        ====================== */
+        /* Base Border */
+        --border-width-base: 1px;
+
+        /* Radius Scale */
+        --radius-xs: 0.2rem;
+        --radius-sm: 0.6rem;
+        --radius-md: 0.8rem;
+        --radius-lg: 1rem;
+        --radius-round: 50%;
+
+        /* Component Radius */
+        --radius-pill: {{ settings.pills_border_radius | divided_by: 10.0 | append: 'rem'}};
+        --radius-input: {{ settings.inputs_border_radius | divided_by: 10.0 | append: 'rem'}};
+
+        /* Border Width (Component) */
+        --border-width-input: {{ settings.input_border_width | divided_by: 10.0 | append: 'rem'}};
+        --input-height: {{ settings.input_height | divided_by: 10.0 | append: 'rem' }};
+
+        /* Complex Borders */
+        --border-popover: {{ settings.popover_border_width }}px {{ settings.popover_border }} rgb(var(--color-border-rgb) / {{ settings.popover_border_opacity }}%);
+        --border-drawer: {{ settings.drawer_border_width }}px {{ settings.drawer_border }} rgb(var(--color-border-rgb) / {{ settings.drawer_border_opacity }}%);
+
+        /* Swatch Border */
+        --swatch-border-opacity: {{ settings.variant_swatch_border_opacity }}%;
+        --swatch-border-width: {{ settings.variant_swatch_border_width }}px;
+        --swatch-border-style: {{ settings.variant_swatch_border_style }};
+
         /* Borders */
         --border-color: rgb(var(--color-border-rgb) / var(--opacity-70));
+        --border-hover-color: rgb(var(--color-accent-text-rgb));
         --border-width-sm: 1px;
         --border-width-md: 2px;
         --border-width-lg: 4px;
         --border-radius-sm: 0.25rem;
+        
+        
+      /* ======================
+        Icon style
+        ====================== */
 
+      /* Icon Size */
+      --icon-xs: 1.36rem;      
+      --icon-sm: 2rem;        
+      --icon-md: 2.2rem;      
+      --icon-lg: 2.4rem;     
 
-        /* Size Constraints */
-        --input-email-min-width: 200px;
-        --input-search-max-width: 650px;
-        --input-textarea-min-height: 100px;
-
-
-        --input-padding-base: {{ settings.input_padding }}px;
-
-        /* Padding Scale */
-        --input-py: calc(var(--input-padding-base) * 1);
-        --input-px: calc(var(--input-padding-base) * 1);
-        --input-padding: var(--input-py) var(--input-px);
-
-        /* Border / Shadow System */
-        --input-border-width: var(--border-width-input);
-        --input-ring: 0 0 0 var(--input-border-width) var(--color-input-border);
-        --input-ring-focus: 0 0 0 calc(var(--input-border-width) + 0.5px) var(--color-input-border);
-
-        /* Disabled State */
-        --input-bg-disabled: rgb(var(--color-foreground-rgb) / var(--opacity-10));
-        --input-border-disabled: rgb(var(--color-foreground-rgb) / var(--opacity-5));
-        --input-text-disabled: rgb(var(--color-foreground-rgb) / var(--opacity-50));
-
-        /* Checkbox */
-        --checkbox-size: 24px;
-        --checkbox-border-radius: 8px;
-        --checkbox-border: 1px solid rgb(var(--color-foreground-rgb) / var(--opacity-30));
-        --checkbox-label-padding: 8px;
-
+      /* Icon Stroke */
+      --icon-stroke: {% if settings.icon_stroke == 'thin' %}1px{% elsif settings.icon_stroke == 'heavy' %}2px{% else %}1.5px{% endif %};
  
-      /* Drawers */
+
+      /* ======================
+        Form input style
+      ====================== */
+      /* Size Constraints */
+      --input-min-width: 200px;
+      --input-search-max-width: 650px;
+      --input-textarea-min-height: 100px;
+      --textareas-radius: min(6.0rem, var(--radius-lg));
+
+      --input-padding-y: 1.6rem;
+      --input-padding-x: 0.8rem;
+      /* Padding Scale */
+      --input-padding: var(--input-padding-y) var(--input-padding-x);
+
+      /* Border / Shadow System */
+      --input-border-width: var(--border-width-input);
+      --input-ring: 0 0 0 var(--input-border-width) var(--color-input-border);
+      --input-ring-focus: 0 0 0 calc(var(--input-border-width) + 0.5px) var(--color-input-border);
+
+      /* Disabled State */
+      --input-bg-disabled: rgb(var(--color-foreground-rgb) / var(--opacity-10));
+      --input-border-disabled: rgb(var(--color-foreground-rgb) / var(--opacity-5));
+      --input-text-disabled: rgb(var(--color-foreground-rgb) / var(--opacity-50));
+
+      /* Checkbox */
+      --checkbox-size: 2.4rem;
+      --checkbox-border-radius: 0.8rem;
+      --checkbox-border: 1px solid rgb(var(--color-foreground-rgb) / var(--opacity-30));
+      --checkbox-label-padding: 0.8rem;;
+
+      /* ======================
+        Drawers style
+      ====================== */
       --drawer-inline-padding: 25px;
       --drawer-menu-inline-padding: 2.5rem;
       --drawer-header-block-padding: 20px;
       --drawer-content-block-padding: 10px;
       --drawer-header-desktop-top: 0rem;
-      --drawer-padding: calc(var(--padding-sm) + 7px);
+      --drawer-padding: calc(var(--spacing-2) + 7px);
       --drawer-height: 100dvh;
       --drawer-width: 95vw;
       --drawer-max-width: 500px;
-
-      /* Variant Picker Swatches */
+      
+      /* ======================
+        Variant Picker Swatches style
+      ====================== */
+   
       --variant-picker-swatch-width-unitless: {{ settings.variant_swatch_width }};
       --variant-picker-swatch-height-unitless: {{ settings.variant_swatch_height }};
       --variant-picker-swatch-width: {{ settings.variant_swatch_width | append: 'px' }};
@@ -676,23 +699,30 @@
       --slideshow-controls-icon: 2rem;
       --peek-next-slide-size: 3rem;
 
-      /* Utilities */
+ 
+      /* ======================
+        Utilities style
+      ====================== */
+
       --backdrop-opacity: 0.15;
       --backdrop-color-rgb: var(--color-shadow-rgb);
       --minimum-touch-target: 44px;
       --disabled-opacity: 0.5;
       --skeleton-opacity: 0.025;
 
-
-      /* Card image width and height variables */
-      --card-width-small: 10rem;
-
-
-      /* Modal */
+       /* ======================
+        Modal style
+      ====================== */
+ 
       --modal-max-height: 65dvh;
       --quick-add-modal-height: min(38.5rem, 96vh);
       --quick-add-modal-width: min(54rem, 96vw);
       --quick-add-modal-gallery-width: 24rem;
+
+
+
+      /* Card image width and height variables */
+      --card-width-small: 10rem;
 
       /* Card styles for search */
       --card-bg-hover: rgb(var(--color-foreground-rgb) / var(--opacity-5));
@@ -706,7 +736,11 @@
       --cart-secondary-font-family: var(--font-{{ settings.cart_price_font }}--family);
       --cart-secondary-font-style: var(--font-{{ settings.cart_price_font }}--style);
       --cart-secondary-font-weight: var(--font-{{ settings.cart_price_font }}--weight);
-          /* Badges */
+   
+
+      /* ======================
+        Badges style
+      ====================== */
       --badge-blob-padding-block: 1px;
       --badge-blob-padding-inline: 12px 8px;
       --badge-rectangle-padding-block: 1px;

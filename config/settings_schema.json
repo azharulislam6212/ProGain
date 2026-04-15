@@ -8,6 +8,64 @@
     "theme_support_url": "https:\/\/support.shopify.com\/"
   },
   {
+    "name": "t:names.logo_and_favicon",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "t:content.manage_store_name"
+      },
+      {
+        "type": "header",
+        "content": "Favicon"
+      },
+      {
+        "type": "image_picker",
+        "id": "favicon",
+        "info": "Recommended: square PNG/JPG format.",
+        "label": "t:settings.favicon"
+      },
+      {
+        "type": "header",
+        "content": "Logo"
+      },
+      {
+        "type": "image_picker",
+        "id": "logo",
+        "label": "t:settings.default_logo"
+      },
+      {
+        "type": "image_picker",
+        "id": "logo_inverse",
+        "label": "t:settings.inverse_logo",
+        "info": "t:content.inverse_logo_info"
+      },
+      {
+        "type": "range",
+        "id": "logo_height",
+        "label": "t:settings.desktop_height",
+        "min": 12,
+        "max": 100,
+        "step": 1,
+        "unit": "px",
+        "default": 36,
+        "visible_if": "{{ settings.logo != blank or settings.logo_inverse != blank }}",
+        "info": "t:info.logo_height"
+      },
+      {
+        "type": "range",
+        "id": "logo_height_mobile",
+        "label": "t:settings.mobile_height",
+        "min": 12,
+        "max": 100,
+        "step": 1,
+        "unit": "px",
+        "default": 28,
+        "visible_if": "{{ settings.logo != blank or settings.logo_inverse != blank }}",
+        "info": "t:info.logo_height"
+      }
+    ]
+  },
+  {
     "name": "t:names.colors",
     "settings": [
       {
@@ -1777,5 +1835,424 @@
         "default": 1320
       }
     ]
-  }
+  },
+  {
+    "name": "t:names.buttons",
+    "settings": [
+      {
+        "type": "range",
+        "id": "button_height",
+        "min": 40,
+        "max": 80,
+        "step": 1,
+        "unit": "px",
+        "label": "t:settings.height",
+        "default": 58
+      },
+      {
+        "type": "range",
+        "id": "button_height_mobile",
+        "min": 30,
+        "max": 60,
+        "step": 1,
+        "unit": "px",
+        "label": "t:settings.mobile_height",
+        "default": 48
+      },
+      {
+        "type": "range",
+        "id": "button_padding_block",
+        "min": 4,
+        "max": 20,
+        "step": 1,
+        "unit": "px",
+        "label": "t:settings.padding_block",
+        "default": 16
+      },
+      {
+        "type": "range",
+        "id": "button_padding_inline",
+        "min": 4,
+        "max": 40,
+        "step": 1,
+        "unit": "px",
+        "label": "t:settings.padding_inline",
+        "default": 24
+      },
+      {
+        "type": "header",
+        "content": "t:options.button_primary"
+      },
+      {
+        "type": "select",
+        "id": "type_font_button_primary",
+        "label": "t:settings.font",
+        "options": [
+          {
+            "value": "body",
+            "label": "t:options.body"
+          },
+          {
+            "value": "heading",
+            "label": "t:options.heading"
+          },
+          {
+            "value": "accent",
+            "label": "t:options.accent"
+          }
+        ],
+        "default": "body"
+      },
+      {
+        "type": "range",
+        "id": "primary_button_letter_spacing",
+        "min": -10,
+        "max": 10,
+        "step": 1,
+        "unit": "%",
+        "label": "t:settings.letter_spacing",
+        "default": 0
+      },
+      {
+        "type": "select",
+        "id": "button_text_case_primary",
+        "label": "t:settings.button_text_case",
+        "options": [
+          {
+            "value": "default",
+            "label": "t:options.default"
+          },
+          {
+            "value": "uppercase",
+            "label": "t:options.uppercase"
+          }
+        ],
+        "default": "default"
+      },
+      {
+        "type": "range",
+        "id": "primary_button_border_width",
+        "min": 0,
+        "max": 4,
+        "step": 1,
+        "unit": "px",
+        "label": "t:settings.border_width",
+        "default": 1
+      },
+      {
+        "type": "range",
+        "id": "button_border_radius_primary",
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "unit": "px",
+        "label": "t:settings.border_radius",
+        "default": 60
+      },
+      {
+        "type": "select",
+        "id": "primary_button_icon",
+        "label": "Icon",
+        "options": [
+          {
+            "value": "none",
+            "label": "None"
+          },
+          {
+            "value": "arrow",
+            "label": "Arrow"
+          },
+          {
+            "value": "double-arrow",
+            "label": "Double arrow"
+          },
+          {
+            "value": "chevron-arrow",
+            "label": "Chevron arrow"
+          },
+          {
+            "value": "diagonal-arrow",
+            "label": "Diagonal arrow"
+          },
+          {
+            "value": "eye",
+            "label": "Eye"
+          },
+          {
+            "value": "check-mark",
+            "label": "Check mark"
+          },
+          {
+            "value": "map-pin",
+            "label": "Map pin"
+          }
+        ],
+        "default": "none"
+      },
+      {
+      "type": "checkbox",
+      "id": "primary_icon_background",
+      "label": "Enable icon background",
+      "default": false,
+    },
+      {
+        "type": "header",
+        "content": "t:options.button_secondary"
+      },
+      {
+        "type": "select",
+        "id": "type_font_button_secondary",
+        "label": "t:settings.font",
+        "options": [
+          {
+            "value": "body",
+            "label": "t:options.body"
+          },
+          {
+            "value": "heading",
+            "label": "t:options.heading"
+          },
+          {
+            "value": "accent",
+            "label": "t:options.accent"
+          }
+        ],
+        "default": "body"
+      },
+      {
+        "type": "range",
+        "id": "secondary_button_letter_spacing",
+        "min": -10,
+        "max": 10,
+        "step": 1,
+        "unit": "%",
+        "label": "t:settings.letter_spacing",
+        "default": 0
+      },
+      {
+        "type": "select",
+        "id": "button_text_case_secondary",
+        "label": "t:settings.button_text_case",
+        "options": [
+          {
+            "value": "default",
+            "label": "t:options.default"
+          },
+          {
+            "value": "uppercase",
+            "label": "t:options.uppercase"
+          }
+        ],
+        "default": "default"
+      },
+      {
+        "type": "range",
+        "id": "secondary_button_border_width",
+        "min": 0,
+        "max": 4,
+        "step": 1,
+        "unit": "px",
+        "label": "t:settings.border_width",
+        "default": 1
+      },
+      {
+        "type": "range",
+        "id": "button_border_radius_secondary",
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "unit": "px",
+        "label": "t:settings.border_radius",
+        "default": 60
+      },
+       {
+        "type": "select",
+        "id": "secondary_button_icon",
+        "label": "Icon",
+        "options": [
+          {
+            "value": "none",
+            "label": "None"
+          },
+          {
+            "value": "arrow",
+            "label": "Arrow"
+          },
+          {
+            "value": "double-arrow",
+            "label": "Double arrow"
+          },
+          {
+            "value": "chevron-arrow",
+            "label": "Chevron arrow"
+          },
+          {
+            "value": "diagonal-arrow",
+            "label": "Diagonal arrow"
+          },
+          {
+            "value": "eye",
+            "label": "Eye"
+          },
+          {
+            "value": "check-mark",
+            "label": "Check mark"
+          },
+          {
+            "value": "map-pin",
+            "label": "Map pin"
+          }
+        ],
+        "default": "none"
+      },
+      {
+      "type": "checkbox",
+      "id": "secondary_icon_background",
+      "label": "Enable icon background",
+      "default": false,
+    },
+      {
+        "type": "header",
+        "content": "t:names.pills"
+      },
+      {
+        "type": "paragraph",
+        "content": "t:info.pills_usage"
+      },
+      {
+        "type": "range",
+        "id": "pills_border_radius",
+        "label": "t:settings.border_radius",
+        "min": 0,
+        "max": 40,
+        "step": 1,
+        "unit": "px",
+        "default": 40
+      }
+    ]
+  },
+  {
+    "name": "t:names.icons",
+    "settings": [
+      {
+        "type": "select",
+        "id": "icon_stroke",
+        "label": "t:settings.stroke",
+        "options": [
+          {
+            "value": "thin",
+            "label": "t:options.thin"
+          },
+          {
+            "value": "default",
+            "label": "t:options.default"
+          },
+          {
+            "value": "heavy",
+            "label": "t:options.heavy"
+          }
+        ],
+        "default": "default"
+      },
+       {
+        "type": "select",
+        "id": "icon_size",
+        "label": "t:settings.size",
+        "options": [
+              {
+            "value": "extra-small",
+            "label": "Extra small"
+          },
+          {
+            "value": "small",
+            "label": "Small"
+          },
+          {
+            "value": "medium",
+            "label": "Medium"
+          },
+          {
+            "value": "large",
+            "label": "Large"
+          }
+        ],
+        "default": "medium"
+      }
+    ]
+  },
+  {
+    "name": "t:names.input_fields",
+    "settings": [
+      {
+        "type": "range",
+        "id": "input_height",
+        "min": 40,
+        "max": 80,
+        "step": 1,
+        "unit": "px",
+        "label": "t:settings.height",
+        "default": 48
+      },
+      {
+        "type": "range",
+        "id": "input_border_width",
+        "min": 0,
+        "max": 4,
+        "step": 1,
+        "unit": "px",
+        "label": "t:settings.border_width",
+        "default": 1
+      },
+      {
+        "type": "range",
+        "id": "inputs_border_radius",
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "unit": "px",
+        "label": "t:settings.border_radius",
+        "default": 60
+      },
+      {
+        "type": "select",
+        "id": "type_preset",
+        "label": "t:settings.type_preset",
+        "options": [
+          {
+            "value": "",
+            "label": "t:options.default"
+          },
+          {
+            "value": "paragraph",
+            "label": "t:options.paragraph"
+          },
+          {
+            "value": "h1",
+            "label": "t:options.h1"
+          },
+          {
+            "value": "h2",
+            "label": "t:options.h2"
+          },
+          {
+            "value": "h3",
+            "label": "t:options.h3"
+          },
+          {
+            "value": "h4",
+            "label": "t:options.h4"
+          },
+          {
+            "value": "h5",
+            "label": "t:options.h5"
+          },
+          {
+            "value": "h6",
+            "label": "t:options.h6"
+          }
+        ],
+        "default": "paragraph"
+      }
+    ]
+  },
 ]
