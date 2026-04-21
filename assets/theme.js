@@ -127,8 +127,7 @@ document.addEventListener("DOMContentLoaded", () => {
       btn.insertAdjacentHTML("beforeend", `
         <span class="button--hover__element">
           <span class="hover__element--circle">
-          
-            
+            ${textEl ? `<span class="hover__element--text">${textEl.textContent}</span>` : ""}
             ${icon ? `<span class="hover__element--icon-wrap"> <span class="hover__element--icon">${icon}</span>
                       <span class="hover__element--icon">${icon}</span></span>` : ""}
           </span>

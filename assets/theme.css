@@ -1301,8 +1301,6 @@ textarea.form-control {
 }
 
 
-
-
 .button-custom .button--icon {
   opacity: 0;
   visibility: hidden;
@@ -1321,6 +1319,7 @@ textarea.form-control {
 .button-custom {
   --icon-size: calc(var(--button-height) * 0.30);
   --button-padding-inline-end: calc(var(--icon-size) * 0.5);
+  --button-icon-offset: 1.2;
   background-color: var(--color--dark-orange);
   color: var(--color--off-white);
   border-radius: 100px;
@@ -1352,8 +1351,8 @@ textarea.form-control {
 }
 
 .button--hover__element {
-  clip-path: circle(var(--icon-size) at calc(100% - var(--icon-size) - var(--button-padding-inline-end)) 50%);
-  -webkit-clip-path: circle(var(--icon-size) at calc(100% - var(--icon-size) - var(--button-padding-inline-end)) 50%);
+  clip-path: circle(var(--icon-size) at calc(100% - var(--icon-size) - var(--button-padding-inline-end) * var(--button-icon-offset)) 50%);
+  -webkit-clip-path: circle(var(--icon-size) at calc(100% - var(--icon-size) - var(--button-padding-inline-end) * var(--button-icon-offset)) 50%);
   transition: clip-path .65s cubic-bezier(.785, .135, .15, .86), transform .65s cubic-bezier(.785, .135, .15, .86), -webkit-clip-path .65s cubic-bezier(.785, .135, .15, .86);
   z-index: 2;
   grid-column-gap: 1em;
@@ -1441,8 +1440,8 @@ textarea.form-control {
 .button-custom.icon-posion-left .button--hover__element {
   padding-left: var(--button-padding-inline-start);
   padding-right: var(--button-padding-inline-end);
-  clip-path: circle(var(--icon-size) at calc(var(--icon-size) + var(--button-padding-inline-start)) 50%);
-  -webkit-clip-path: circle(var(--icon-size) at calc(var(--icon-size) + var(--button-padding-inline-start)) 50%);
+  clip-path: circle(var(--icon-size) at calc(var(--icon-size) + var(--button-padding-inline-start) * 1.2) 50%);
+  -webkit-clip-path: circle(var(--icon-size) at calc(var(--icon-size) + var(--button-padding-inline-start) * 1.2) 50%);
 }
 
 .button-custom.icon-posion-left .button--text {
@@ -1503,6 +1502,68 @@ textarea.form-control {
 
 }
 
+
+
+
+/* ICON ONLY MODE */
+.button-custom.btn-icon-only {
+  padding: 0;
+  width: var(--button-height);
+  height: var(--button-height);
+  justify-content: center;
+  align-items: center;
+    border-radius: 50%;
+}
+
+/* remove extra inline padding logic */
+.button-custom.btn-icon-only .button--element {
+  justify-content: center;
+}
+
+/* FIX: circle perfectly center */
+.button-custom.btn-icon-only .button--hover__element {
+  clip-path: circle(var(--icon-size) at 50% 50%);
+  -webkit-clip-path: circle(var(--icon-size) at 50% 50%);
+  padding: 0;
+}
+
+
+.button-custom.btn-icon-only .hover__element--circle {
+    justify-content: center;
+}
+
+/* HOVER EXPAND from center */
+@media (hover: hover) and (pointer: fine) {
+
+.button-custom.btn-icon-only:hover .button--hover__element {
+  clip-path: circle(150% at 50% 50%);
+  -webkit-clip-path: circle(150% at 50% 50%);
+}
+
+}
+
+
+
+
+.button-custom.btn-icon--diagonal .hover__element--icon:first-child {
+  transform: translate(0, 0);
+}
+
+.button-custom.btn-icon--diagonal .hover__element--icon:last-child {
+  transform: translate(-160%, 160%);
+}
+
+@media (hover: hover) and (pointer: fine) {
+
+.button-custom.btn-icon--diagonal:hover .hover__element--icon:first-child {
+  transform: translate(160%, -160%);
+}
+
+.button-custom.btn-icon--diagonal:hover .hover__element--icon:last-child {
+  transform: translate(0, 0);
+}
+
+}
 
 
 /* Buttons */
