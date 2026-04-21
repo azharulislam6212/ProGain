@@ -1,12 +1,10 @@
-// theme.js
-
 // ------------------------
 // Core modules (always needed) 
 // ------------------------
 
 import { ThemeEvents } from '@theme/events';
 import { requestIdleCallback } from "@theme/utilities";
-
+import { initScrollbarWidth } from '@theme/scrollbar';
 // ------------------------
 // Theme loader
 // ------------------------
@@ -50,6 +48,10 @@ class Theme {
     await Promise.allSettled(loaders);
   }
 
+   initGlobalModules() {      
+    initScrollbarWidth();      
+  }
+
   // ------------------------
   // Section-specific modules
   // ------------------------
@@ -62,7 +64,7 @@ class Theme {
     // Featured collection
     if (section.dataset.section === 'featured-collection') {
      
-      import('@theme/product-form.js')
+      import('@theme/product-form')
         .then(m => m.default && new m.default(section))
         .catch(err => console.error('Section Product Form Failed', err));
     }
@@ -73,15 +75,22 @@ class Theme {
   // Initialize theme
   // ------------------------
   start() {
+
+     const init = () => {
+      this.initTemplateModules();
+      this.initGlobalModules();
+    };
     // DOM ready
     if (document.readyState !== 'loading') {
-      this.initTemplateModules();
+            init();
     } else {
-      document.addEventListener('DOMContentLoaded', () => this.initTemplateModules());
+      document.addEventListener('DOMContentLoaded', () => init());
     }
 
     // Shopify section hydration
-    document.addEventListener('shopify:section:load', (event) => this.initSection(event.target));
+    document.addEventListener('shopify:section:load', (event) =>{
+       this.initSection(event.target);
+    });
   }
 }
 
@@ -97,59 +106,46 @@ window.ThemeEvents = ThemeEvents;
 
 
 
-// const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+ 
 
-// if (scrollbarWidth > 0) {
-//   document.documentElement.style.setProperty(
-//     "--scrollbar-width",
-//     scrollbarWidth + "px"
-//   );
-// }
+document.addEventListener("DOMContentLoaded", () => {
 
-export class DeclarativeShadowElement extends HTMLElement {
-    connectedCallback() {
-        if (!this.shadowRoot) {
-            const template = this.querySelector(':scope > template[shadowrootmode="open"]');
-            if (!(template instanceof HTMLTemplateElement)) return;
-            this.attachShadow({ mode: "open" }).append(template.content.cloneNode(!0));
-        }
-    }
-}
-export class ResizeNotifier extends ResizeObserver {
-    #initialized = !1;
-    constructor(callback) {
-        super((entries) => {
-            if (this.#initialized) return callback(entries, this);
-            this.#initialized = !0;
-        });
-    }
-    disconnect() {
-        (this.#initialized = !1), super.disconnect();
-    }
-}
-(() => {
-    function setScrollbarWidth() {
-        requestIdleCallback(() => {
-            const outer = document.createElement("div");
-            (outer.style.cssText = "visibility:hidden;overflow:scroll;position:absolute;width:100px;height:100px;"),
-                document.body.appendChild(outer);
-            const inner = document.createElement("div");
-            (inner.style.width = "100%"), outer.appendChild(inner);
-            const scrollbarWidth = outer.offsetWidth - inner.offsetWidth,
-                windowWidth = window.innerWidth,
-                documentWidth = document.documentElement.clientWidth;
-            document.body.removeChild(outer);
-            const finalWidth = scrollbarWidth > 0 ? scrollbarWidth : Math.max(0, windowWidth - documentWidth);
-            document.documentElement.style.setProperty("--scrollbar-width", `${finalWidth}px`);
-        });
-    }
-    document.readyState === "complete"
-        ? setScrollbarWidth()
-        : window.addEventListener("load", setScrollbarWidth, { once: !0 });
-    let resizeTimeout;
-    const debouncedSetScrollbarWidth = () => {
-        clearTimeout(resizeTimeout), (resizeTimeout = setTimeout(setScrollbarWidth, 100));
-    };
-    window.addEventListener("resize", debouncedSetScrollbarWidth),
-        window.addEventListener("orientationchange", debouncedSetScrollbarWidth);
-})();
+  const init = (root = document) => {
+    root.querySelectorAll(".button-custom").forEach(btn => {
+      if (btn.classList.contains("is-ready")) return;
+
+      const el = btn.querySelector(".button--element");
+      const textEl = el?.querySelector(".button--text");
+      if (!el  ) return;
+
+      const iconEl = el.querySelector(".button--icon");
+      const icon = iconEl?.querySelector("svg")?.outerHTML || "";
+
+      // remove original icon
+      // if (iconEl) iconEl.remove();
+
+      btn.insertAdjacentHTML("beforeend", `
+        <span class="button--hover__element">
+          <span class="hover__element--circle">
+          
+            
+            ${icon ? `<span class="hover__element--icon-wrap"> <span class="hover__element--icon">${icon}</span>
+                      <span class="hover__element--icon">${icon}</span></span>` : ""}
+          </span>
+        </span>
+      `);
+      btn.classList.add("is-ready");
+    });
+  };
+
+  init();
+
+  new MutationObserver(m =>
+    m.forEach(x =>
+      x.addedNodes.forEach(n =>
+        n.nodeType === 1 && init(n)
+      )
+    )
+  ).observe(document.body, { childList: true, subtree: true });
+
+});

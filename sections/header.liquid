@@ -1,23 +1,73 @@
-
 {%- assign section_settings = section.settings -%}
 <div class="section  bg-secondary color-{{ section_settings.color_scheme }} rte">
+  <div class="page-width">
+    <h2>Heading This is animated text!</h2>
+    <a href="" class="h2 reversed-link">
+      <span class="reversed-link__text"> Scroll me </span>
+    </a>
+    <h2 class="animate-split">SplitText Animation</h2>
+    Lorem ipsum dolor sit amet consectetur, adipisicing elit. <a href="">Voluptatum</a> magni omnis doloremque deleniti,
+    delectus tenetur quas est perferendis eum iure sequi, id necessitatibus, hic dignissimos iusto impedit nemo dolorum?
+    Aspernatur?
 
-<div class="page-width">
-<h2 >Heading This is animated text!</h2>
-  <h1 class="animate-scroll">Scroll me</h1> 
-<h2 class="animate-split">SplitText Animation</h2>
-Lorem ipsum dolor sit amet consectetur, adipisicing elit. <a href="">Voluptatum</a> magni omnis doloremque deleniti, delectus tenetur quas est perferendis eum iure sequi, id necessitatibus, hic dignissimos iusto impedit nemo dolorum? Aspernatur?
-
-
-<p class="animate-text color-gradient color-{{ section_settings.color_scheme_gradient }}">dfsdf sdfsdfsdf</p>
+    <p class="animate-text color-gradient color-{{ section_settings.color_scheme_gradient }}">dfsdf sdfsdfsdf</p>
+  </div>
 </div>
+
+<a href="" class="button-custom btn ">
+  <span class="button--element">
+    <span class="button--icon"> <svg viewBox="0 0 23 19"> <polygon fill="currentColor" points="13.5,18.7 12.1,17.3 18.9,10.5 0.3,10.5 0.3,8.5 18.9,8.5 12.1,1.7 13.5,0.3 22.7,9.5 "></polygon> </svg> </span>
+  </span>
+   </a>
+
+   
+
+<a href="" class="button-custom btn ">
+  <span class="button--element">
+    <span class="button--text">See our companies dsdf sfsdf</span>
+    <span class="button--icon"> <svg viewBox="0 0 23 19"> <polygon fill="currentColor" points="13.5,18.7 12.1,17.3 18.9,10.5 0.3,10.5 0.3,8.5 18.9,8.5 12.1,1.7 13.5,0.3 22.7,9.5 "></polygon> </svg> </span>
+  </span>
+   </a>
+  
+
+   <a href="" class="button-custom btn  icon-posion-left">
+  <span class="button--element">
+        <span class="button--icon"> <svg width="23" height="19" viewBox="0 0 23 19"> <polygon fill="currentColor" points="13.5,18.7 12.1,17.3 18.9,10.5 0.3,10.5 0.3,8.5 18.9,8.5 12.1,1.7 13.5,0.3 22.7,9.5 "></polygon> </svg> </span>
+ 
+    <span class="button--text">See our companies dsdf sfsdf</span>
+ </span>
+   </a>  
+
+  {% comment %} <span class="button--hover__element">
+    <span class="hover__element--circle">
+      <p class="hover__element--text">See our companies</p>
+      <span class="hover__element--icon">
+        <svg width="23" height="19" viewBox="0 0 23 19">
+          <polygon fill="currentColor" points="13.5,18.7 12.1,17.3 18.9,10.5 0.3,10.5 0.3,8.5 18.9,8.5 12.1,1.7 13.5,0.3 22.7,9.5 "></polygon>
+        </svg>
+      </span>
+      <span class="hover__element--icon">
+        <svg width="23" height="19" viewBox="0 0 23 19">
+          <polygon fill="currentColor" points="13.5,18.7 12.1,17.3 18.9,10.5 0.3,10.5 0.3,8.5 18.9,8.5 12.1,1.7 13.5,0.3 22.7,9.5 "></polygon>
+        </svg>
+      </span>
+    </span>
+  </span> {% endcomment %}
+ 
+<input type="text" class="form-control" placeholder="Email address">
+<div class="select">
+  <select
+    id="ContactForm-select-ARVQ3R2IvYmNETUpyS__custom_field_8WeCm7"
+    name="contact[Country]"
+    class="form-control  form-control--select"
+  >
+    <option value="Austria" label="Austria">Austria</option>
+    <option value="Viet Nam" label="Viet Nam">Viet Nam</option>
+    <option value="Japan" label="Japan">Japan</option>
+  </select>
 </div>
 
-
-
-<div class="hero-banner height--medium ">
-    banner  
-</div>
+<div class="hero-banner height--medium ">banner</div>
 
 {% schema %}
 {
@@ -25,13 +75,13 @@ Lorem ipsum dolor sit amet consectetur, adipisicing elit. <a href="">Voluptatum<
   "tag": "section",
   "class": "section",
   "settings": [
-   {
+    {
       "type": "color_scheme",
       "id": "color_scheme",
       "label": "Color scheme",
       "default": "scheme-1"
     },
-   {
+    {
       "type": "color_scheme",
       "id": "color_scheme_gradient",
       "label": "Color scheme",

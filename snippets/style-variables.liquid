@@ -475,6 +475,9 @@
     --spacing-14: 12.8rem;   /* 128px */
     --spacing-15: 16rem;     /* 160px */
 
+    --font-heading--spacing: clamp(2.4rem, .8em, 4rem);
+    --font-paragraph--spacing: clamp(2.4rem, .8em, 4rem);
+
     --scroll-margin: var(--spacing-4);
 
     /* Opacity */
@@ -497,17 +500,17 @@
         /* ======================
         EASINGS (semantic)
         ====================== */
-      --ease-default: cubic-bezier(0, 0, 0.2, 1);
-      --ease-out-cubic: cubic-bezier(0.33, 1, 0.68, 1);
-      --ease-out-quad: cubic-bezier(0.32, 0.72, 0, 1);
-      --ease-in-out-quad: cubic-bezier(0.455, 0.03, 0.515, 0.955);
-      --ease-hover: cubic-bezier(0.25, 0.46, 0.45, 0.94);
-      --ease-active: cubic-bezier(0.5, 0, 0.75, 0);
-      --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
-      --ease-fade: cubic-bezier(0.16, 1, 0.3, 1);
-      --ease-slide: cubic-bezier(0.4, 0, 0.2, 1);
-      --ease-smooth: cubic-bezier(0.3, 1, 0.3, 1);
-      --ease-overlay: cubic-bezier(0.7, 0, 0.2, 1);
+      --animation-easing--default: cubic-bezier(0, 0, 0.2, 1);
+      --animation-easing--out-cubic: cubic-bezier(0.33, 1, 0.68, 1);
+      --animation-easing--out-quad: cubic-bezier(0.32, 0.72, 0, 1);
+      --animation-easing--in-out-quad: cubic-bezier(0.455, 0.03, 0.515, 0.955);
+      --animation-easing--hover: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      --animation-easing--active: cubic-bezier(0.5, 0, 0.75, 0);
+      --animation-easing--bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+      --animation-easing--fade: cubic-bezier(0.16, 1, 0.3, 1);
+      --animation-easing--slide: cubic-bezier(0.4, 0, 0.2, 1);
+      --animation-easing--smooth: cubic-bezier(0.3, 1, 0.3, 1);
+      --animation-easing--overlay: cubic-bezier(0.7, 0, 0.2, 1);
       --animation-easing: ease-in-out;
 
       /* ======================
@@ -518,33 +521,33 @@
       --speed-medium: 0.15s;
       --speed-slow: 0.2s;
       --speed-drawer: 0.2s;
-      --duration-fast: 0.25s;
-      --duration-medium: 0.35s;
-      --duration-slow: 0.5s;
-      --duration-long: 0.6s;
+      --animation-duration--fast: 0.25s;
+      --animation-duration--medium: 0.35s;
+      --animation-duration--slow: 0.5s;
+      --animation-duration--long: 0.6s;
       --drawer-animation-speed: 0.2s;
 
 
       /* ======================
         ANIMATION VALUES (combined)
         ====================== */
-      --anim-fast: var(--speed-fast) var(--ease-default);
-      --anim-medium: var(--speed-medium) var(--ease-default);
-      --anim-slow: var(--speed-slow) var(--ease-default);
-      --anim-slide: var(--speed-medium) var(--ease-slide);
-      --anim-hover: var(--speed-medium) var(--ease-hover);
-      --anim-bounce: var(--speed-medium) var(--ease-bounce);
-      --anim-fade-in: var(--speed-medium) var(--ease-fade);
-      --anim-fade-out: var(--speed-medium) var(--ease-fade);
+      --animation-fast: var(--speed-fast) var(--animation-easing--default);
+      --animation-medium: var(--speed-medium) var(--animation-easing--default);
+      --animation-slow: var(--speed-slow) var(--animation-easing--default);
+      --animation-slide: var(--speed-medium) var(--animation-easing--slide);
+      --animation-hover: var(--speed-medium) var(--animation-easing--hover);
+      --animation-bounce: var(--speed-medium) var(--animation-easing--bounce);
+      --animation-fade-in: var(--speed-medium) var(--animation-easing--fade);
+      --animation-fade-out: var(--speed-medium) var(--animation-easing--fade);
 
       /* ======================
         TRANSFORM ORIGIN
         ====================== */
-      --origin-start: left;
-      --origin-end: right;
-      --origin-center: center;
-      --origin-top: top;
-      --origin-bottom: bottom;
+      --transform-origin-start: left;
+      --transform-origin-end: right;
+      --transform-origin-center: center;
+      --transform-origin-top: top;
+      --transform-origin-bottom: bottom;
 
       /* Focus */
       --focus-outline-width: 0.15rem;   /* same visual width as before */
@@ -559,7 +562,7 @@
         --button-height-mobile: {{ settings.button_height_mobile | divided_by: 10.0 | append: 'rem'}};
         --button-padding-block: {{ settings.button_padding_block | divided_by: 10.0 | append: 'rem'}};
         --button-padding-inline: {{ settings.button_padding_inline | divided_by: 10.0 | append: 'rem'}};
-
+        
          /* Button Borders */
         --border-width-button-primary: {{ settings.primary_button_border_width | divided_by: 10.0 | append: 'rem'}};
         --border-width-button-secondary: {{ settings.secondary_button_border_width | divided_by: 10.0 | append: 'rem'}};
@@ -595,11 +598,11 @@
         --radius-round: 50%;
 
         /* Component Radius */
-        --radius-pill: {{ settings.pills_border_radius | divided_by: 10.0 | append: 'rem'}};
-        --radius-input: {{ settings.inputs_border_radius | divided_by: 10.0 | append: 'rem'}};
-
+        --pill-radius: {{ settings.pills_border_radius | divided_by: 10.0 | append: 'rem'}};
+        --input-border-radius: {{ settings.inputs_border_radius | divided_by: 10.0 | append: 'rem'}};
+ 
         /* Border Width (Component) */
-        --border-width-input: {{ settings.input_border_width | divided_by: 10.0 | append: 'rem'}};
+        --input-border-width: {{ settings.input_border_width | divided_by: 10.0 | append: 'rem'}};
         --input-height: {{ settings.input_height | divided_by: 10.0 | append: 'rem' }};
 
         /* Complex Borders */
@@ -638,18 +641,21 @@
         Form input style
       ====================== */
       /* Size Constraints */
+      --select-arrow-icon: url("{{ 'icon-select-arrow.svg' | asset_url }}");
+      --select-arrow-size: 1.6rem;
       --input-min-width: 200px;
       --input-search-max-width: 650px;
       --input-textarea-min-height: 100px;
       --textareas-radius: min(6.0rem, var(--radius-lg));
 
-      --input-padding-y: 1.6rem;
-      --input-padding-x: 0.8rem;
-      /* Padding Scale */
-      --input-padding: var(--input-padding-y) var(--input-padding-x);
+      --input-padding-inline: 1.6rem;
+      --input-padding-block: 0.8rem;
+      --input-border-style: solid; 
+      --input-border-color:  var(--color-input-border);
+      --input-line-height: 1.4;
 
       /* Border / Shadow System */
-      --input-border-width: var(--border-width-input);
+    
       --input-ring: 0 0 0 var(--input-border-width) var(--color-input-border);
       --input-ring-focus: 0 0 0 calc(var(--input-border-width) + 0.5px) var(--color-input-border);
 

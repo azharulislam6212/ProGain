@@ -21,7 +21,7 @@
       {
         "type": "image_picker",
         "id": "favicon",
-        "info": "Recommended: square PNG/JPG format.",
+        "info": "Recommended: square PNG\/JPG format.",
         "label": "t:settings.favicon"
       },
       {
@@ -1842,17 +1842,17 @@
       {
         "type": "range",
         "id": "button_height",
-        "min": 40,
+        "min": 48,
         "max": 80,
         "step": 1,
         "unit": "px",
         "label": "t:settings.height",
-        "default": 58
+        "default": 64
       },
       {
         "type": "range",
         "id": "button_height_mobile",
-        "min": 30,
+        "min": 40,
         "max": 60,
         "step": 1,
         "unit": "px",
@@ -1963,6 +1963,10 @@
             "label": "Arrow"
           },
           {
+            "value": "long-arrow",
+            "label": "Long Arrow"
+          },
+          {
             "value": "double-arrow",
             "label": "Double arrow"
           },
@@ -1973,28 +1977,32 @@
           {
             "value": "diagonal-arrow",
             "label": "Diagonal arrow"
-          },
-          {
-            "value": "eye",
-            "label": "Eye"
-          },
-          {
-            "value": "check-mark",
-            "label": "Check mark"
-          },
-          {
-            "value": "map-pin",
-            "label": "Map pin"
           }
         ],
         "default": "none"
       },
       {
-      "type": "checkbox",
-      "id": "primary_icon_background",
-      "label": "Enable icon background",
-      "default": false,
-    },
+        "type": "select",
+        "id": "primary_icon_position",
+        "label": "Icon position",
+        "options": [
+          {
+            "value": "start",
+            "label": "Start"
+          },
+          {
+            "value": "end",
+            "label": "End"
+          }
+        ],
+        "default": "start"
+      },
+      {
+        "type": "checkbox",
+        "id": "primary_icon_background",
+        "label": "Icon background",
+        "default": false
+      },
       {
         "type": "header",
         "content": "t:options.button_secondary"
@@ -2065,7 +2073,7 @@
         "label": "t:settings.border_radius",
         "default": 60
       },
-       {
+      {
         "type": "select",
         "id": "secondary_button_icon",
         "label": "Icon",
@@ -2079,6 +2087,10 @@
             "label": "Arrow"
           },
           {
+            "value": "long-arrow",
+            "label": "Long Arrow"
+          },
+          {
             "value": "double-arrow",
             "label": "Double arrow"
           },
@@ -2089,28 +2101,32 @@
           {
             "value": "diagonal-arrow",
             "label": "Diagonal arrow"
-          },
-          {
-            "value": "eye",
-            "label": "Eye"
-          },
-          {
-            "value": "check-mark",
-            "label": "Check mark"
-          },
-          {
-            "value": "map-pin",
-            "label": "Map pin"
           }
         ],
         "default": "none"
       },
       {
-      "type": "checkbox",
-      "id": "secondary_icon_background",
-      "label": "Enable icon background",
-      "default": false,
-    },
+        "type": "select",
+        "id": "secondary_icon_position",
+        "label": "Icon position",
+        "options": [
+          {
+            "value": "start",
+            "label": "Start"
+          },
+          {
+            "value": "end",
+            "label": "End"
+          }
+        ],
+        "default": "start"
+      },
+      {
+        "type": "checkbox",
+        "id": "secondary_icon_background",
+        "label": "Icon background",
+        "default": false
+      },
       {
         "type": "header",
         "content": "t:names.pills"
@@ -2154,12 +2170,12 @@
         ],
         "default": "default"
       },
-       {
+      {
         "type": "select",
         "id": "icon_size",
         "label": "t:settings.size",
         "options": [
-              {
+          {
             "value": "extra-small",
             "label": "Extra small"
           },
@@ -2254,5 +2270,5 @@
         "default": "paragraph"
       }
     ]
-  },
+  }
 ]
