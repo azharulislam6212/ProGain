@@ -579,6 +579,11 @@
         --button-text-case-primary: {{ settings.button_text_case_primary }};
         --button-text-case-secondary: {{ settings.button_text_case_secondary }};
 
+
+        --button-border-thikness-primary: {{ settings.primary_button_border_width | divided_by: 10.0 | append: 'rem'}};
+        --button-border-thikness-secondary: {{ settings.secondary_button_border_width | divided_by: 10.0 | append: 'rem'}};
+
+       
         --button-radius-primary: {{ settings.button_border_radius_primary | divided_by: 10.0 | append: 'rem'}};
         --button-radius-secondary: {{ settings.button_border_radius_secondary | divided_by: 10.0 | append: 'rem'}};
 

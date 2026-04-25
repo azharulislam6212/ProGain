@@ -107,32 +107,31 @@ window.ThemeEvents = ThemeEvents;
 
 
  
+ 
 
-document.addEventListener("DOMContentLoaded", () => {
+ document.addEventListener("DOMContentLoaded", () => {
 
   const init = (root = document) => {
-    root.querySelectorAll(".button-custom").forEach(btn => {
+    root.querySelectorAll(".btn").forEach(btn => {
       if (btn.classList.contains("is-ready")) return;
-
-      const el = btn.querySelector(".button--element");
-      const textEl = el?.querySelector(".button--text");
-      if (!el  ) return;
-
-      const iconEl = el.querySelector(".button--icon");
+      if (btn.classList.contains("btn--solid-icon") || btn.classList.contains("btn--icon-only") ){
+      const el = btn.querySelector(".btn--element");
+      const textEl = el?.querySelector(".btn--text");
+      if (!el) return;
+      const iconEl = el.querySelector(".btn--icon");
       const icon = iconEl?.querySelector("svg")?.outerHTML || "";
-
-      // remove original icon
-      // if (iconEl) iconEl.remove();
-
       btn.insertAdjacentHTML("beforeend", `
-        <span class="button--hover__element">
+        <span class="btn--hover__element">
           <span class="hover__element--circle">
             ${textEl ? `<span class="hover__element--text">${textEl.textContent}</span>` : ""}
-            ${icon ? `<span class="hover__element--icon-wrap"> <span class="hover__element--icon">${icon}</span>
-                      <span class="hover__element--icon">${icon}</span></span>` : ""}
+            ${icon ? `<span class="hover__element--icon-wrap">
+              <span class="hover__element--icon">${icon}</span>
+              <span class="hover__element--icon">${icon}</span>
+            </span>` : ""}
           </span>
         </span>
       `);
+       }
       btn.classList.add("is-ready");
     });
   };
