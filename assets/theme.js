@@ -114,19 +114,19 @@ window.ThemeEvents = ThemeEvents;
   const init = (root = document) => {
     root.querySelectorAll(".btn").forEach(btn => {
       if (btn.classList.contains("is-ready")) return;
-      if (btn.classList.contains("btn--solid-icon") || btn.classList.contains("btn--icon-only") ){
-      const el = btn.querySelector(".btn--element");
-      const textEl = el?.querySelector(".btn--text");
+      if (!btn.classList.contains("btn--plain")) {
+      const el = btn.querySelector(".btn__content");
+      const textEl = el?.querySelector(".btn__text");
       if (!el) return;
-      const iconEl = el.querySelector(".btn--icon");
+      const iconEl = el.querySelector(".btn__icon");
       const icon = iconEl?.querySelector("svg")?.outerHTML || "";
       btn.insertAdjacentHTML("beforeend", `
-        <span class="btn--hover__element">
-          <span class="hover__element--circle">
-            ${textEl ? `<span class="hover__element--text">${textEl.textContent}</span>` : ""}
-            ${icon ? `<span class="hover__element--icon-wrap">
-              <span class="hover__element--icon">${icon}</span>
-              <span class="hover__element--icon">${icon}</span>
+        <span class="btn__hover">
+          <span class="btn__hover-circle">
+            ${textEl ? `<span class="btn__hover-text">${textEl.textContent}</span>` : ""}
+            ${icon ? `<span class="btn__hover-icons">
+              <span class="btn__hover-icon">${icon}</span>
+              <span class="btn__hover-icon">${icon}</span>
             </span>` : ""}
           </span>
         </span>
@@ -135,6 +135,7 @@ window.ThemeEvents = ThemeEvents;
       btn.classList.add("is-ready");
     });
   };
+
 
   init();
 

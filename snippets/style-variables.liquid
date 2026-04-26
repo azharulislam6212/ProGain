@@ -505,6 +505,7 @@
       --animation-easing--out-quad: cubic-bezier(0.32, 0.72, 0, 1);
       --animation-easing--in-out-quad: cubic-bezier(0.455, 0.03, 0.515, 0.955);
       --animation-easing--hover: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      --animation-easing--nice: cubic-bezier(.785, .135, .15, .86);
       --animation-easing--active: cubic-bezier(0.5, 0, 0.75, 0);
       --animation-easing--bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
       --animation-easing--fade: cubic-bezier(0.16, 1, 0.3, 1);
@@ -523,7 +524,7 @@
       --speed-drawer: 0.2s;
       --animation-duration--fast: 0.25s;
       --animation-duration--medium: 0.35s;
-      --animation-duration--slow: 0.5s;
+      --animation-duration--slow: 0.4s;
       --animation-duration--long: 0.6s;
       --drawer-animation-speed: 0.2s;
 
@@ -553,7 +554,7 @@
       --focus-outline-width: 0.15rem;   /* same visual width as before */
       --focus-outline-offset: 0.2em;    /* keep relative to font size */
 
-     
+ 
       /* ======================
         Button style
         ====================== */
@@ -562,28 +563,30 @@
         --button-height-mobile: {{ settings.button_height_mobile | divided_by: 10.0 | append: 'rem'}};
         --button-padding-block: {{ settings.button_padding_block | divided_by: 10.0 | append: 'rem'}};
         --button-padding-inline: {{ settings.button_padding_inline | divided_by: 10.0 | append: 'rem'}};
-        
-         /* Button Borders */
-        --border-width-button-primary: {{ settings.primary_button_border_width | divided_by: 10.0 | append: 'rem'}};
-        --border-width-button-secondary: {{ settings.secondary_button_border_width | divided_by: 10.0 | append: 'rem'}};
-
+     
         /* Button font-family */
         --button-font-family-primary: var(--font-{{ settings.type_font_button_primary }}--family);
         --button-font-family-secondary: var(--font-{{ settings.type_font_button_secondary }}--family);
+        --button-font-weight-primary: var(--font-{{ settings.type_font_button_primary }}--weight);
+        --button-font-weight-secondary: var(--font-{{ settings.type_font_button_secondary }}--weight);
 
+        --button-line-height: var(--line-height--body-normal);
+        --button-border-style: solid;
+         
         /* Button letter spacing */
-        --button-letter-spacing-primary:  {{ settings.primary_button_letter_spacing | append: 'em' }} ;
-        --button-letter-spacing-secondary:  {{ settings.secondary_button_letter_spacing  | append: 'em'}} ;
+        --button-letter-spacing-primary:  {{ settings.button_letter_spacing_primary | append: 'em' }} ;
+        --button-letter-spacing-secondary:  {{ settings.button_letter_spacing_secondary  | append: 'em'}} ;
 
         /* Button text case */
         --button-text-case-primary: {{ settings.button_text_case_primary }};
         --button-text-case-secondary: {{ settings.button_text_case_secondary }};
 
+  
+         /* Button Borders */
+        --button-border-thikness-primary: {{ settings.button_border_width_primary | divided_by: 10.0 | append: 'rem'}};
+        --button-border-thikness-secondary: {{ settings.button_border_width_secondary | divided_by: 10.0 | append: 'rem'}};
 
-        --button-border-thikness-primary: {{ settings.primary_button_border_width | divided_by: 10.0 | append: 'rem'}};
-        --button-border-thikness-secondary: {{ settings.secondary_button_border_width | divided_by: 10.0 | append: 'rem'}};
-
-       
+        /* Button Borders radius */
         --button-radius-primary: {{ settings.button_border_radius_primary | divided_by: 10.0 | append: 'rem'}};
         --button-radius-secondary: {{ settings.button_border_radius_secondary | divided_by: 10.0 | append: 'rem'}};
 

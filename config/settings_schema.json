@@ -1905,7 +1905,7 @@
       },
       {
         "type": "range",
-        "id": "primary_button_letter_spacing",
+        "id": "button_letter_spacing_primary",
         "min": -10,
         "max": 10,
         "step": 1,
@@ -1931,7 +1931,7 @@
       },
       {
         "type": "range",
-        "id": "primary_button_border_width",
+        "id": "button_border_width_primary",
         "min": 0,
         "max": 4,
         "step": 1,
@@ -1949,7 +1949,6 @@
         "label": "t:settings.border_radius",
         "default": 60
       },
-
       {
         "type": "header",
         "content": "t:options.button_secondary"
@@ -1976,7 +1975,7 @@
       },
       {
         "type": "range",
-        "id": "secondary_button_letter_spacing",
+        "id": "button_letter_spacing_secondary",
         "min": -10,
         "max": 10,
         "step": 1,
@@ -2002,7 +2001,7 @@
       },
       {
         "type": "range",
-        "id": "secondary_button_border_width",
+        "id": "button_border_width_secondary",
         "min": 0,
         "max": 4,
         "step": 1,
