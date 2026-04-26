@@ -1344,6 +1344,34 @@ textarea.form-control {
   transition: background-color, color, border-color, opacity, transform var(--animation-duration--medium);
 }
 
+ 
+.btn--medium,
+.btn--small {
+  --button-padding-inline: 2rem;
+}
+
+.btn--medium {
+  --button-padding-block: 0.8rem;
+  --icon-size: 1.2rem;
+  --button-padding-inline-end: calc(var(--icon-size));
+  height: min(var(--button-height, 5rem), 4.4rem);
+}
+
+.btn--small {
+  --button-padding-block: 0.6rem;
+  --icon-size: 1rem;
+  --button-padding-inline-end: calc(var(--icon-size));
+  height: min(var(--button-height, 5rem), 3.8rem);
+}
+
+.btn--extra-small {
+  --button-padding-block: 0.4rem;
+  --icon-size: 1rem;
+  --button-padding-inline-end: calc(var(--icon-size));
+  height: min(var(--button-height, 5rem), 3rem);
+}
+
+
 .btn svg {
   max-width: max-content;
   width: var(--icon-size, 1.6rem);
@@ -1422,27 +1450,7 @@ textarea.form-control {
   transform: translateX(-160%);
 }
 
-
-@keyframes MoveScaleUpInitial {
-  100% {
-    transform: translate3d(0, -105%, 0) scale3d(1, 2, 1);
-    opacity: 0;
-}
-}
-
-
-@keyframes MoveScaleUpEnd {
-  0% {
-    transform: translate3d(0, 100%, 0) scale3d(1, 2, 1);
-    opacity: 0;
-}
-100% {
-    transform: translate3d(0, 0, 0);
-    opacity: 1;
-}
-}
-
-
+  
  .btn__text {
   display: inline-block;
   transform: translateY(0);
@@ -1556,6 +1564,33 @@ textarea.form-control {
   /* same as parent duration */
 }
 
+.btn[hidden] {
+  display: none;
+}
+
+.btn[aria-disabled=true],
+.btn--secondary[aria-disabled=true],
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn .loading-spinner {
+  position: absolute;
+  display: none;
+  opacity: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.btn--loading>*:not(.loading-spinner) {
+  opacity: 0;
+}
+
+.btn--loading .loading-spinner {
+  display: inline-flex !important;
+  opacity: 1;
+}
 
 
 .btn--primary {
@@ -1706,9 +1741,7 @@ textarea.form-control {
 
 }
 
-
-
-
+ 
 /* ICON ONLY MODE */
 .btn--icon-only {
   padding: 0;
@@ -1792,262 +1825,6 @@ textarea.form-control {
 }
 
 
-/* Buttons */
-/* .btn {
-  --button-padding-inline: 2.4rem;
-  --icon-solid-size: 1.5rem;
-  --button-icon-gap: 0.8rem;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--button-icon-gap);
-  height: var(--button-height, 5rem);
-  width: var(--button-width, auto);
-  padding: var(--button-padding-block, 1rem) var(--button-padding-inline, 2.4rem);
-  line-height: var(--button-line-height, var(--font-paragraph--line-height, 1.6));
-  border-radius: var(--button-corner-radius, 0);
-  border-width: var(--button-border-thickness, 0.1rem);
-  border-style: var(--button-border-style, solid);
-  transition: background-color, color, border-color, opacity, transform var(--animation-duration--medium);
-  position: relative;
-  z-index: 0;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  text-decoration: none;
-  font-size: var(--font-size--paragraph);
-  cursor: pointer;
-  font-family: var(--font-button--family);
-  font-weight: var(--font-button--weight);
-  letter-spacing: var(--font-button--letter-spacing);
-  text-transform: var(--font-button--transform);
-}
-
-.btn__text,
-.btn__icon-text {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.btn--medium,
-.btn--small {
-  --button-padding-inline: 2rem;
-}
-
-.btn--medium {
-  --button-padding-block: 0.8rem;
-  --icon-solid-size: 1.2rem;
-  height: min(var(--button-height, 5rem), 4.4rem);
-}
-
-.btn--small {
-  --button-padding-block: 0.6rem;
-  --icon-solid-size: 1rem;
-  --icon-size: 1.2rem;
-  height: min(var(--button-height, 5rem), 3.8rem);
-}
-
-.btn--extra-small {
-  --button-padding-block: 0.4rem;
-  --icon-solid-size: 1rem;
-  --icon-size: 1.2rem;
-  height: min(var(--button-height, 5rem), 3rem);
-}
-
-.btn.btn--icon {
-  --button-padding-inline: 2rem;
-}
-
-.btn--small.btn--icon {
-  --button-padding-inline: 1.6rem;
-}
-
-.btn--primary {
-  background-color: rgb(var(--color-primary-button-background));
-  color: rgb(var(--color-primary-button-text));
-  border-color: rgb(var(--color-primary-button-background));
-}
-
-.btn--secondary {
-  background-color: rgb(var(--color-secondary-button-background));
-  color: rgb(var(--color-secondary-button-text));
-  border-color: rgb(var(--color-secondary-button-border));
-}
-
-.btn--outline {
-  background-color: transparent;
-  border-color: rgb(var(--color-foreground)/var(--button-outline-border-alpha, 1));
-  color: var(--color-foreground);
-}
-
-.btn--plain {
-  height: auto;
-  padding: 0;
-  background-color: transparent;
-  border: 0;
-  border-radius: 0;
-  color: var(--color-foreground);
-}
-
-.btn--plain .btn__text {
-  position: relative;
-}
-
-.btn--plain .btn__text::after {
-  content: "";
-  position: absolute;
-  width: 0;
-  height: 1px;
-  inset-inline-end: 0;
-  bottom: 0;
-  transition: 0.3s all;
-  background-color: rgb(var(--color-foreground));
-}
-
-.btn--white {
-  background-color: rgb(var(--color-white));
-  color: rgb(var(--color-black));
-  border-color: rgb(var(--color-white));
-}
-
-.btn--icon-solid {
-  --button-padding-inline-end: 1rem;
-  --icon-size: 1.2rem;
-  padding-inline-end: calc(1rem + var(--icon-solid-size) * 2 + var(--button-icon-gap));
-}
-
-@media (min-width: 768px) {
-  .btn--icon-solid-desktop {
-    --button-padding-inline-end: 1rem;
-    --icon-size: 1.2rem;
-    padding-inline-end: calc(1rem + var(--icon-solid-size) * 2 + var(--button-icon-gap));
-  }
-}
-
-.btn__icon {
-  position: absolute;
-  top: 0;
-  inset-inline: 0 auto;
-  z-index: 2;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--button-icon-gap);
-  padding-inline: var(--button-padding-inline) var(--button-padding-inline-end);
-  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-  clip-path: circle(var(--icon-solid-size) at calc(100% - var(--icon-solid-size) - var(--button-padding-inline-end)) 50%);
-  overflow: hidden;
-}
-
-.btn__icon-icon {
-  display: flex;
-  width: calc(var(--icon-solid-size) * 2);
-  height: calc(var(--icon-solid-size) * 2);
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  flex-shrink: 0;
-  overflow: hidden;
-  transition: all var(--animation-duration--medium) var(--animation-easing);
-}
-
-.btn--primary .btn__icon {
-  background-color: rgb(var(--color-primary-button-text));
-  color: rgb(var(--color-primary-button-background));
-}
-
-.btn--secondary .btn__icon,
-.btn--outline .btn__icon {
-  background-color: rgb(var(--color-primary-button-background));
-  color: rgb(var(--color-primary-button-text));
-}
-
-.btn--icon-only {
-  --button-padding-inline: 0;
-  --button-padding-block: 0;
-  --button-corner-radius: 50%;
-  --button-width: var(--button-height, 5rem);
-  justify-content: center;
-}
-
-.btn--icon-only.btn--medium {
-  --button-width: min(var(--button-height, 5rem), 4.4rem);
-}
-
-.btn--icon-only.btn--small {
-  --button-width: min(var(--button-height, 5rem), 3.8rem);
-}
-
-.btn--icon-only.btn--extra-small {
-  --button-width: min(var(--button-height, 5rem), 3rem);
-}
-
-.btn--icon-only.btn--outline {
-  --button-outline-border-alpha: 0.2;
-}
-
-[class*=btn--]:not(.btn--icon-solid, .btn--plain, .button-unstyled)::before {
-  content: "";
-  position: absolute;
-  width: 0;
-  inset-block: calc(var(--button-border-thickness, 0.1rem) * -1);
-  inset-inline-start: calc(var(--button-border-thickness, 0.1rem) * -1);
-  z-index: -1;
-  transition: width 0.3s;
-  border-radius: var(--button-corner-radius, 0);
-  background-color: rgb(var(--color-primary-button-background));
-}
-
-.btn--primary:not(.btn--icon-solid)::before {
-  background-color: rgb(var(--color-primary-button-text));
-}
-
-.button-unstyled {
-  display: block;
-  padding: 0;
-  background-color: inherit;
-  color: inherit;
-  border: 0;
-  border-radius: 0;
-  overflow: hidden;
-  box-shadow: none;
-  height: auto;
-  font-family: inherit;
-  font-size: inherit;
-  font-weight: inherit;
-}
-
-.btn[hidden] {
-  display: none;
-}
-
-.btn[aria-disabled=true],
-.btn--secondary[aria-disabled=true],
-.btn:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.btn .loading-spinner {
-  position: absolute;
-  display: none;
-  opacity: 0;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-.btn--loading>*:not(.loading-spinner) {
-  opacity: 0;
-}
-
-.btn--loading .loading-spinner {
-  display: inline-flex !important;
-  opacity: 1;
-}
-
 @media (max-width: 767.98px) {
   .button-block:has(> .btn--full-mobile) {
     width: 100%;
@@ -2057,48 +1834,7 @@ textarea.form-control {
     width: 100%;
   }
 
-  .btn--full-mobile.btn--icon-solid {
-    justify-content: space-between;
-  }
 }
-
-@media (hover: hover) and (pointer: fine) {
-  [class*=btn--]:not(.btn--icon-solid, .btn--icon-solid-desktop, .button-unstyled):hover::before {
-    width: calc(100% + var(--button-border-thickness, 0.1rem) * 2);
-  }
-
-  .btn--primary:not(.btn--icon-solid, .btn--icon-solid-desktop):hover {
-    color: rgb(var(--color-primary-button-background));
-  }
-
-  .btn--white:not(.btn--icon-solid, .btn--icon-solid-desktop):hover {
-    color: rgb(var(--color-white));
-  }
-
-  .btn--secondary:not(.btn--icon-solid, .btn--icon-solid-desktop):hover {
-    color: rgb(var(--color-primary-button-text));
-    border-color: rgb(var(--color-primary-button-background));
-  }
-
-  .btn--outline:not(.btn--icon-solid, .btn--icon-solid-desktop):hover {
-    color: rgb(var(--color-primary-button-text));
-  }
-
-  .btn--icon-solid:hover .btn__icon,
-  .btn--icon-solid-desktop:hover .btn__icon {
-    clip-path: circle(150% at calc(100% - var(--icon-solid-size) - var(--button-padding-inline-end)) 50%);
-  }
-
-  .btn--icon-solid:hover .icon:not(.spinner),
-  .btn--icon-solid-desktop:hover .icon:not(.spinner) {
-    animation: slideInOut 1s infinite;
-  }
-
-  .btn--plain:hover .btn__text::after {
-    inset-inline: 0 auto;
-    width: 100%;
-  }
-} */
 
 
 /* ========================================*/
