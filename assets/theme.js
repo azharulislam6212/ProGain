@@ -5,6 +5,7 @@
 import { ThemeEvents } from '@theme/events';
 import { requestIdleCallback } from "@theme/utilities";
 import { initScrollbarWidth } from '@theme/scrollbar';
+import { initButtons } from '@theme/components';
 // ------------------------
 // Theme loader
 // ------------------------
@@ -49,7 +50,8 @@ class Theme {
   }
 
    initGlobalModules() {      
-    initScrollbarWidth();      
+    initScrollbarWidth();     
+      initButtons(); 
   }
 
   // ------------------------
@@ -68,6 +70,8 @@ class Theme {
         .then(m => m.default && new m.default(section))
         .catch(err => console.error('Section Product Form Failed', err));
     }
+
+      initButtons(section);
 
   }
 
@@ -103,48 +107,3 @@ theme.start();
 // Expose globally
 window.Theme = theme;
 window.ThemeEvents = ThemeEvents;
-
-
-
- 
- 
-
- document.addEventListener("DOMContentLoaded", () => {
-
-  const init = (root = document) => {
-    root.querySelectorAll(".btn").forEach(btn => {
-      if (btn.classList.contains("is-ready")) return;
-      if (!btn.classList.contains("btn--plain")) {
-      const el = btn.querySelector(".btn__content");
-      const textEl = el?.querySelector(".btn__text");
-      if (!el) return;
-      const iconEl = el.querySelector(".btn__icon");
-      const icon = iconEl?.querySelector("svg")?.outerHTML || "";
-      btn.insertAdjacentHTML("beforeend", `
-        <span class="btn__hover">
-          <span class="btn__hover-circle">
-            ${textEl ? `<span class="btn__hover-text">${textEl.textContent}</span>` : ""}
-            ${icon ? `<span class="btn__hover-icons">
-              <span class="btn__hover-icon">${icon}</span>
-              <span class="btn__hover-icon">${icon}</span>
-            </span>` : ""}
-          </span>
-        </span>
-      `);
-       }
-      btn.classList.add("is-ready");
-    });
-  };
-
-
-  init();
-
-  new MutationObserver(m =>
-    m.forEach(x =>
-      x.addedNodes.forEach(n =>
-        n.nodeType === 1 && init(n)
-      )
-    )
-  ).observe(document.body, { childList: true, subtree: true });
-
-});
