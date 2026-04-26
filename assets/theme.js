@@ -37,7 +37,7 @@ class Theme {
     }
 
     // Cart drawer module
-    if (this.cartType === 'drawer') {
+    if (this.cartType === 'drawer' && this.template !== 'cart' ) { 
       loaders.push(
         import('@theme/cart-drawer')
           .then(m => m.default && new m.default())
