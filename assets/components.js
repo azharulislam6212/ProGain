@@ -2,7 +2,7 @@ export function initButtons(root = document) {
   root.querySelectorAll(".btn").forEach(btn => {
     if (btn.classList.contains("is-ready")) return;
 
-    if (!btn.classList.contains("btn--plain")) {
+    if (btn.classList.contains("btn--icon-only") || btn.classList.contains("btn--solid-icon")  || btn.classList.contains("btn--default-icon") || btn.classList.contains("btn--icon-none")) {
       const el = btn.querySelector(".btn__content");
       const textEl = el?.querySelector(".btn__text");
       if (!el) return;

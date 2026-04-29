@@ -36,7 +36,7 @@
    </a>
 
 
-     <a href="" class="btn btn--primary btn--solid-icon btn--icon-left">
+     <a href="" class="btn btn--primary btn--solid-icon btn--icon-start">
 
   <span class="btn__content">
     
@@ -54,7 +54,7 @@
 
 
 
-     <a href="" class="btn btn--secondary btn--solid-icon btn--icon-left btn--icon-diagonal">
+     <a href="" class="btn btn--secondary btn--solid-icon btn--icon-start btn--icon-diagonal">
   <span class="btn__content">
      <span class="btn__icon">
     <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"    viewBox="0 0 256 256">
@@ -78,7 +78,7 @@
     <span class="btn__icon"> <svg viewBox="0 0 23 19"> <polygon fill="currentColor" points="13.5,18.7 12.1,17.3 18.9,10.5 0.3,10.5 0.3,8.5 18.9,8.5 12.1,1.7 13.5,0.3 22.7,9.5 "></polygon> </svg> </span>
   </span>
    </a>
-<a href="" class="btn btn--primary btn--default-icon btn--icon-left">
+<a href="" class="btn btn--primary btn--default-icon btn--icon-start">
   <span class="btn__content">
        <span class="btn__icon"> <svg viewBox="0 0 23 19"> <polygon fill="currentColor" points="13.5,18.7 12.1,17.3 18.9,10.5 0.3,10.5 0.3,8.5 18.9,8.5 12.1,1.7 13.5,0.3 22.7,9.5 "></polygon> </svg> </span>
     <span class="btn__text">See our companies </span>
@@ -98,15 +98,26 @@
 
 
 <a href="" class="btn btn--primary btn--icon-none">
+ 
   <span class="btn__content">
     <span class="btn__text">See our companies dsdf sfsdf</span>
  </span>
    </a>
 
-   {% comment %} btn--icon-left btn--icon-diagonal btn--plain {% endcomment %}
+
+
+
+<a href="" class="btn btn--primary">
+ 
+  <span class="btn__content">
+    <span class="btn__text">See our companies dsdf sfsdf</span>
+ </span>
+   </a>
+
 
    
-   <a href="" class="btn btn--primary-outline  btn--solid-icon  btn--icon-left">
+   
+   <a href="" class="btn btn--primary-outline  btn--solid-icon  btn--icon-start">
         <span class="btn__content">
           <span class="btn__icon"> <svg width="23" height="19" viewBox="0 0 23 19"> <polygon fill="currentColor" points="13.5,18.7 12.1,17.3 18.9,10.5 0.3,10.5 0.3,8.5 18.9,8.5 12.1,1.7 13.5,0.3 22.7,9.5 "></polygon> </svg> </span>
           <span class="btn__text">See our companies dsdf sfsdf</span>
@@ -146,6 +157,22 @@
       </span>
     </span>
   </span> {% endcomment %}
+
+
+{% render 'button',
+  tag: 'a',
+  button_label: section.settings.button_label,
+  button_link: section.settings.button_link,
+  button_style: section.settings.button_style,
+  button_size: section.settings.button_size,
+  button_icon: section.settings.button_icon,
+  icon_only: section.settings.icon_only,
+  icon_style: section.settings.icon_style,
+  icon_align: section.settings.icon_align
+%}
+
+
+ 
  
 <input type="text" class="form-control" placeholder="Email address">
  
@@ -177,9 +204,21 @@
   "tag": "section",
   "class": "section",
   "settings": [
+    {
+        "type": "text",
+        "id": "button_label",
+        "label": "Button label",
+        "default": "Button label"
+      },
+   {
+        "type": "url",
+        "id": "button_link",
+        "label": "Button link"
+      },
+
       {
         "type": "select",
-        "id": "primary_button_style",
+        "id": "button_style",
         "label": "Style",
         "options": [
           {
@@ -207,15 +246,15 @@
       },
       {
         "type": "select",
-        "id": "primary_button_size",
+        "id": "button_size",
         "label": "Size",
         "options": [
           {
-            "value": "extra_small",
+            "value": "extra-small",
             "label": "Extra small"
           },
           {
-            "value": "samll",
+            "value": "small",
             "label": "Small"
           },
           {
@@ -231,12 +270,16 @@
       },
       {
         "type": "select",
-        "id": "primary_button_icon",
+        "id": "button_icon",
         "label": "Icon",
         "options": [
           {
             "value": "none",
             "label": "None"
+          },
+          {
+            "value": "caret",
+            "label": "Caret"
           },
           {
             "value": "arrow",
@@ -259,19 +302,19 @@
             "label": "Diagonal arrow"
           }
         ],
-        "default": "none"
+        "default": "caret"
       },
       
       {
         "type": "checkbox",
-        "id": "primary_icon_only",
+        "id": "icon_only",
         "label": "Icon only",
         "default": false,
-         "visible_if": "{{ section.settings.primary_button_icon != 'none'}}"
+         "visible_if": "{{ section.settings.button_icon != 'none'}}"
       },
         {
         "type": "select",
-        "id": "primary_icon_style",
+        "id": "icon_style",
         "label": "Icon style",
         "options": [
           {
@@ -284,12 +327,12 @@
           }
         ],
         "default": "solid",
-         "visible_if": "{{ section.settings.primary_button_icon != 'none'}}"
+         "visible_if": "{{ section.settings.button_icon != 'none'}}"
       },
       {
         "type": "select",
-        "id": "primary_icon_position",
-        "label": "Icon position",
+        "id": "icon_align",
+        "label": "Icon align",
         "options": [
           {
             "value": "start",
@@ -301,7 +344,7 @@
           }
         ],
         "default": "start",
-              "visible_if": "{{ section.settings.primary_button_icon != 'none'}}"
+              "visible_if": "{{ section.settings.button_icon != 'none'}}"
    
       },
     {
