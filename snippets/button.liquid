@@ -16,6 +16,7 @@ All parameters are OPTIONAL except content.
   @param {boolean} [icon_only]         - Icon only mode
   @param {string} [icon_style]         - Icon style
   @param {string} [icon_align]         - Icon alignment (start | end)
+  @param {string} [plain_icon_align]         - Icon alignment (start | end)
   @param {string} [aria_label]         - Custom aria-label
   @param {boolean} [button_disabled]   - Disabled state (button only)
   @param {string} [button_form]        - Form ID (button only)
@@ -33,12 +34,17 @@ btn
 {% if button_class != blank %} {{ button_class }}{% endif %}
 {% if button_style != blank %} btn--{{ button_style }}{% endif %}
 {% if button_size != blank %} btn--{{ button_size }}{% endif %}
+{% if button_icon == 'none' and icon_style != blank and button_style != 'plain' %} btn--icon-{{ button_icon }}{% endif %}
+{% if button_icon != 'none' and icon_style != blank and button_style != 'plain' %} btn--icon-{{ icon_style }}{% endif %}
+{% if button_icon != 'none' and icon_only and button_style != 'plain' %} btn--icon-only{% endif %}
+{% if button_icon != 'none' and icon_align != blank and icon_only == false %} btn--icon-{{ icon_align }}{% endif %}
+{% if button_icon contains "diagonal-arrow" %} btn--icon-diagonal {% endif %}
+{% if button_icon != 'none' and plain_icon_align != blank and button_style == 'plain' %} btn--icon-{{ plain_icon_align }}{% endif %}
 
-{% if button_icon != 'none' and icon_style != blank %} btn--{{ icon_style }}-icon{% endif %}
-{% if button_icon != 'none' and icon_only %} btn--icon-only{% endif %}
-{% if button_icon != 'none' and icon_align != blank %} btn--icon-{{ icon_align }}{% endif %}
+
 {% endcapture %}
 
+ 
 <{{ tag }}
   class="{{ classes | strip | replace: '  ', ' ' | replace: '  ', ' ' }}"
 
@@ -83,19 +89,34 @@ btn
 
     {%- assign icon_file = button_icon | replace: '_', '-' | prepend: 'icon-' | append: '.svg' -%}
 
-    {% if button_icon != 'none' and icon_align contains 'start' %}
+    {% if button_icon != 'none' and icon_align contains 'start' and button_style != 'plain' %}
+      {% comment %} <span class="btn__icon" aria-hidden="true">
+        {{ icon_file | inline_asset_content }}
+      </span> {% endcomment %}
+
+      {%- render 'icon', icon: button_icon ,  size: settings.icon_size , class: 'btn__icon' -%}
+
+    {% endif %}
+
+      {% if button_icon != 'none'  and button_style == 'plain' and  plain_icon_align contains 'start'  %}
       <span class="btn__icon" aria-hidden="true">
         {{ icon_file | inline_asset_content }}
       </span>
     {% endif %}
 
-    {% unless icon_only and button_icon != 'none' %}
+    {% unless icon_only and button_icon != 'none' and button_style != 'plain'  %}
       <span class="btn__text">
         {{ button_label | default: 'Button' }}
       </span>
     {% endunless %}
 
-    {% if button_icon != 'none' and icon_align contains 'end' %}
+    {% if button_icon != 'none'  and icon_align contains 'end' and button_style != 'plain'  %}
+      <span class="btn__icon" aria-hidden="true">
+        {{ icon_file | inline_asset_content }}
+      </span>
+    {% endif %}
+
+      {% if button_icon != 'none' and button_style == 'plain' and plain_icon_align contains 'end' %}
       <span class="btn__icon" aria-hidden="true">
         {{ icon_file | inline_asset_content }}
       </span>

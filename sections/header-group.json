@@ -9,6 +9,15 @@
     "header": {
       "type": "header",
       "settings": {
+        "button_label": "Button label",
+        "button_link": "shopify:\/\/collections\/all",
+        "button_style": "primary",
+        "button_size": "large",
+        "button_icon": "diagonal-arrow",
+        "icon_only": false,
+        "icon_style": "solid",
+        "icon_align": "start",
+        "plain_icon_align": "end",
         "color_scheme": "scheme-1",
         "color_scheme_gradient": "scheme-2"
       }

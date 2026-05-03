@@ -1842,22 +1842,12 @@
       {
         "type": "range",
         "id": "button_height",
-        "min": 48,
+        "min": 40,
         "max": 80,
         "step": 1,
         "unit": "px",
         "label": "t:settings.height",
-        "default": 64
-      },
-      {
-        "type": "range",
-        "id": "button_height_mobile",
-        "min": 40,
-        "max": 60,
-        "step": 1,
-        "unit": "px",
-        "label": "t:settings.mobile_height",
-        "default": 48
+        "default": 56
       },
       {
         "type": "range",
@@ -1919,7 +1909,7 @@
         "label": "t:settings.button_text_case",
         "options": [
           {
-            "value": "default",
+            "value": "none",
             "label": "t:options.default"
           },
           {
@@ -1927,7 +1917,7 @@
             "label": "t:options.uppercase"
           }
         ],
-        "default": "default"
+        "default": "none"
       },
       {
         "type": "range",
@@ -1989,7 +1979,7 @@
         "label": "t:settings.button_text_case",
         "options": [
           {
-            "value": "default",
+            "value": "none",
             "label": "t:options.default"
           },
           {
@@ -1997,7 +1987,7 @@
             "label": "t:options.uppercase"
           }
         ],
-        "default": "default"
+        "default": "none"
       },
       {
         "type": "range",
@@ -2082,9 +2072,28 @@
           {
             "value": "large",
             "label": "Large"
+          },
+          {
+            "value": "extra-large",
+            "label": "Extra large"
+          },
+          {
+            "value": "custom",
+            "label": "Custom"
           }
         ],
         "default": "medium"
+      },
+       {
+        "type": "range",
+        "id": "icon_custom_size",
+        "min": 12,
+        "max": 30,
+        "step": 1,
+        "unit": "px",
+        "label": "Custom size",
+        "visible_if": "{{  settings.icon_size == 'custom' }}",
+        "default": 18
       }
     ]
   },

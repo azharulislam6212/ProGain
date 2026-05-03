@@ -637,9 +637,12 @@
 
       /* Icon Size */
       --icon-xs: 1.36rem;      
-      --icon-sm: 2rem;        
-      --icon-md: 2.2rem;      
-      --icon-lg: 2.4rem;     
+      --icon-sm: 1.6rem;        
+      --icon-md: 2rem;      
+      --icon-lg: 2.4rem;   
+      --icon-xlg: 2.8rem;     
+      --icon-custom-size: {{ settings.icon_custom_size | divided_by: 10.0 | append: 'rem'}};     
+      --icon-custom-size-mobile: {{ settings.icon_custom_size | times: 0.75 | divided_by: 10.0 | append: 'rem'}};
 
       /* Icon Stroke */
       --icon-stroke: {% if settings.icon_stroke == 'thin' %}1px{% elsif settings.icon_stroke == 'heavy' %}2px{% else %}1.5px{% endif %};

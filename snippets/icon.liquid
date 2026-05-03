@@ -1,4 +1,27 @@
-{%- capture class -%}icon icon-{{ icon | handle }} icon-{{ size | default: 'md' }}{% if class != blank %} {{ class }}{% endif %}{%- endcapture -%}
-{%- case icon -%}
+    
+{%- doc -%}
+    Reusable Icon Component
+    Renders an inline SVG icon.
 
-{%- endcase -%}
+    Parameters:
+    @param {string} icon      - Icon name (e.g. 'chevron-left')
+    @param {string} [size]    - Size class (default: 'medium')
+    @param {string} [class]   - Additional classes
+
+    Example:
+    {%- render 'icon', icon: 'chevron-left', size: 'medium' -%}
+
+    Notes:
+    - Loads: icon-{{ icon }}.svg from assets
+    - Uses inline SVG
+    - aria-hidden="true" 
+{%- enddoc -%}
+ 
+    {%- capture class -%}icon icon-{{ icon | handle }} icon--{{ size | default: 'medium' }}{% if class != blank %} {{ class }}{% endif %}{%- endcapture -%}
+    {%- assign icon_file = icon | replace: '_', '-' | prepend: 'icon-' | append: '.svg' -%}
+    {%- if icon != blank -%}
+      <span class="{{ class }}" aria-hidden="true">
+        {{ icon_file | inline_asset_content }}
+      </span>
+    {%- endif -%}
+ 

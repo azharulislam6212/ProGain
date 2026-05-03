@@ -5,11 +5,14 @@
     "type_size_paragraph": "16",
     "page_width": "var(--page-width-custom)",
     "custom_width": 1440,
-    "button_height": 56,
-    "button_height_mobile": 48,
+    "button_height": 48,
+    "button_padding_block": 8,
     "button_padding_inline": 24,
     "type_font_button_primary": "body",
+    "button_border_radius_primary": 60,
     "input_height": 56,
+    "cart_type": "drawer",
+    "button_height_mobile": 48,
     "content_for_index": [],
     "color_schemes": {
       "scheme-1": {
