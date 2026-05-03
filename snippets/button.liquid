@@ -79,10 +79,11 @@ btn
 >
 
   {% if loader %}
-    <span class="loading-spinner" aria-hidden="true">
-      {{ 'loading-spinner.svg' | inline_asset_content }}
+    <span class="loading-spinner hidden" aria-hidden="true">
+      {%- render 'icon', icon: 'spinner' ,  size: settings.icon_size  -%}
+      <span class="visually-hidden" role="status">Loading...</span>
     </span>
-    <span class="visually-hidden" role="status">Loading...</span>
+
   {% endif %}
 
   <span class="btn__content">
@@ -90,12 +91,10 @@ btn
     {%- assign icon_file = button_icon | replace: '_', '-' | prepend: 'icon-' | append: '.svg' -%}
 
     {% if button_icon != 'none' and icon_align contains 'start' and button_style != 'plain' %}
-      {% comment %} <span class="btn__icon" aria-hidden="true">
-        {{ icon_file | inline_asset_content }}
-      </span> {% endcomment %}
-
-      {%- render 'icon', icon: button_icon ,  size: settings.icon_size , class: 'btn__icon' -%}
-
+       <span class="btn__icon">
+        {%- render 'icon', icon: button_icon ,  size: settings.icon_size  -%}
+      </span>  
+ 
     {% endif %}
 
       {% if button_icon != 'none'  and button_style == 'plain' and  plain_icon_align contains 'start'  %}
@@ -111,15 +110,17 @@ btn
     {% endunless %}
 
     {% if button_icon != 'none'  and icon_align contains 'end' and button_style != 'plain'  %}
-      <span class="btn__icon" aria-hidden="true">
-        {{ icon_file | inline_asset_content }}
-      </span>
+       <span class="btn__icon">
+        {%- render 'icon', icon: button_icon ,  size: settings.icon_size  -%}
+      </span>  
+ 
     {% endif %}
 
       {% if button_icon != 'none' and button_style == 'plain' and plain_icon_align contains 'end' %}
-      <span class="btn__icon" aria-hidden="true">
-        {{ icon_file | inline_asset_content }}
-      </span>
+       <span class="btn__icon">
+        {%- render 'icon', icon: button_icon ,  size: settings.icon_size  -%}
+      </span>  
+ 
     {% endif %}
 
   </span>

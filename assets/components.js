@@ -7,15 +7,14 @@ export function initButtons(root = document) {
       const textEl = el?.querySelector(".btn__text");
       if (!el) return;
       const iconEl = el.querySelector(".btn__icon");
-      const iconClasses = iconEl ? [...iconEl.classList].filter(c => c !== "btn__icon").join(" ") : "";
-      const icon = iconEl?.querySelector("svg")?.outerHTML || "";
+      const icon = iconEl?.querySelector(".icon")?.outerHTML || "";
       btn.insertAdjacentHTML("beforeend", `
         <span class="btn__hover">
           <span class="btn__hover-circle">
             ${textEl ? `<span class="btn__hover-text">${textEl.textContent}</span>` : ""}
             ${icon ? `<span class="btn__hover-icons">
-              <span class="btn__hover-icon ${iconClasses}">${icon}</span>
-              <span class="btn__hover-icon ${iconClasses}">${icon}</span>
+              <span class="btn__hover-icon">${icon}</span>
+              <span class="btn__hover-icon">${icon}</span>
             </span>` : ""}
           </span>
         </span>
@@ -33,3 +32,7 @@ export function initCards(root = document) {
 export function initModals(root = document) {
   // modal logic
 }
+
+
+
+ 

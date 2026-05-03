@@ -250,7 +250,7 @@
 
     /* Typography presets */
     {% liquid
-      assign font_sizes = "paragraph, h1, h2, h3, h4, h5, h6" | split: ", "
+      assign font_sizes = "paragraph, h1, h2, h3, h4, h5, h6, pcard_title, pcard_price, pcard_badge, navigation" | split: ", "
       assign fluid_size_cutoff = 48
       assign absolute_font_size_min = 10
 
@@ -326,7 +326,7 @@
         endif
       endfor
 
-      assign type_presets = "paragraph, h1, h2, h3, h4, h5, h6" | split: ", "
+      assign type_presets = "paragraph, h1, h2, h3, h4, h5, h6, pcard_title, pcard_price, pcard_badge, navigation" | split: ", "
 
       for preset_name in type_presets
         assign preset_size = '--font-size--[preset_name]' | replace: '[preset_name]', preset_name
@@ -370,6 +370,7 @@
     --color-white-rgb: {{ settings.white_color.rgb }};
     --color-black: rgb({{ settings.black_color.rgba }});
     --color-info: rgb({{ settings.info_color.rgba }});
+    --color-warning: rgb({{ settings.warning_color.rgba }});
     --color-instock: rgb({{ settings.instock_color.rgba }});
     --color-lowstock: rgb({{ settings.lowstock_color.rgba }});
     --color-outofstock: rgb({{ settings.outofstock_color.rgba }});
@@ -394,6 +395,8 @@
     --color-swatches-border: rgb({{ settings.swatches_border.rgba }});
     --color-swatches-active-border: rgb({{ settings.swatches_active_border.rgba }});
 
+    --color-badge-text: rgb(var(--color-background-rgb));
+    --color-badge-background: rgb(var(--color-foreground-rgb));
     --color-new-badge-background: rgb({{ settings.new_badge_background.rgba }});
     --color-new-badge-text: rgb({{ settings.new_badge_text_color.rgba }});
     --color-hot-badge-background: rgb({{ settings.hot_badge_background.rgba }});
@@ -589,6 +592,7 @@
         /* Button Borders radius */
         --button-radius-primary: {{ settings.button_border_radius_primary | divided_by: 10.0 | append: 'rem'}};
         --button-radius-secondary: {{ settings.button_border_radius_secondary | divided_by: 10.0 | append: 'rem'}};
+        --badge-corner-radius: {{ settings.badge_border_radius | divided_by: 10.0 | append: 'rem'}};
 
        
 
