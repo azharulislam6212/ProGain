@@ -2,6 +2,7 @@
 <script type="importmap">
   {
     "imports": {
+      "@theme/module-manager": "{{ 'module-manager.js' | asset_url }}",
       "@theme/events": "{{ 'events.js' | asset_url }}",
       "@theme/utilities": "{{ 'utilities.js' | asset_url }}",
       "@theme/components": "{{ 'components.js' | asset_url }}",
@@ -18,6 +19,7 @@
   }
 </script>
 
+<link rel="modulepreload" href="{{ 'module-manager.js' | asset_url }}" fetchpriority="low">
 <link rel="modulepreload" href="{{ 'events.js' | asset_url }}" fetchpriority="low">
 <link rel="modulepreload" href="{{ 'utilities.js' | asset_url }}" fetchpriority="low">
 <link rel="modulepreload" href="{{ 'scrollbar.js' | asset_url }}" fetchpriority="low">
@@ -30,6 +32,7 @@
 <link rel="modulepreload" href="{{ 'SplitText.js' | asset_url }}" fetchpriority="low">
 <link rel="modulepreload" href="{{ 'TextPlugin.js' | asset_url }}" fetchpriority="low">
 <link rel="modulepreload" href="{{ 'lenis.js' | asset_url }}" fetchpriority="low">
+
 
 <script>
 window.__THEME__ = {

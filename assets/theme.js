@@ -2,10 +2,12 @@
 // Core modules (always needed) 
 // ------------------------
 
+import ModuleManager from '@theme/module-manager';
 import { ThemeEvents } from '@theme/events';
 import { requestIdleCallback } from "@theme/utilities";
 import { initScrollbarWidth } from '@theme/scrollbar';
 import { initButtons } from '@theme/components';
+
 // ------------------------
 // Theme loader
 // ------------------------
@@ -14,11 +16,25 @@ class Theme {
     this.config = window.__THEME__ || {};
     this.template = this.config?.template?.name || null;
     this.cartType = this.config?.cartType || 'page';
+    this.modules = new ModuleManager(); 
   }
 
   // ------------------------
-  // Load template-specific modules
+  // Template modules
   // ------------------------
+
+    initTemplateModules() {
+    if (this.template === 'product') {
+      this.modules.load('variant-picker', () => import('@theme/variant-picker'));
+      this.modules.load('product-form', () => import('@theme/product-form'));
+    }
+
+    if (this.cartType === 'drawer' && this.template !== 'cart') {
+      this.modules.load('cart-drawer', () => import('@theme/cart-drawer'));
+    }
+  }
+
+
   async initTemplateModules() {
     const loaders = [];
 
@@ -49,51 +65,71 @@ class Theme {
     await Promise.allSettled(loaders);
   }
 
+  // ------------------------
+  // Global modules
+  // ------------------------
+
    initGlobalModules() {      
     initScrollbarWidth();     
-      initButtons(); 
+    initButtons(); 
   }
 
   // ------------------------
-  // Section-specific modules
+  // Section modules
   // ------------------------
+
   initSection(section) {
     if (!section) return;
 
-    // Product form always
-    if (typeof window.initProductForms === 'function') window.initProductForms(section);
+    const id = section.dataset.sectionId;
 
-    // Featured collection
+    // Prevent duplicate init
+    if (section.dataset.initialized) return;
+    section.dataset.initialized = 'true';
+
     if (section.dataset.section === 'featured-collection') {
-     
-      import('@theme/product-form')
-        .then(m => m.default && new m.default(section))
-        .catch(err => console.error('Section Product Form Failed', err));
+      this.modules.load(
+        `product-form-${id}`,
+        () => import('@theme/product-form'),
+        section
+      );
     }
 
-      initButtons(section);
-
+    initButtons(section);
   }
+
+
+    destroySection(section) {
+    if (!section) return;
+    const id = section.dataset.sectionId;
+    this.modules.unload(`product-form-${id}`);
+    delete section.dataset.initialized;
+  }
+
+
 
   // ------------------------
   // Initialize theme
   // ------------------------
   start() {
-
-     const init = () => {
+    const init = () => {
       this.initTemplateModules();
       this.initGlobalModules();
     };
-    // DOM ready
+
     if (document.readyState !== 'loading') {
-            init();
+      init();
     } else {
-      document.addEventListener('DOMContentLoaded', () => init());
+      document.addEventListener('DOMContentLoaded', init);
     }
 
-    // Shopify section hydration
-    document.addEventListener('shopify:section:load', (event) =>{
-       this.initSection(event.target);
+    // Shopify lifecycle
+    document.addEventListener('shopify:section:load', (e) => {
+      this.initSection(e.target);
+    });
+
+    document.addEventListener('shopify:section:unload', (e) => {
+      this.destroySection(e.target);
     });
   }
 }

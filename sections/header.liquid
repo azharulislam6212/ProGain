@@ -51,6 +51,18 @@
 
 
 
+
+ 	<div class="imager-wrapper" style="  display:flex; gap: 30px;" >
+{% for i in (1..5) %}
+    
+        {% assign slideshow_index = forloop.index | modulo: 3 | plus: 1 %} 
+			{{ 'hero-apparel-' | append: slideshow_index | placeholder_svg_tag: 'placeholder-svg' }} 
+    
+							 
+{%- endfor -%}
+</div>
+
+
 <input type="text" class="form-control" placeholder="Email address">
 
 <div class="select">

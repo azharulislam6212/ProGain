@@ -5354,6 +5354,8 @@ body:has(.sticky-add-to-cart__wrapper[data-sticky=true]) .scroll-to-top {
 /* ========================================*/
 
 
+
+
 /* Hover image scale */
 .media-hover--scale .media-hover__element {
   scale: var(--hover-scale-x, 1) var(--hover-scale-y, 1);
