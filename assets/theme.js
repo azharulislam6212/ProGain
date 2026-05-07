@@ -35,36 +35,6 @@ class Theme {
   }
 
 
-  async initTemplateModules() {
-    const loaders = [];
-
-    // Product page modules
-    if (this.template === 'product') {
-      loaders.push(
-        import('@theme/variant-picker')
-          .then(m => m.default && new m.default())
-          .catch(err => console.error('Variant Picker Failed', err))
-      );
-      loaders.push(
-        import('@theme/product-form')
-          .then(m => m.default && new m.default())
-          .catch(err => console.error('Product Form Failed', err))
-      );
-    }
-
-    // Cart drawer module
-    if (this.cartType === 'drawer' && this.template !== 'cart' ) { 
-      loaders.push(
-        import('@theme/cart-drawer')
-          .then(m => m.default && new m.default())
-          .catch(err => console.error('Cart Drawer Failed', err))
-      );
-    }
-
-    // Run all modules independently (non-blocking)
-    await Promise.allSettled(loaders);
-  }
-
   // ------------------------
   // Global modules
   // ------------------------
@@ -88,11 +58,7 @@ class Theme {
     section.dataset.initialized = 'true';
 
     if (section.dataset.section === 'featured-collection') {
-      this.modules.load(
-        `product-form-${id}`,
-        () => import('@theme/product-form'),
-        section
-      );
+      this.modules.load( `product-form-${id}`, () => import('@theme/product-form'), section);
     }
 
     initButtons(section);
@@ -105,7 +71,6 @@ class Theme {
     this.modules.unload(`product-form-${id}`);
     delete section.dataset.initialized;
   }
-
 
 
   // ------------------------

@@ -52,12 +52,80 @@
 
 
 
+<div class="page-width">
+
+
+
+<div  style="max-width: 418.75px;">
+
+
+
+{%- liquid
+  assign section_settings = section.settings
+  assign image = section_settings.image
+ 
+   if image != blank and section_settings.image_ratio == 'auto'
+    assign ratio = image.aspect_ratio | default: 1
+
+  elsif section_settings.image_ratio != blank and section_settings.image_ratio != 'auto'
+    assign ratio = section_settings.image_ratio
+
+  elsif image != blank
+    assign ratio = image.aspect_ratio | default: 1
+
+  else
+    assign ratio = 1
+  endif
+
+
+-%}
+
+{%- assign widths = '360, 535, 720, 940, 1070, 1200, 1500, 1780, 2000, 2400, 2800, 3200' -%}
+
+{%- capture sizes -%}
+  (min-width: 1100px) calc((100vw - 128px)), calc((100vw - 40px))
+{%- endcapture -%}
+
+<div 
+  class="media relative"
+  style="--media-ratio: {{ ratio }}; --media-ratio-mobile: {{ ratio }};"
+>
+  {%- if image != blank -%}
+    {{
+      image
+      | image_url: width: image.width
+      | image_tag:
+        loading: 'lazy',
+        sizes: sizes,
+        widths: widths,
+        class: "media__img"
+    }}
+  {%- else -%}
+    {{ 'product-apparel-1' | placeholder_svg_tag: 'placeholder media__img' }}
+  {%- endif -%}
+</div>
+
+
+ 
+
+
+ 
+
+</div>
+
+
+
+
+
  	<div class="imager-wrapper" style="  display:flex; gap: 30px;" >
 {% for i in (1..5) %}
     
         {% assign slideshow_index = forloop.index | modulo: 3 | plus: 1 %} 
-			{{ 'hero-apparel-' | append: slideshow_index | placeholder_svg_tag: 'placeholder-svg' }} 
-    
+
+        <div class="media relative">
+	        {{ 'hero-apparel-' | append: slideshow_index | placeholder_svg_tag: 'placeholder' }} 
+        </div>
+		
 							 
 {%- endfor -%}
 </div>
@@ -88,6 +156,51 @@
   "tag": "section",
   "class": "section",
   "settings": [
+  	{
+			"type": "header",
+			"content": "t:content.image"
+		},
+ 	{
+			"type": "image_picker",
+			"id": "image",
+			"label": "t:options.image"
+		},
+		{
+			"type": "select",
+			"id": "image_ratio",
+			"default": "3/4",
+			"label": "t:options.aspect_ratio",
+			"options": [
+				{
+					"value": "1/1",
+					"label": "t:options.square"
+				},
+				{
+					"value": "3/2",
+					"label": "t:options.portrait_3_2"
+				},
+				{
+					"value": "3/4",
+					"label": "t:options.portrait_3_4"
+				},
+				{
+					"value": "4/3",
+					"label": "t:options.landscape_4_3"
+				},
+				{
+					"value": "16/9",
+					"label": "t:options.landscape_16_9"
+				},
+				{
+					"value": "21/9",
+					"label": "t:options.landscape_21_9"
+				},
+				{
+					"value": "auto",
+					"label": "t:options.auto"
+				}
+			]
+		},
     {
       "type": "text",
       "id": "button_label",

@@ -1,109 +1,170 @@
- 
-import { gsap } from "@theme/gsap";
-import { ScrollTrigger } from "@theme/ScrollTrigger";
-import { SplitText } from "@theme/SplitText";
-import { TextPlugin } from "@theme/TextPlugin";
+// assets/animations.js
 
+let initialized = false;
+let gsapInstance = null;
+let ScrollTrigger = null;
+let SplitText = null;
+let TextPlugin = null;
 
-gsap.registerPlugin(ScrollTrigger, SplitText, TextPlugin);
+export async function initAnimations(scope = document) {
 
- 
+  // Prevent duplicate init (full page only)
+  if (initialized && scope === document) return;
 
-class ShopifyAnimations {
-  constructor() {
-    // Directly use imported module variables
-    if (!gsap || !ScrollTrigger) {
-      console.error("GSAP or ScrollTrigger not loaded!");
-      return;
-    }
+  // ------------------------
+  // Load GSAP stack only once
+  // ------------------------
 
-    this.gsap = gsap;
-    this.ScrollTrigger = ScrollTrigger;
-    this.SplitText = SplitText; // optional
-    this.TextPlugin = TextPlugin; // optional
+  if (!gsapInstance) {
 
-    // Register plugins (if not already registered in gsap-index.js)
-    this.gsap.registerPlugin(this.ScrollTrigger, this.SplitText, this.TextPlugin);
+    const [
+      gsapModule,
+      scrollModule,
+      splitModule,
+      textModule
+    ] = await Promise.all([
+      import("@theme/gsap"),
+      import("@theme/ScrollTrigger"),
+      import("@theme/SplitText"),
+      import("@theme/TextPlugin")
+    ]);
 
-    document.addEventListener("DOMContentLoaded", () => this.init());
+    const gsap = gsapModule.default || gsapModule;
+    ScrollTrigger = scrollModule.default || scrollModule;
+
+    // ------------------------
+    // SAFE SplitText FIX
+    // ------------------------
+    const SplitRaw =
+      splitModule.default?.SplitText ||
+      splitModule.default ||
+      splitModule.SplitText ||
+      splitModule;
+
+    SplitText =
+      typeof SplitRaw === "function"
+        ? SplitRaw
+        : SplitRaw?.SplitText;
+
+    // ------------------------
+    // SAFE TextPlugin
+    // ------------------------
+    TextPlugin =
+      textModule.default || textModule;
+
+    gsap.registerPlugin(
+      ScrollTrigger,
+      SplitText,
+      TextPlugin
+    );
+
+    gsapInstance = gsap;
   }
 
-  init() {
-    this.animateScrollLazy();
-    this.animateSplitTextLazy();
-    this.animateTextPluginLazy();
-  }
+  const gsap = gsapInstance;
 
-animateScrollLazy() {
-  this.gsap.utils.toArray(".animate-scroll").forEach(el => {
-    this.gsap.from(el, {
-      y: 100,
+  // ------------------------
+  // FADE UP
+  // ------------------------
+
+  scope.querySelectorAll(".animate-fade-up").forEach((el) => {
+
+    gsap.from(el, {
+      y: 60,
       opacity: 0,
-      duration: 1.5,
+      duration: 1,
+      ease: "power3.out",
+
       scrollTrigger: {
         trigger: el,
-        start: "top 80%",
-        end: "bottom 20%",
-        scrub: true,
-        markers: false
+        start: "top 85%",
+        once: true
       }
     });
+
   });
-}
 
-  animateSplitTextLazy() {
-    if (!this.SplitText) return;
+  // ------------------------
+  // SCALE
+  // ------------------------
 
-    document.querySelectorAll(".animate-split").forEach(el => {
-      const observer = new IntersectionObserver(entries => {
-        entries.forEach(entry => {
-          if(entry.isIntersecting){
-            const split = new this.SplitText(el, { type: "chars, words" });
-            this.gsap.from(split.chars, {
-              duration: 1,
-              opacity: 0,
-              y: 20,
-              stagger: 0.05,
-              ease: "power2.out",
-              scrollTrigger: {
-                trigger: el,
-                start: "top 90%",
-                toggleActions: "play none none none"
-              }
-            });
-            observer.unobserve(entry.target);
-          }
-        });
-      }, { threshold: 0.1 });
-      observer.observe(el);
+  scope.querySelectorAll(".animate-scale").forEach((el) => {
+
+    gsap.from(el, {
+      scale: 0.8,
+      opacity: 0,
+      duration: 1,
+      ease: "power2.out",
+
+      scrollTrigger: {
+        trigger: el,
+        start: "top 85%",
+        once: true
+      }
     });
+
+  });
+
+  // ------------------------
+  // SPLIT TEXT (FIXED)
+  // ------------------------
+
+  if (SplitText) {
+
+    scope.querySelectorAll(".animate-split").forEach((el) => {
+
+      const split = new SplitText(el, {
+        type: "chars, words"
+      });
+
+      gsap.from(split.chars, {
+        opacity: 0,
+        y: 20,
+        duration: 1,
+        stagger: 0.04,
+        ease: "power2.out",
+
+        scrollTrigger: {
+          trigger: el,
+          start: "top 90%",
+          once: true
+        }
+      });
+
+    });
+
   }
 
-  animateTextPluginLazy() {
-    if (!this.TextPlugin) return;
+  // ------------------------
+  // TEXT PLUGIN
+  // ------------------------
 
-    document.querySelectorAll(".animate-text").forEach(el => {
-      const observer = new IntersectionObserver(entries => {
-        entries.forEach(entry => {
-          if(entry.isIntersecting){
-            this.gsap.to(el, {
-              duration: 3,
-              text: "This is animated text!",
-              ease: "none",
-              scrollTrigger: {
-                trigger: el,
-                start: "top 80%",
-                toggleActions: "play none none none"
-              }
-            });
-            observer.unobserve(entry.target);
-          }
-        });
-      }, { threshold: 0.1 });
-      observer.observe(el);
+  if (TextPlugin) {
+
+    scope.querySelectorAll(".animate-text").forEach((el) => {
+
+      const text = el.dataset.text || el.textContent;
+
+      gsap.to(el, {
+        duration: 2,
+        text: text,
+        ease: "none",
+
+        scrollTrigger: {
+          trigger: el,
+          start: "top 85%",
+          once: true
+        }
+      });
+
     });
+
   }
+
+  initialized = true;
 }
 
-// Initialize
-new ShopifyAnimations();
+// Init
+document.addEventListener("DOMContentLoaded", () => {
+  initAnimations();
+});

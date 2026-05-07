@@ -5353,18 +5353,122 @@ body:has(.sticky-add-to-cart__wrapper[data-sticky=true]) .scroll-to-top {
 /* MEDIA                                   */
 /* ========================================*/
 
+/* Placeholder SVG */
+svg.placeholder {
+  background-color: rgb(var(--color-foreground-rgb)/10%);
+  fill: rgb(var(--color-foreground-rgb)/25%);
+  color: rgb(var(--color-foreground-rgb)/25%);
+  display: block;
+  width: 100%;
+  height: 100%;
+}
 
+/* Media */
+.media {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: var(--media-ratio);
+  background-color: rgb(var(--color-foreground-rgb) / 5%);
+}
+
+
+/* mobile ratio override */
+@media (max-width: 767.98px) {
+  .media {
+    aspect-ratio: var(--media-ratio-mobile, var(--media-ratio));
+  }
+}
+
+.media__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+
+/* =========================
+   STATE
+========================= */
+.media.is-loading .media__img:not(.media__img--placeholder) {
+  opacity: 0;
+}
+
+.media.is-loaded {
+  background-color: transparent;
+  transition: background-color var(--animation-duration--medium) var(--animation-easing) 0.4s;
+}
+
+.media__img {
+  transition: opacity var(--animation-duration--medium) var(--animation-easing), transform var(--animation-duration--medium) var(--animation-easing);
+}
+
+/* Fade (default smooth reveal) */
+.media--fade.is-loaded .media__img {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Zoom-in reveal */
+.media--zoom-in .media__img {
+  transform: scale(1.1);
+}
+.media--zoom-in.is-loaded .media__img {
+  transform: scale(1);
+  opacity: 1;
+}
+
+/* Zoom-out reveal */
+.media--zoom-out .media__img {
+  transform: scale(0.9);
+}
+.media--zoom-out.is-loaded .media__img {
+  transform: scale(1);
+  opacity: 1;
+}
+
+/* Slide-up reveal */
+.media--slide-up .media__img {
+  transform: translateY(20px);
+}
+.media--slide-up.is-loaded .media__img {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* Blur reveal (cinematic style 🎬) */
+.media--blur .media__img {
+  filter: blur(10px);
+}
+.media--blur.is-loaded .media__img {
+  filter: blur(0);
+  opacity: 1;
+}
+
+
+body:not(.animations-enabled) .media .media__img:not(svg.placeholder) {
+  opacity: 1;
+  transform: translateZ(0) scale(1);
+  transition: none;
+  will-change: auto;
+}
+body:not(.animations-enabled) .media.is-loaded .media__img:not(svg.placeholder) {
+  opacity: 1;
+  transform: translateZ(0) scale(1);
+}
 
 
 /* Hover image scale */
 .media-hover--scale .media-hover__element {
-  scale: var(--hover-scale-x, 1) var(--hover-scale-y, 1);
-  transition: scale var(--animation-duration--slow) var(--animation-easing--smooth), opacity var(--animation-duration--medium) var(--animation-easing);
-  object-position: center center;
+  transform: scale(var(--hover-scale-x, 1), var(--hover-scale-y, 1));
+  transition: transform var(--animation-duration--slow) var(--animation-easing--smooth), opacity var(--animation-duration--medium) var(--animation-easing);
+  object-position: center;
+  will-change: transform;
 }
 
-@media screen and (pointer: fine) {
-  .media-hover--scale:hover {
+/* Only apply hover on devices that actually hover */
+@media (hover: hover) and (pointer: fine) {
+  .media-hover--scale:hover .media-hover__element {
     --hover-scale-x: 1.05;
     --hover-scale-y: 1.05;
   }

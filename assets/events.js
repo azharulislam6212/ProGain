@@ -74,3 +74,179 @@ export const ThemeEvents = {
         }
     }
 };
+
+
+
+// export class ThemeEvents {
+//   static variantSelected="variant:selected";
+//   static variantUpdate="variant:update";
+//   static cartUpdate="cart:update";
+//   static cartError="cart:error";
+//   static cartGroupedSections="cart:grouped-sections";
+//   static mediaStartedPlaying="media:started-playing";
+//   static modelInteraction="model:interaction";
+//   static quantitySelectorUpdate="quantity-selector:update";
+//   static discountUpdate="discount:update";
+//   static FilterUpdate="filter:update";
+//   static pageTransitionStart="page:transition:start";
+//   static pageTransitionEnd="page:transition:end";
+//   static pageLoaded="page:loaded"
+// }
+
+// export class VariantSelectedEvent extends Event {
+//   constructor(resource) {
+//     super(ThemeEvents.variantSelected, {
+//       bubbles:  !0
+//     }
+//     ),
+//     this.detail= {
+//       resource
+//     }
+//   }
+// }
+
+// export class VariantUpdateEvent extends Event {
+//   constructor(resource, sourceId, data) {
+//     super(ThemeEvents.variantUpdate, {
+//       bubbles:  !0
+//     }
+//     ),
+//     this.detail= {
+//       resource:resource||null,
+//       sourceId,
+//       data: {
+//         html: data.html, productId:data.productId, newProduct:data.newProduct, fromCache:data.fromCache, isBackgroundSync:data.isBackgroundSync
+//       }
+//     }
+//   }
+// }
+
+// export class CartAddEvent extends Event {
+//   constructor(resource, sourceId, data) {
+//     super(CartAddEvent.eventName, {
+//       bubbles:  !0
+//     }
+//     ),
+//     this.detail= {
+//       resource,
+//       sourceId,
+//       data: {
+//         ...data,
+//         isIncremental:  !0
+//       }
+//     }
+//   }
+//   static eventName=ThemeEvents.cartUpdate
+// }
+
+// export class CartUpdateEvent extends Event {
+//   constructor(resource, sourceId, data) {
+//     super(ThemeEvents.cartUpdate, {
+//       bubbles:  !0
+//     }
+//     ),
+//     this.detail= {
+//       resource,
+//       sourceId,
+//       data: {
+//         ...data,
+//         isIncremental:  !1
+//       }
+//     }
+//   }
+// }
+
+// export class CartErrorEvent extends Event {
+//   constructor(sourceId, message) {
+//     super(ThemeEvents.cartError, {
+//       bubbles:  !0
+//     }
+//     ),
+//     this.detail= {
+//       sourceId,
+//       data: {
+//         message
+//       }
+//     }
+//   }
+// }
+
+// export class CartGroupedSections extends Event {
+//   constructor(sections) {
+//     super(CartGroupedSections.eventName, {
+//       bubbles:  !0
+//     }
+//     ),
+//     this.detail= {
+//       sections
+//     }
+//   }
+//   static eventName=ThemeEvents.cartGroupedSections
+// }
+
+// export class QuantitySelectorUpdateEvent extends Event {
+//   constructor(quantity, cartLine) {
+//     super(ThemeEvents.quantitySelectorUpdate, {
+//       bubbles:  !0
+//     }
+//     ),
+//     this.detail= {
+//       quantity,
+//       cartLine
+//     }
+//   }
+// }
+
+// export class DiscountUpdateEvent extends Event {
+//   constructor(resource, sourceId) {
+//     super(ThemeEvents.discountUpdate, {
+//       bubbles:  !0
+//     }
+//     ),
+//     this.detail= {
+//       resource,
+//       sourceId
+//     }
+//   }
+// }
+
+// export class MediaStartedPlayingEvent extends Event {
+//   constructor(resource) {
+//     super(ThemeEvents.mediaStartedPlaying, {
+//       bubbles:  !0
+//     }
+//     ),
+//     this.detail= {
+//       resource
+//     }
+//   }
+// }
+
+// export class ModelInteractionEvent extends Event {
+//   constructor(resource, isInteracting) {
+//     super(ThemeEvents.modelInteraction, {
+//       bubbles:  !0
+//     }
+//     ),
+//     this.detail= {
+//       resource,
+//       isInteracting
+//     }
+//   }
+// }
+
+// export class FilterUpdateEvent extends Event {
+//   constructor(queryParams) {
+//     super(ThemeEvents.FilterUpdate, {
+//       bubbles:  !0
+//     }
+//     ),
+//     this.detail= {
+//       queryParams
+//     }
+//   }
+//   shouldShowClearAll() {
+//     return[...this.detail.queryParams.entries()].filter(([key])=>key.startsWith("filter.")).length>0
+//   }
+// }
+ 
