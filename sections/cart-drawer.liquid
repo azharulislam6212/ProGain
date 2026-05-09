@@ -1,8 +1,36 @@
 
 
 <h2 >Cart drawer</h2>
+<overlay-opener data-target="cart-drawer" data-action="open"   class="btn btn--primary"
+  role="button"
+  tabindex="0"
+>
+ 
+    Open Cart
+ 
+</overlay-opener>
+
+<overlay-opener data-target="cart-drawer" data-action="close">
+  Close
+</overlay-opener>
+
+<overlay-opener data-target="cart-drawer">
+  Toggle
+</overlay-opener>
 
 
+
+<overlay-component data-overlay-id="cart-drawer" data-backdrop="true">
+
+  <!-- 🌑 BACKDROP (optional) -->
+  <div class="overlay-backdrop" data-backdrop-layer></div>
+
+  <!-- 🧩 CONTENT -->
+  <div data-ref="root" class="drawer">
+    Drawer content
+  </div>
+
+</overlay-component>
 {% schema %}
 {
   "name": "Cart drawer",

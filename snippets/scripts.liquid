@@ -2,32 +2,44 @@
 <script type="importmap">
   {
     "imports": {
-      "@theme/module-manager": "{{ 'module-manager.js' | asset_url }}",
+      "@theme/modules": "{{ 'modules.js' | asset_url }}",
       "@theme/utilities": "{{ 'utilities.js' | asset_url }}",
       "@theme/events": "{{ 'events.js' | asset_url }}",
-       "@theme/components": "{{ 'components.js' | asset_url }}",
+      "@theme/components": "{{ 'components.js' | asset_url }}",
       "@theme/scrollbar": "{{ 'scrollbar.js' | asset_url }}",
-      
-      "@theme/product-form": "{{ 'product-form.js' | asset_url }}",
-      "@theme/cart-drawer": "{{ 'cart-drawer.js' | asset_url }}",
-
       "@theme/swiper": "{{ 'swiper.js' | asset_url }}",
-
+      "@theme/lenis": "{{ 'lenis.js' | asset_url }}",
       "@theme/gsap": "{{ 'gsap.js' | asset_url }}",
       "@theme/ScrollTrigger": "{{ 'ScrollTrigger.js' | asset_url }}",
       "@theme/SplitText": "{{ 'SplitText.js' | asset_url }}",
       "@theme/TextPlugin": "{{ 'TextPlugin.js' | asset_url }}",
+      "@theme/morph": "{{ 'morph.js' | asset_url }}",
+      "@theme/motion-engine": "{{ 'motion-engine.js' | asset_url }}",
+      "@theme/motion-component": "{{ 'motion-component.js' | asset_url }}",
 
-      "@theme/lenis": "{{ 'lenis.js' | asset_url }}"
+      "@theme/overlay-component": "{{ 'overlay-component.js' | asset_url }}",
+      "@theme/product-form": "{{ 'product-form.js' | asset_url }}",
+      "@theme/cart-drawer": "{{ 'cart-drawer.js' | asset_url }}",
+      "@theme/custom-elements": "{{ 'custom-elements.js' | asset_url }}",
+      "@theme/media-coordinator": "{{ 'media-coordinator.js' | asset_url }}"
+
     }
   }
 </script>
 
-<link rel="modulepreload" href="{{ 'module-manager.js' | asset_url }}" fetchpriority="low">
+<link rel="modulepreload" href="{{ 'modules.js' | asset_url }}" fetchpriority="low">
 <link rel="modulepreload" href="{{ 'utilities.js' | asset_url }}" fetchpriority="low">
 <link rel="modulepreload" href="{{ 'events.js' | asset_url }}" fetchpriority="low">
-<link rel="modulepreload" href="{{ 'scrollbar.js' | asset_url }}" fetchpriority="low">
 <link rel="modulepreload" href="{{ 'components.js' | asset_url }}" fetchpriority="low">
+<link rel="modulepreload" href="{{ 'scrollbar.js' | asset_url }}" fetchpriority="low">
+<link rel="modulepreload" href="{{ 'swiper.js' | asset_url }}" fetchpriority="low">
+<link rel="modulepreload" href="{{ 'morph.js' | asset_url }}" fetchpriority="low">
+<link rel="modulepreload" href="{{ 'motion-engine.js' | asset_url }}" fetchpriority="low">
+<link rel="modulepreload" href="{{ 'motion-component.js' | asset_url }}" fetchpriority="low">
+
+<link rel="modulepreload" href="{{ 'overlay-component.js' | asset_url }}" fetchpriority="low">
+<link rel="modulepreload" href="{{ 'custom-elements.js' | asset_url }}" fetchpriority="low">
+<link rel="modulepreload" href="{{ 'media-coordinator.js' | asset_url }}" fetchpriority="low">
 
 
 <script>
@@ -59,7 +71,6 @@ window.__THEME__ = {
 }
 </script>
 
-<script type="module" src="{{ 'animation.js' | asset_url }}"></script>
-
+ 
 <!-- Theme.js module -->
 <script type="module" src="{{ 'theme.js' | asset_url }}"></script>

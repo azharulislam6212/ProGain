@@ -1,6 +1,16 @@
 
 
 <h2>Menu drawer</h2>
+<overlay-opener data-target="cart-drawer" data-action="close">
+  Close Cart
+</overlay-opener>
+<overlay-component data-backdrop="true">
+    <div class="overlay-backdrop" data-backdrop-layer></div>
+  <div data-ref="root" class="drawer">
+    Drawer content
+  </div>
+</overlay-component>
+
 
 
 {% schema %}

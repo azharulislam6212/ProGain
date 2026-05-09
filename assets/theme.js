@@ -2,11 +2,12 @@
 // Core modules (always needed) 
 // ------------------------
 
-import ModuleManager from '@theme/module-manager';
+import Modules from '@theme/modules';
 import { ThemeEvents } from '@theme/events';
 import { requestIdleCallback } from "@theme/utilities";
 import { initScrollbarWidth } from '@theme/scrollbar';
 import { initButtons } from '@theme/components';
+import { initMotionEngine } from "@theme/motion-engine";
 
 // ------------------------
 // Theme loader
@@ -16,7 +17,9 @@ class Theme {
     this.config = window.__THEME__ || {};
     this.template = this.config?.template?.name || null;
     this.cartType = this.config?.cartType || 'page';
-    this.modules = new ModuleManager(); 
+    this.modules = new Modules(); 
+    
+    this.isDesignMode = window.Shopify && Shopify.designMode === true;
   }
 
   // ------------------------
@@ -42,8 +45,11 @@ class Theme {
    initGlobalModules() {      
     initScrollbarWidth();     
     initButtons(); 
-  }
 
+     //  Motion Engine (GLOBAL UI BEHAVIOR)
+    initMotionEngine(document);
+  }
+ 
   // ------------------------
   // Section modules
   // ------------------------
@@ -91,6 +97,7 @@ class Theme {
     // Shopify lifecycle
     document.addEventListener('shopify:section:load', (e) => {
       this.initSection(e.target);
+      initMotionEngine(e.target);
     });
 
     document.addEventListener('shopify:section:unload', (e) => {
@@ -107,4 +114,5 @@ theme.start();
 
 // Expose globally
 window.Theme = theme;
+window.__DESIGN_MODE__ = theme.isDesignMode;
 window.ThemeEvents = ThemeEvents;
