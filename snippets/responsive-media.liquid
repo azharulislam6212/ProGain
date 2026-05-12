@@ -1,0 +1,154 @@
+{% doc %}
+  Responsive Media
+
+  Renders responsive image with:
+  - optional mobile image
+  - lazy loading
+  - responsive-image custom element
+  - placeholder fallback
+  - automatic eager/lazy mode
+
+  @param {object} image
+  @param {object} [mobile_image]
+  @param {string} [alt_text]
+  @param {string} [image_ratio]
+  @param {string} [image_ratio_mobile]
+  @param {string} [class]
+  @param {boolean} [is_hero]
+  @param {string} [placeholder]
+
+  @example
+
+  {% render 'responsive-media',
+    image: image,
+    mobile_image: mobile_image,
+    image_ratio: image_ratio,
+    image_ratio_mobile: image_ratio_mobile,
+    alt_text: alt_text,
+    class: 'optional-class',
+    is_hero: true,
+    placeholder: 'product-1'
+  %}
+{% enddoc %}
+
+{%- liquid
+  assign is_hero = is_hero | default: false
+  assign placeholder = placeholder | default: 'product-1'
+
+  if alt_text == blank and image != blank
+    assign alt_text = image.alt
+  endif
+
+  if image_ratio == 'auto' and image != blank
+    assign image_ratio = image.aspect_ratio
+  endif
+
+  if image_ratio_mobile == 'auto'
+    assign image_ratio_mobile = mobile_image.aspect_ratio | default: image.aspect_ratio
+  endif
+
+  if image_ratio == blank
+    assign image_ratio = 1
+  endif
+
+  if image_ratio_mobile == blank or mobile_image == blank
+    assign image_ratio_mobile = image_ratio
+  endif
+  
+
+  if is_hero
+    assign loading = 'eager'
+    assign fetchpriority = 'high'
+    assign mode = 'liquid'
+  else
+    assign loading = 'lazy'
+    assign fetchpriority = 'low'
+    assign mode = 'js'
+  endif
+-%}
+
+<div
+  class="media {{ class }}"
+  style="
+    --media-ratio: {{ image_ratio }};
+    --media-ratio-mobile: {{ image_ratio_mobile }};
+  "
+>
+
+  {% if image != blank %}
+
+    {% if mobile_image != blank %}
+
+      <picture class="block h-full w-full overflow-hidden">
+
+        <source
+          media="(max-width: 767px)"
+          srcset="
+            {{ mobile_image | image_url: width: 360 }} 360w,
+            {{ mobile_image | image_url: width: 535 }} 535w,
+            {{ mobile_image | image_url: width: 750 }} 750w,
+            {{ mobile_image | image_url: width: 828 }} 828w,
+            {{ mobile_image | image_url: width: 1024 }} 1024w
+          "
+          sizes="100vw"
+        >
+
+        {{
+          image
+          | image_url: width: 3840
+          | image_tag:
+            class: 'media__image media-hover__element no-js-hidden',
+            widths: '120,240,360,480,535,640,750,828,960,1024,1280,1440,1680,1920,2560,3840',
+            sizes: '(min-width: 768px) 100vw, 100vw',
+            is: 'responsive-image',
+            alt: alt_text,
+            loading: loading,
+            fetchpriority: fetchpriority,
+            data_mode: mode
+        }}
+
+      </picture>
+
+    {% else %}
+
+      {{
+        image
+        | image_url: width: 3840
+        | image_tag:
+          class: 'media__image media-hover__element no-js-hidden',
+          widths: '120,240,360,480,535,640,750,828,960,1024,1280,1440,1680,1920,2560,3840',
+          sizes: '(min-width: 768px) 100vw, 100vw',
+          is: 'responsive-image',
+          alt: alt_text,
+          loading: loading,
+          fetchpriority: fetchpriority,
+          data_mode: mode
+      }}
+
+    {% endif %}
+
+    <noscript>
+      {{
+        image
+        | image_url: width: 1920
+        | image_tag:
+          class: 'media__image media-hover__element',
+          alt: alt_text,
+          loading: 'lazy',
+          fetchpriority: 'low'
+      }}
+    </noscript>
+
+  {% else %}
+
+    <div class="media__placeholder placeholder-svg-wrapper">
+      {% if placeholder %}
+        {{ placeholder }}
+      {% else %}
+        {{ 'detailed-apparel-1' | placeholder_svg_tag: 'placeholder-svg' }}
+      {% endif %}
+    </div>
+
+  {% endif %}
+
+</div>

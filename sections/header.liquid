@@ -65,53 +65,19 @@
 
 
 
-{%- liquid
-  assign section_settings = section.settings
-  assign image = section_settings.image
- 
-   if image != blank and section_settings.image_ratio == 'auto'
-    assign ratio = image.aspect_ratio | default: 1
+ {%- assign section_settings = section.settings -%}
 
-  elsif section_settings.image_ratio != blank and section_settings.image_ratio != 'auto'
-    assign ratio = section_settings.image_ratio
+ <motion-component data-motion="{{ section.settings.motion | default: 'zoom-out' }}" class="block h-full">
 
-  elsif image != blank
-    assign ratio = image.aspect_ratio | default: 1
+     {% render 'responsive-media',
+     image: section_settings.image,
+     mobile_image: section_settings.mobile_image,
+     image_ratio: section_settings.image_ratio,
+     image_ratio_mobile: section_settings.image_ratio_mobile,
+     alt_text: section_settings.alt_text
+  %}
 
-  else
-    assign ratio = 1
-  endif
-
-
--%}
-
-{%- assign widths = '360, 535, 720, 940, 1070, 1200, 1500, 1780, 2000, 2400, 2800, 3200' -%}
-
-{%- capture sizes -%}
-  (min-width: 1100px) calc((100vw - 128px)), calc((100vw - 40px))
-{%- endcapture -%}
-
-<div 
-  class="media relative"
-  style="--media-ratio: {{ ratio }}; --media-ratio-mobile: {{ ratio }};"
->
-  {%- if image != blank -%}
-    {{
-      image
-      | image_url: width: image.width
-      | image_tag:
-        loading: 'lazy',
-        sizes: sizes,
-        widths: widths,
-        class: "media__img"
-    }}
-  {%- else -%}
-    {{ 'product-apparel-1' | placeholder_svg_tag: 'placeholder media__img' }}
-  {%- endif -%}
-</div>
-
-
- 
+</motion-component>
 
 
  
@@ -155,6 +121,9 @@
 
 <div class="hero-banner height--medium ">banner</div>
 
+
+
+
 {% schema %}
 {
   "name": "Header",
@@ -170,9 +139,67 @@
 			"id": "image",
 			"label": "t:options.image"
 		},
+        {
+      "type": "image_picker",
+      "id": "mobile_image",
+      "label": "Mobile Image (optional)"
+    },
+        {
+      "type": "text",
+      "id": "alt_text",
+      "label": "Alt Text"
+    },
+    {
+      "type": "select",
+      "id": "motion",
+      "label": "Motion Effect",
+      "options": [
+        { "value": "zoom-out", "label": "Zoom Out" },
+        { "value": "zoom-in", "label": "Zoom In" },
+        { "value": "fade", "label": "Fade" },
+        { "value": "none", "label": "None" }
+      ],
+      "default": "zoom-out"
+    },
 		{
 			"type": "select",
 			"id": "image_ratio",
+			"default": "3/4",
+			"label": "t:options.aspect_ratio",
+			"options": [
+				{
+					"value": "1/1",
+					"label": "t:options.square"
+				},
+				{
+					"value": "3/2",
+					"label": "t:options.portrait_3_2"
+				},
+				{
+					"value": "3/4",
+					"label": "t:options.portrait_3_4"
+				},
+				{
+					"value": "4/3",
+					"label": "t:options.landscape_4_3"
+				},
+				{
+					"value": "16/9",
+					"label": "t:options.landscape_16_9"
+				},
+				{
+					"value": "21/9",
+					"label": "t:options.landscape_21_9"
+				},
+				{
+					"value": "auto",
+					"label": "t:options.auto"
+				}
+			]
+		},
+    		{
+			"type": "select",
+			"id": "image_ratio_mobile",
 			"default": "3/4",
 			"label": "t:options.aspect_ratio",
 			"options": [

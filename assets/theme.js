@@ -6,9 +6,10 @@ import Modules from '@theme/modules';
 import { ThemeEvents } from '@theme/events';
 import { requestIdleCallback } from "@theme/utilities";
 import { initScrollbarWidth } from '@theme/scrollbar';
-import { initButtons } from '@theme/components';
+import { initButtons } from '@theme/component';
 import { initMotionEngine } from "@theme/motion-engine";
-
+ 
+ 
 // ------------------------
 // Theme loader
 // ------------------------

@@ -2,10 +2,13 @@
 <script type="importmap">
   {
     "imports": {
-      "@theme/modules": "{{ 'modules.js' | asset_url }}",
+      "@theme/shadow-component": "{{ 'shadow-component.js' | asset_url }}",
       "@theme/utilities": "{{ 'utilities.js' | asset_url }}",
+      "@theme/modules": "{{ 'modules.js' | asset_url }}",
+      "@theme/component": "{{ 'component.js' | asset_url }}",
       "@theme/events": "{{ 'events.js' | asset_url }}",
-      "@theme/components": "{{ 'components.js' | asset_url }}",
+      "@theme/dialog": "{{ 'dialog.js' | asset_url }}",
+
       "@theme/scrollbar": "{{ 'scrollbar.js' | asset_url }}",
       "@theme/swiper": "{{ 'swiper.js' | asset_url }}",
       "@theme/lenis": "{{ 'lenis.js' | asset_url }}",
@@ -17,7 +20,7 @@
       "@theme/motion-engine": "{{ 'motion-engine.js' | asset_url }}",
       "@theme/motion-component": "{{ 'motion-component.js' | asset_url }}",
 
-      "@theme/overlay-component": "{{ 'overlay-component.js' | asset_url }}",
+      
       "@theme/product-form": "{{ 'product-form.js' | asset_url }}",
       "@theme/cart-drawer": "{{ 'cart-drawer.js' | asset_url }}",
       "@theme/custom-elements": "{{ 'custom-elements.js' | asset_url }}",
@@ -30,14 +33,14 @@
 <link rel="modulepreload" href="{{ 'modules.js' | asset_url }}" fetchpriority="low">
 <link rel="modulepreload" href="{{ 'utilities.js' | asset_url }}" fetchpriority="low">
 <link rel="modulepreload" href="{{ 'events.js' | asset_url }}" fetchpriority="low">
-<link rel="modulepreload" href="{{ 'components.js' | asset_url }}" fetchpriority="low">
+<link rel="modulepreload" href="{{ 'component.js' | asset_url }}" fetchpriority="low">
 <link rel="modulepreload" href="{{ 'scrollbar.js' | asset_url }}" fetchpriority="low">
 <link rel="modulepreload" href="{{ 'swiper.js' | asset_url }}" fetchpriority="low">
 <link rel="modulepreload" href="{{ 'morph.js' | asset_url }}" fetchpriority="low">
 <link rel="modulepreload" href="{{ 'motion-engine.js' | asset_url }}" fetchpriority="low">
 <link rel="modulepreload" href="{{ 'motion-component.js' | asset_url }}" fetchpriority="low">
 
-<link rel="modulepreload" href="{{ 'overlay-component.js' | asset_url }}" fetchpriority="low">
+
 <link rel="modulepreload" href="{{ 'custom-elements.js' | asset_url }}" fetchpriority="low">
 <link rel="modulepreload" href="{{ 'media-coordinator.js' | asset_url }}" fetchpriority="low">
 
@@ -73,4 +76,7 @@ window.__THEME__ = {
 
  
 <!-- Theme.js module -->
+ <script type="module" src="{{ 'custom-elements.js' | asset_url }}"></script>
 <script type="module" src="{{ 'theme.js' | asset_url }}"></script>
+
+

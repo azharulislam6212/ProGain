@@ -3,6 +3,8 @@ import { DialogCloseEvent } from "@theme/dialog";
 import { ThemeEvents, MediaStartedPlayingEvent, ModelInteractionEvent } from "@theme/events";
 import { isSafari, getSafariVersion } from "@theme/utilities";
 import { mediaCoordinator } from "@theme/media-coordinator";
+
+
 class TabsComponent extends Component {
     requiredRefs = ["tab", "panel"];
     _activeIndex = 0;
@@ -379,6 +381,7 @@ class ResponsiveImage extends HTMLImageElement {
     }
     get isReady() {
         return this.classList.contains("loaded");
+        
     }
     connectedCallback() {
         this.#init();
@@ -454,7 +457,7 @@ class ResponsiveImage extends HTMLImageElement {
         requestAnimationFrame(() => {
             this.isConnected && (this.#setSizesFromWrapper(), this.#observeResize());
         }),
-            (this.#observer = imageCoordinator.registerLazyLoad(this, {
+            (this.#observer = mediaCoordinator.registerLazyLoad(this, {
                 onIntersect: () => {
                     this.#hydrateSources(), this.#hydrateImage(), this.#loadImage();
                 },
@@ -515,7 +518,7 @@ class ResponsiveImage extends HTMLImageElement {
     #observeResize() {
         const target = this.wrapper || this;
         target &&
-            (this.#resizeObserver = imageCoordinator.registerResize(target, this, (width) => {
+            (this.#resizeObserver = mediaCoordinator.registerResize(target, this, (width) => {
                 const sizes = this.#calculateSizes(width);
                 sizes && sizes !== this.sizes && (this.sizes = sizes);
             }));
@@ -1334,3 +1337,5 @@ class ProductModel extends DeferredMedia {
     }
 }
 customElements.get("product-model") || customElements.define("product-model", ProductModel);
+
+

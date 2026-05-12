@@ -26,60 +26,10 @@ export class ResizeNotifier extends ResizeObserver {
   }
 }
 
-// ========================
-// MEDIA / BREAKPOINTS
-// ========================
-
-export const mediaBreakpointMobile = "(width <= 767px)";
-export const mediaBreakpointTablet =  "(width >= 768px) and (width <= 1199px)";
-export const mediaBreakpointDesktop = "(width >= 1200px)";
-export const mediaBreakpointLarge ="(min-width: 768px)";
-
-export const mediaQueryMobile =
-  matchMedia(mediaBreakpointMobile);
-
-export const mediaQueryTablet =
-  matchMedia(mediaBreakpointTablet);
-
-export const mediaQueryDesktop =
-  matchMedia(mediaBreakpointDesktop);
-
-export const mediaQueryLarge =
-  matchMedia(mediaBreakpointLarge);
-
-export function isMobileBreakpoint() {
-  return mediaQueryMobile.matches;
-}
-
-export function isDesktopBreakpoint() {
-  return mediaQueryDesktop.matches;
-}
-
-export function isTabletBreakpoint() {
-  return mediaQueryTablet.matches;
-}
-
-// ========================
-// GENERAL HELPERS
-// ========================
-
-export function closest(values, target) {
-  return values.reduce((prev, curr) =>
-    Math.abs(curr - target) <
-      Math.abs(prev - target)
-      ? curr
-      : prev
-  );
-}
-
-export function preventDefault(event) {
-  event.preventDefault();
-}
 
 // ========================
 // STORAGE UTILITIES
 // ========================
-
 let isStorageSupported = false;
 
 try {
@@ -139,7 +89,7 @@ export function getLocalStorage(key) {
   return item.value;
 }
 
-// ========================
+ // ========================
 // PERFORMANCE UTILITIES
 // ========================
 
@@ -196,6 +146,80 @@ export function throttle(fn, delay) {
 }
 
 // ========================
+// VIEW TRANSITIONS
+// ========================
+
+
+export function supportsViewTransitions() {
+    return typeof document.startViewTransition == "function";
+}
+export const viewTransition = {current: undefined,};
+
+class Scheduler {
+  #queue = new Set();
+  #scheduled = false;
+
+  schedule = async (task) => {
+    this.#queue.add(task);
+
+    if (!this.#scheduled) {
+      this.#scheduled = true;
+
+      if (viewTransition.current) {
+        await viewTransition.current;
+      }
+
+      requestAnimationFrame(this.flush);
+    }
+  };
+
+  flush = () => {
+    for (const task of this.#queue) {
+      task();
+    }
+
+    this.#queue.clear();
+    this.#scheduled = false;
+  };
+}
+
+export const scheduler = new Scheduler();
+
+
+// ========================
+// FETCH HELPERS
+// ========================
+export function fetchConfig(type = "json", config = {}) {
+    const headers = {
+        "Content-Type": "application/json",
+        Accept: `application/${type}`,
+        ...config.headers
+    };
+
+    if (type === "javascript") {
+        headers["X-Requested-With"] = "XMLHttpRequest";
+        delete headers["Content-Type"];
+    }
+
+    return {
+        method: "POST",
+        headers,
+        body: config.body
+    };
+}
+
+// ========================
+// SECTION HELPERS
+// ========================
+
+export function getSectionId(element) {
+    return element.hasAttribute("data-section-id")
+        ? element.dataset.sectionId
+        : (element.classList.contains("shopify-section") || (element = element.closest(".shopify-section")),
+          element.id.replace("shopify-section-", ""));
+}
+
+ // ========================
 // MOTION / ANIMATION
 // ========================
 
@@ -279,51 +303,6 @@ export function onAnimationEnd(
 }
 
 // ========================
-// VIEW TRANSITIONS
-// ========================
-
-export function supportsViewTransitions() {
-  return (
-    typeof document.startViewTransition ===
-    "function"
-  );
-}
-
-export const viewTransition = {
-  current: undefined,
-};
-
-class Scheduler {
-  #queue = new Set();
-  #scheduled = false;
-
-  schedule = async (task) => {
-    this.#queue.add(task);
-
-    if (!this.#scheduled) {
-      this.#scheduled = true;
-
-      if (viewTransition.current) {
-        await viewTransition.current;
-      }
-
-      requestAnimationFrame(this.flush);
-    }
-  };
-
-  flush = () => {
-    for (const task of this.#queue) {
-      task();
-    }
-
-    this.#queue.clear();
-    this.#scheduled = false;
-  };
-}
-
-export const scheduler = new Scheduler();
-
-// ========================
 // STRING / FORMATTERS
 // ========================
 
@@ -351,56 +330,193 @@ export function formatMoney(value) {
         : valueWithNoSpaces.replace(",", ".");
 }
 
+export function formatCurrency(cents, format) {
+    return window.Shopify?.formatMoney ? window.Shopify.formatMoney(cents, format) : formatShopifyMoney(cents, format);
+}
+export function formatShopifyMoney(cents, format) {
+    let moneyFormat = "${{amount}}";
+    window.FoxTheme?.moneyFormat
+        ? (moneyFormat = window.FoxTheme.moneyFormat)
+        : window.Shopify?.currency?.money_format && (moneyFormat = window.Shopify.currency.money_format),
+        typeof cents == "string" && (cents = cents.replace(".", ""));
+    let value = "";
+    const placeholderRegex = /\{\{\s*(\w+)\s*\}\}/,
+        formatString = format || moneyFormat;
+    function formatWithDelimiters(number, precision, thousands, decimal) {
+        if (((thousands = thousands || ","), (decimal = decimal || "."), isNaN(number) || number === null)) return 0;
+        number = (number / 100).toFixed(precision);
+        const parts = number.split("."),
+            dollarsAmount = parts[0].replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1" + thousands),
+            centsAmount = parts[1] ? decimal + parts[1] : "";
+        return dollarsAmount + centsAmount;
+    }
+    const match = formatString.match(placeholderRegex);
+    if (!match) return formatString;
+    switch (match[1]) {
+        case "amount":
+            value = formatWithDelimiters(cents, 2);
+            break;
+        case "amount_no_decimals":
+            value = formatWithDelimiters(cents, 0);
+            break;
+        case "amount_with_comma_separator":
+            value = formatWithDelimiters(cents, 2, ".", ",");
+            break;
+        case "amount_no_decimals_with_comma_separator":
+            value = formatWithDelimiters(cents, 0, ".", ",");
+            break;
+        case "amount_no_decimals_with_space_separator":
+            value = formatWithDelimiters(cents, 0, " ");
+            break;
+        case "amount_with_apostrophe_separator":
+            value = formatWithDelimiters(cents, 2, "'");
+            break;
+        default:
+            value = formatWithDelimiters(cents, 2);
+    }
+    return formatString.replace(placeholderRegex, value);
+}
+
+// ========================
+// DOCUMENT HELPERS
+// ========================
+
+export function onDocumentReady(callback) {
+    document.readyState === "complete" ? callback() : window.addEventListener("load", callback);
+}
+
+// ========================
+// MEDIA HELPERS
+// ========================
+
+export async function waitForMediaReady(elements) {
+    const tasks = (Array.isArray(elements) ? elements : elements ? Array.from(elements) : []).map((el) => {
+        if (el instanceof HTMLImageElement) {
+            if (el.getAttribute("is") === "responsive-image") {
+                if (el.ready instanceof Promise) return el.ready;
+                if (typeof el.isReady == "boolean" && el.isReady) return Promise.resolve();
+                if (!el.complete || el.naturalWidth === 0)
+                    return new Promise((resolve) => {
+                        const timeout = setTimeout(resolve, 5e3);
+                        el.addEventListener(
+                            "image:ready",
+                            () => {
+                                clearTimeout(timeout), resolve();
+                            },
+                            { once: !0 }
+                        );
+                    });
+            }
+            return el.complete && el.naturalWidth > 0
+                ? Promise.resolve()
+                : new Promise((res) => {
+                      el.addEventListener("load", res, { once: !0 }), el.addEventListener("error", res, { once: !0 });
+                  });
+        }
+        return Promise.resolve();
+    });
+    await Promise.allSettled(tasks);
+}
+
 // ========================
 // DOM HELPERS
 // ========================
 
-export function waitForEvent(
-  element,
-  eventName
-) {
-  return new Promise((resolve) => {
-
-    const eventHandler = (event) => {
-
-      if (event.target === element) {
-
-        element.removeEventListener(
-          eventName,
-          eventHandler
-        );
-
-        resolve(event);
-      }
-    };
-
-    element.addEventListener(
-      eventName,
-      eventHandler
-    );
-  });
+export function waitForEvent(element, eventName) {
+    return new Promise((resolve) => {
+        const eventHandler = (event) => {
+            event.target === element && (element.removeEventListener(eventName, eventHandler), resolve(event));
+        };
+        element.addEventListener(eventName, eventHandler);
+    });
+}
+export function isClickedOutside(event, element) {
+    return event.target instanceof HTMLDialogElement || !(event.target instanceof Element)
+        ? !isPointWithinElement(event.clientX, event.clientY, element)
+        : !element.contains(event.target);
+}
+export function isPointWithinElement(x, y, element) {
+    const { left, right, top, bottom } = element.getBoundingClientRect();
+    return x >= left && x <= right && y >= top && y <= bottom;
 }
 
-export function isPointWithinElement(
-  x,
-  y,
-  element
-) {
-  const {
-    left,
-    right,
-    top,
-    bottom,
-  } = element.getBoundingClientRect();
+export function getVisibleElements(root, elements, ratio = 1, axis) {
+    if (!elements?.length) return [];
+    const rootRect = root.getBoundingClientRect();
+    return elements.filter((element) => {
+        const { width, height, top, right, left, bottom } = element.getBoundingClientRect();
+        if (ratio < 1) {
+            const intersectionLeft = Math.max(rootRect.left, left),
+                intersectionRight = Math.min(rootRect.right, right),
+                intersectionWidth = Math.max(0, intersectionRight - intersectionLeft);
+            if (axis === "x") return width > 0 && intersectionWidth / width >= ratio;
+            const intersectionTop = Math.max(rootRect.top, top),
+                intersectionBottom = Math.min(rootRect.bottom, bottom),
+                intersectionHeight = Math.max(0, intersectionBottom - intersectionTop);
+            if (axis === "y") return height > 0 && intersectionHeight / height >= ratio;
+            const intersectionArea = intersectionWidth * intersectionHeight,
+                elementArea = width * height;
+            return elementArea > 0 && intersectionArea / elementArea >= ratio;
+        }
+        const isWithinX = left >= rootRect.left && right <= rootRect.right;
+        if (axis === "x") return isWithinX;
+        const isWithinY = top >= rootRect.top && bottom <= rootRect.bottom;
+        return (axis === "y" || isWithinX) && isWithinY;
+    });
+}
 
-  return (
-    x >= left &&
-    x <= right &&
-    y >= top &&
-    y <= bottom
+// ========================
+// MEDIA / BREAKPOINTS
+// ========================
+
+export const mediaBreakpointMobile = "(width <= 767px)";
+export const mediaBreakpointTablet =  "(width >= 768px) and (width <= 1199px)";
+export const mediaBreakpointDesktop = "(width >= 1200px)";
+export const mediaBreakpointLarge ="(min-width: 768px)";
+
+export const mediaQueryMobile =
+  matchMedia(mediaBreakpointMobile);
+
+export const mediaQueryTablet =
+  matchMedia(mediaBreakpointTablet);
+
+export const mediaQueryDesktop =
+  matchMedia(mediaBreakpointDesktop);
+
+export const mediaQueryLarge =
+  matchMedia(mediaBreakpointLarge);
+
+export function isMobileBreakpoint() {
+  return mediaQueryMobile.matches;
+}
+
+export function isDesktopBreakpoint() {
+  return mediaQueryDesktop.matches;
+}
+
+export function isTabletBreakpoint() {
+  return mediaQueryTablet.matches;
+}
+
+// ========================
+// GENERAL HELPERS
+// ========================
+
+export function closest(values, target) {
+  return values.reduce((prev, curr) =>
+    Math.abs(curr - target) <
+      Math.abs(prev - target)
+      ? curr
+      : prev
   );
 }
 
+export function preventDefault(event) {
+  event.preventDefault();
+}
+ 
+  
+ 
 // ========================
 // FOCUS / ACCESSIBILITY
 // ========================
@@ -431,6 +547,13 @@ export function removeTrapFocus() {
       trapFocusHandlers.focusin,
       true
     );
+}
+
+export function cycleFocus(items, increment) {
+    let targetIndex = items.findIndex((item) => item.matches(":focus")) + increment;
+    targetIndex >= items.length ? (targetIndex = 0) : targetIndex < 0 && (targetIndex = items.length - 1);
+    const targetItem = items[targetIndex];
+    targetItem && targetItem.focus();
 }
 
 // ========================
@@ -470,6 +593,464 @@ export function getIOSVersion() {
   };
 }
 
+
+// ========================
+// TOOLTIP SYSTEM
+// ========================
+
+class TooltipManager {
+    constructor() {
+        (this.portal = null),
+            (this.activeTooltips = new Map()),
+            (this.initialized = !1),
+            (this.observer = null),
+            (this.tooltipIdCounter = 0),
+            (this.defaults = {
+                position: "auto",
+                trigger: "hover",
+                delay: 50,
+                hideDelay: 50,
+                offset: 12,
+                arrow: !0,
+                interactive: !1,
+                maxWidth: 250,
+                zIndex: 9999,
+            }),
+            (this.handleMouseEnter = this.handleMouseEnter.bind(this)),
+            (this.handleMouseLeave = this.handleMouseLeave.bind(this)),
+            (this.handleClick = this.handleClick.bind(this)),
+            (this.handleFocus = this.handleFocus.bind(this)),
+            (this.handleBlur = this.handleBlur.bind(this)),
+            (this.handleKeydown = this.handleKeydown.bind(this)),
+            (this.handleDocumentClick = this.handleDocumentClick.bind(this)),
+            (this.handleResize = throttle(this.updatePositions.bind(this), 100)),
+            (this.handleScroll = throttle(this.updatePositions.bind(this), 100));
+    }
+    init() {
+        this.initialized ||
+            isTouch() ||
+            (this.createPortal(),
+            this.bindGlobalEvents(),
+            this.scanAndBind(),
+            (this.initialized = !0),
+            this.observeDOM());
+    }
+    createPortal() {
+        this.portal ||
+            ((this.portal = document.createElement("div")),
+            (this.portal.id = "tooltip-portal"),
+            this.portal.setAttribute("aria-hidden", "true"),
+            (this.portal.style.cssText = `
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: ${this.defaults.zIndex};
+      pointer-events: none;
+    `),
+            document.body.appendChild(this.portal));
+    }
+    scanAndBind(container = document) {
+        if (isTouch()) return;
+        container.querySelectorAll("[data-tooltip], [data-tooltip-html]").forEach((el) => {
+            this.activeTooltips.has(el) || this.bindElement(el);
+        });
+    }
+    bindElement(element) {
+        if (!document.contains(element)) return;
+        const options = this.getOptionsFromElement(element),
+            handlers = {};
+        this.activeTooltips.set(element, { options, tooltip: null, showTimeout: null, hideTimeout: null, handlers }),
+            options.trigger === "hover"
+                ? isMobileBreakpoint()
+                    ? ((handlers.click = this.handleClick.bind(this)),
+                      element.addEventListener("click", handlers.click))
+                    : ((handlers.mouseenter = this.handleMouseEnter.bind(this)),
+                      (handlers.mouseleave = this.handleMouseLeave.bind(this)),
+                      element.addEventListener("mouseenter", handlers.mouseenter),
+                      element.addEventListener("mouseleave", handlers.mouseleave))
+                : options.trigger === "click"
+                  ? ((handlers.click = this.handleClick.bind(this)), element.addEventListener("click", handlers.click))
+                  : options.trigger === "focus" &&
+                    ((handlers.focus = this.handleFocus.bind(this)),
+                    (handlers.blur = this.handleBlur.bind(this)),
+                    element.addEventListener("focus", handlers.focus),
+                    element.addEventListener("blur", handlers.blur));
+    }
+    unbindElement(element) {
+        const data = this.activeTooltips.get(element);
+        if (data) {
+            if (data.handlers && document.contains(element))
+                try {
+                    Object.entries(data.handlers).forEach(([event, handler]) => {
+                        element.removeEventListener(event, handler);
+                    });
+                } catch {}
+            this.clearTimeouts(element),
+                data.tooltip && this.destroyTooltip(element),
+                this.activeTooltips.delete(element);
+        }
+    }
+    #buildTooltipClasses(options) {
+        const classes = ["tooltip"];
+        return options.interactive && classes.push("tooltip--interactive"), classes.join(" ");
+    }
+    getOptionsFromElement(element) {
+        const dataset = element.dataset;
+        return {
+            ...this.defaults,
+            content: dataset.tooltip || dataset.tooltipHtml || "",
+            isHtml: !!dataset.tooltipHtml,
+            position: dataset.tooltipPosition || this.defaults.position,
+            trigger: dataset.tooltipTrigger || this.defaults.trigger,
+            delay: parseInt(dataset.tooltipDelay) || this.defaults.delay,
+            hideDelay: parseInt(dataset.tooltipHideDelay) || this.defaults.hideDelay,
+            offset: parseInt(dataset.tooltipOffset) || this.defaults.offset,
+            arrow: dataset.tooltipArrow !== "false",
+            interactive: dataset.tooltipInteractive === "true",
+            maxWidth: parseInt(dataset.tooltipMaxWidth) || this.defaults.maxWidth,
+        };
+    }
+    handleMouseEnter(event) {
+        this.show(event.currentTarget);
+    }
+    handleMouseLeave(event) {
+        this.hide(event.currentTarget);
+    }
+    handleClick(event) {
+        const element = event.currentTarget;
+        this.activeTooltips.get(element)?.tooltip ? this.hide(element) : this.show(element, { delay: 0 });
+    }
+    handleFocus(event) {
+        this.show(event.currentTarget, { delay: 0 });
+    }
+    handleBlur(event) {
+        this.hide(event.currentTarget);
+    }
+    handleKeydown(event) {
+        event.key === "Escape" && this.hideAll();
+    }
+    handleDocumentClick(event) {
+        this.activeTooltips.forEach((data, element) => {
+            if (data.tooltip && data.options.trigger === "click") {
+                const isClickOnTrigger = element.contains(event.target),
+                    isClickOnTooltip = data.tooltip.contains(event.target);
+                !isClickOnTrigger && !isClickOnTooltip && this.hide(element);
+            }
+        });
+    }
+    show(element, options = {}) {
+        const data = this.activeTooltips.get(element);
+        if (!data) return;
+        const mergedOptions = { ...data.options, ...options };
+        this.clearTimeouts(element),
+            (data.showTimeout = setTimeout(() => {
+                this.createTooltip(element, mergedOptions);
+            }, mergedOptions.delay));
+    }
+    hide(element) {
+        const data = this.activeTooltips.get(element);
+        data &&
+            (this.clearTimeouts(element),
+            (data.hideTimeout = setTimeout(() => {
+                this.destroyTooltip(element);
+            }, data.options.hideDelay)));
+    }
+    hideAll() {
+        this.activeTooltips.forEach((data, element) => {
+            this.destroyTooltip(element);
+        });
+    }
+    clearTimeouts(element) {
+        const data = this.activeTooltips.get(element);
+        data &&
+            (data.showTimeout && (clearTimeout(data.showTimeout), (data.showTimeout = null)),
+            data.hideTimeout && (clearTimeout(data.hideTimeout), (data.hideTimeout = null)),
+            data.cleanupTimeout && (clearTimeout(data.cleanupTimeout), (data.cleanupTimeout = null)));
+    }
+    createTooltip(element, options) {
+        if (!this.#isElementValid(element) || !this.portal) return;
+        const data = this.activeTooltips.get(element);
+        if (!data || data.tooltip || !this.#isElementInViewport(element)) return;
+        let content = options.content;
+        if (options.isHtml) {
+            const template = document.querySelector(content);
+            content = template ? template.innerHTML : content;
+        }
+        if (!content) return;
+        const tooltip = document.createElement("div"),
+            tooltipId = `tooltip-${++this.tooltipIdCounter}`;
+        if (
+            ((tooltip.id = tooltipId),
+            (tooltip.className = this.#buildTooltipClasses(options)),
+            tooltip.setAttribute("role", "tooltip"),
+            element.id)
+        )
+            element.setAttribute("aria-describedby", tooltipId);
+        else {
+            const triggerId = `tooltip-trigger-${this.tooltipIdCounter}`;
+            (element.id = triggerId), element.setAttribute("aria-describedby", tooltipId);
+        }
+        if (
+            (options.maxWidth !== this.defaults.maxWidth && (tooltip.style.maxWidth = `${options.maxWidth}px`),
+            options.isHtml ? (tooltip.innerHTML = content) : (tooltip.textContent = content),
+            options.arrow)
+        ) {
+            const arrow = document.createElement("div");
+            (arrow.className = "tooltip__arrow"),
+                (arrow.style.cssText = `
+        position: absolute;
+        width: 0;
+        height: 0;
+        border-style: solid;
+      `),
+                tooltip.appendChild(arrow);
+        }
+        const dialog = element.closest("dialog");
+        dialog && dialog.open
+            ? ((tooltip.style.position = "fixed"), (tooltip.style.zIndex = "2147483647"), dialog.appendChild(tooltip))
+            : this.portal.appendChild(tooltip),
+            (data.tooltip = tooltip),
+            requestAnimationFrame(() => {
+                const position = this.positionTooltip(element, tooltip, options);
+                tooltip.classList.add(`tooltip--${position}`),
+                    requestAnimationFrame(() => {
+                        tooltip.classList.add("tooltip--visible");
+                    });
+            }),
+            options.interactive &&
+                (tooltip.addEventListener("mouseenter", () => {
+                    this.clearTimeouts(element);
+                }),
+                tooltip.addEventListener("mouseleave", () => {
+                    this.hide(element);
+                }));
+    }
+    positionTooltip(element, tooltip, options) {
+        if (!this.#isElementValid(element) || !tooltip) return "bottom";
+        let triggerRect, tooltipRect;
+        try {
+            (triggerRect = element.getBoundingClientRect()), (tooltipRect = tooltip.getBoundingClientRect());
+        } catch {
+            return "bottom";
+        }
+        const viewportWidth = window.innerWidth,
+            viewportHeight = window.innerHeight;
+        let position = options.position,
+            x,
+            y;
+        if (position === "auto") {
+            const spaceTop = triggerRect.top,
+                spaceBottom = viewportHeight - triggerRect.bottom,
+                spaceLeft = triggerRect.left,
+                spaceRight = viewportWidth - triggerRect.right;
+            spaceBottom >= tooltipRect.height + options.offset
+                ? (position = "bottom")
+                : spaceTop >= tooltipRect.height + options.offset
+                  ? (position = "top")
+                  : spaceRight >= tooltipRect.width + options.offset
+                    ? (position = "right")
+                    : spaceLeft >= tooltipRect.width + options.offset
+                      ? (position = "left")
+                      : (position = "bottom");
+        }
+        switch (position) {
+            case "top":
+                (x = triggerRect.left + (triggerRect.width - tooltipRect.width) / 2),
+                    (y = triggerRect.top - tooltipRect.height - options.offset);
+                break;
+            case "bottom":
+                (x = triggerRect.left + (triggerRect.width - tooltipRect.width) / 2),
+                    (y = triggerRect.bottom + options.offset);
+                break;
+            case "left":
+                (x = triggerRect.left - tooltipRect.width - options.offset),
+                    (y = triggerRect.top + (triggerRect.height - tooltipRect.height) / 2);
+                break;
+            case "right":
+                (x = triggerRect.right + options.offset),
+                    (y = triggerRect.top + (triggerRect.height - tooltipRect.height) / 2);
+                break;
+            default:
+                (x = triggerRect.left), (y = triggerRect.bottom + options.offset);
+        }
+        const originalX = x,
+            originalY = y;
+        if (
+            ((x = Math.max(8, Math.min(x, viewportWidth - tooltipRect.width - 8))),
+            (y = Math.max(8, Math.min(y, viewportHeight - tooltipRect.height - 8))),
+            (tooltip.style.left = `${x}px`),
+            (tooltip.style.top = `${y}px`),
+            options.arrow)
+        ) {
+            const arrow = tooltip.querySelector(".tooltip__arrow") || this.#createArrow();
+            tooltip.contains(arrow) || tooltip.appendChild(arrow),
+                this.#positionArrow(arrow, position, triggerRect, { x, y, originalX, originalY }, tooltipRect);
+        }
+        return position;
+    }
+    #createArrow() {
+        const arrow = document.createElement("div");
+        return (arrow.className = "tooltip__arrow"), arrow;
+    }
+    #positionArrow(arrow, position, triggerRect, coords, tooltipRect) {
+        const { x, y, originalX, originalY } = coords,
+            offsetX = x - originalX,
+            offsetY = y - originalY;
+        let arrowOffset = 0;
+        switch (position) {
+            case "top":
+            case "bottom":
+                const triggerCenterX = triggerRect.left + triggerRect.width / 2,
+                    tooltipLeft = coords.x;
+                arrowOffset = triggerCenterX - tooltipLeft;
+                const minOffset = 12,
+                    maxOffset = tooltipRect.width - 12;
+                (arrowOffset = Math.max(minOffset, Math.min(arrowOffset, maxOffset))),
+                    (arrow.style.left = `${arrowOffset}px`),
+                    (arrow.style.right = ""),
+                    (arrow.style.top = ""),
+                    (arrow.style.bottom = ""),
+                    (arrow.style.transform = "translateX(-50%)");
+                break;
+            case "left":
+            case "right":
+                const triggerCenterY = triggerRect.top + triggerRect.height / 2,
+                    tooltipTop = coords.y;
+                arrowOffset = triggerCenterY - tooltipTop;
+                const minOffsetY = 12,
+                    maxOffsetY = tooltipRect.height - 12;
+                (arrowOffset = Math.max(minOffsetY, Math.min(arrowOffset, maxOffsetY))),
+                    (arrow.style.top = `${arrowOffset}px`),
+                    (arrow.style.bottom = ""),
+                    (arrow.style.left = ""),
+                    (arrow.style.right = ""),
+                    (arrow.style.transform = "translateY(-50%)");
+                break;
+        }
+    }
+    destroyTooltip(element) {
+        const data = this.activeTooltips.get(element);
+        if (!data || !data.tooltip) return;
+        const tooltip = data.tooltip;
+        if (this.#isElementValid(element)) {
+            const tooltipId = tooltip.id;
+            element.getAttribute("aria-describedby") === tooltipId &&
+                (element.removeAttribute("aria-describedby"),
+                element.id && element.id.startsWith("tooltip-trigger-") && element.removeAttribute("id"));
+        }
+        tooltip.classList.remove("tooltip--visible");
+        const cleanupTimeout = setTimeout(() => {
+            try {
+                tooltip.parentNode && tooltip.parentNode.removeChild(tooltip);
+            } catch {}
+        }, 200);
+        (data.cleanupTimeout = cleanupTimeout), (data.tooltip = null);
+    }
+    #isElementValid(element) {
+        return element && document.contains(element);
+    }
+    #isElementInViewport(element) {
+        if (!this.#isElementValid(element)) return !1;
+        try {
+            const rect = element.getBoundingClientRect(),
+                viewportHeight = window.innerHeight || document.documentElement.clientHeight,
+                viewportWidth = window.innerWidth || document.documentElement.clientWidth;
+            return rect.bottom >= 0 && rect.right >= 0 && rect.top <= viewportHeight && rect.left <= viewportWidth;
+        } catch {
+            return !1;
+        }
+    }
+    updatePositions() {
+        const invalidElements = [];
+        this.activeTooltips.forEach((data, element) => {
+            if (!this.#isElementValid(element)) {
+                invalidElements.push(element);
+                return;
+            }
+            if (data.tooltip)
+                if (this.#isElementInViewport(element))
+                    try {
+                        this.positionTooltip(element, data.tooltip, data.options);
+                    } catch {
+                        invalidElements.push(element);
+                    }
+                else this.destroyTooltip(element);
+        }),
+            invalidElements.forEach((element) => {
+                this.unbindElement(element);
+            });
+    }
+    bindGlobalEvents() {
+        window.addEventListener("resize", this.handleResize),
+            window.addEventListener("scroll", this.handleScroll, { passive: !0 }),
+            document.addEventListener("keydown", this.handleKeydown),
+            document.addEventListener("click", this.handleDocumentClick);
+    }
+    observeDOM() {
+        window.MutationObserver &&
+            ((this.observer = new MutationObserver((mutations) => {
+                let shouldScan = !1;
+                const removedElements = new Set();
+                mutations.forEach((mutation) => {
+                    mutation.type === "childList" &&
+                        (mutation.addedNodes.forEach((node) => {
+                            node.nodeType === 1 &&
+                                (node.hasAttribute?.("data-tooltip") ||
+                                    node.hasAttribute?.("data-tooltip-html") ||
+                                    node.querySelector?.("[data-tooltip], [data-tooltip-html]")) &&
+                                (shouldScan = !0);
+                        }),
+                        mutation.removedNodes.forEach((node) => {
+                            if (node.nodeType === 1) {
+                                this.activeTooltips.has(node) && removedElements.add(node);
+                                const boundElements = node.querySelectorAll?.("[data-tooltip], [data-tooltip-html]");
+                                boundElements &&
+                                    boundElements.forEach((el) => {
+                                        this.activeTooltips.has(el) && removedElements.add(el);
+                                    });
+                            }
+                        }));
+                }),
+                    removedElements.forEach((element) => {
+                        this.unbindElement(element);
+                    }),
+                    shouldScan && !isTouch() && requestIdleCallback(() => this.scanAndBind());
+            })),
+            this.observer.observe(document.body, { childList: !0, subtree: !0 }));
+    }
+    showTooltip(element, content, options = {}) {
+        this.activeTooltips.has(element) ||
+            this.activeTooltips.set(element, {
+                options: { ...this.defaults, ...options, content },
+                tooltip: null,
+                showTimeout: null,
+                hideTimeout: null,
+            }),
+            this.show(element, { content, ...options });
+    }
+    hideTooltip(element) {
+        this.hide(element);
+    }
+    destroy() {
+        this.hideAll(),
+            this.observer && (this.observer.disconnect(), (this.observer = null)),
+            this.activeTooltips.forEach((data, element) => {
+                this.unbindElement(element);
+            }),
+            this.portal && (this.portal.remove(), (this.portal = null)),
+            window.removeEventListener("resize", this.handleResize),
+            window.removeEventListener("scroll", this.handleScroll),
+            document.removeEventListener("keydown", this.handleKeydown),
+            document.removeEventListener("click", this.handleDocumentClick),
+            this.activeTooltips.clear(),
+            (this.initialized = !1);
+    }
+}
+export const Tooltip = new TooltipManager();
+
+
 // ========================
 // LOADING HELPERS
 // ========================
@@ -486,12 +1067,26 @@ export function resetLoading(
     });
 }
 
+ isTouch() || (document.readyState === "loading"
+        ? document.addEventListener("DOMContentLoaded", () => Tooltip.init())
+        : requestIdleCallback(() => Tooltip.init())),
+    document.addEventListener("dialog:open", (event) => {
+        Tooltip.initialized &&
+            setTimeout(() => {
+                const dialogComponent = event.target,
+                    dialog =
+                        dialogComponent?.querySelector?.("dialog[ref='dialog']") ||
+                        dialogComponent?.querySelector?.("dialog");
+                dialog ? Tooltip.scanAndBind(dialog) : Tooltip.scanAndBind();
+            }, 0);
+    });
+
+
 
 // ========================
 // LENIS SMOOTH SCROLL
 // ========================
 
- 
 
 let lenisInstance = null,
   lenisInitPromise = null;
@@ -722,9 +1317,8 @@ document.readyState === "loading"
   )
   : initializeOnReady();
 
-if (typeof window.__THEME__ > "u") window.__THEME__ = {};
-if (typeof window.__THEME__.utilities > "u")
-  window.__THEME__.utilities = {};
+ if (typeof window.__THEME__ === "undefined") window.__THEME__ = {};
+if (typeof window.__THEME__.utilities === "undefined") window.__THEME__.utilities = {};
 
 __THEME__.utilities = {
   ...__THEME__.utilities,
@@ -734,3 +1328,4 @@ __THEME__.utilities = {
   disableSmoothScroll,
   removeScrollLockClass,
 };
+

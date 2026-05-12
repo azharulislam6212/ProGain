@@ -1,5 +1,5 @@
 import { requestIdleCallback } from "@theme/utilities";
-export class DeclarativeShadowElement extends HTMLElement {
+export class ShadowComponent extends HTMLElement {
     connectedCallback() {
         if (!this.shadowRoot) {
             const template = this.querySelector(':scope > template[shadowrootmode="open"]');
@@ -46,4 +46,4 @@ export class ResizeNotifier extends ResizeObserver {
     window.addEventListener("resize", debouncedSetScrollbarWidth),
         window.addEventListener("orientationchange", debouncedSetScrollbarWidth);
 })();
-//# sourceMappingURL=/cdn/shop/t/17/assets/critical.js.map?v=93681896726010595011772247681
+ 
