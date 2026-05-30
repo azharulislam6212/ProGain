@@ -2,11 +2,15 @@
 <div class="section  bg-secondary color-{{ section_settings.color_scheme }} rte">
   <div class="page-width">
     <h2>Heading This is animated text!</h2>
-    <a href="" class="h2 reversed-link">
+    <a href="/pages/contact" class="h2 reversed-link" data-spa-link>
       <span class="reversed-link__text"> Scroll me </span>
     </a>
+
+      <a href="/pages/faq" class="h2 reversed-link" data-spa-link>
+      <span class="reversed-link__text"> Faqs </span>
+    </a>
     <h2 class="animate-split">SplitText Animation</h2>
-    Lorem ipsum dolor sit amet consectetur, adipisicing elit. <a href="">Voluptatum</a> magni omnis doloremque deleniti,
+    Lorem ipsum dolor sit amet consectetur, adipisicing elit. <a href="/collections/all" data-spa-link>Voluptatum</a> magni omnis doloremque deleniti,
     delectus tenetur quas est perferendis eum iure sequi, id necessitatibus, hic dignissimos iusto impedit nemo dolorum?
     Aspernatur?
 
@@ -61,7 +65,7 @@
 
 
 
-<div  style="max-width: 418.75px;">
+<div  style="max-width: 418.75px; overflow: hidden;">
 
 
 
@@ -74,7 +78,13 @@
      mobile_image: section_settings.mobile_image,
      image_ratio: section_settings.image_ratio,
      image_ratio_mobile: section_settings.image_ratio_mobile,
-     alt_text: section_settings.alt_text
+     mobile_widths: '320,380,480,570',
+     desktop_widths: '570,750,900,1100,1400',
+
+     mobile_sizes: '(max-width: 767px) 100vw',
+     desktop_sizes: '(min-width: 768px) 50vw',
+     alt_text: section_settings.alt_text,
+     is_hero: true
   %}
 
 </motion-component>
@@ -171,11 +181,11 @@
 					"value": "1/1",
 					"label": "t:options.square"
 				},
-				{
-					"value": "3/2",
-					"label": "t:options.portrait_3_2"
+      	{
+					"value": "4/5",
+					"label": "t:options.portrait_4_5"
 				},
-				{
+      	{
 					"value": "3/4",
 					"label": "t:options.portrait_3_4"
 				},
@@ -207,11 +217,11 @@
 					"value": "1/1",
 					"label": "t:options.square"
 				},
-				{
-					"value": "3/2",
-					"label": "t:options.portrait_3_2"
+      	{
+					"value": "4/5",
+					"label": "t:options.portrait_4_5"
 				},
-				{
+      	{
 					"value": "3/4",
 					"label": "t:options.portrait_3_4"
 				},

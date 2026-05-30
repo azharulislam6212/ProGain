@@ -1,2 +1,39 @@
- {{ 'swiper.css' | asset_url | stylesheet_tag: preload: true }} 
+ 
 {{ 'theme.css' | asset_url | stylesheet_tag }}
+
+<link
+  rel="preload"
+  href="{{ 'components.css' | asset_url }}"
+  as="style"
+  onload="this.onload=null;this.rel='stylesheet'"
+>
+
+ 
+
+ <link
+  rel="preload"
+  href="{{ 'sections.css' | asset_url }}"
+  as="style"
+  onload="this.onload=null;this.rel='stylesheet'"
+>
+
+<link
+  rel="preload"
+  href="{{ 'animations.css' | asset_url }}"
+  as="style"
+  onload="this.onload=null;this.rel='stylesheet'"
+>
+
+<link
+  rel="preload"
+  href="{{ 'swiper.css' | asset_url }}"
+  as="style"
+  onload="this.onload=null;this.rel='stylesheet'"
+>
+
+<noscript>
+  {{ 'components.css' | asset_url | stylesheet_tag }}
+  {{ 'sections.css' | asset_url | stylesheet_tag }}
+  {{ 'animations.css' | asset_url | stylesheet_tag }}
+  {{ 'swiper.css' | asset_url | stylesheet_tag }}
+</noscript>

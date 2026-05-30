@@ -1,0 +1,172 @@
+
+
+/* ========================================*/
+/*  Badge                                  */
+/* ========================================*/
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 0.8rem 1.6rem;
+  font-size: 1.4rem;
+  font-family: var(--font-pcard_badge--family);
+  font-weight: var(--font-pcard_badge--weight);
+  font-style: var(--font-pcard_badge--style);
+  text-transform: var(--font-pcard_badge--case);
+  letter-spacing: var(--font-pcard_badge--letter-spacing);
+  line-height: var(--font-pcard_badge--line-height);
+  border-radius: var(--badge-corner-radius, 0);
+  color: var(--color-badge-text, #fff);
+  background: var(--color-badge-background, #000);
+}
+
+.badge--new {
+  background: var(--color-new-badge-background);
+  color: var(--color-new-badge-text);
+}
+
+.badge--hot {
+  background: var(--color-hot-badge-background);
+  color: var(--color-hot-badge-text);
+}
+
+.badge--popular {
+  background: var(--color-popular-badge-background);
+  color: var(--color-popular-badge-text);
+}
+
+.badge--sale {
+  background: var(--color-sale-badge-background);
+  color: var(--color-sale-badge-text);
+}
+
+.badge--sold-out {
+  background: var(--color-sold-out-badge-background);
+  color: var(--color-sold-out-badge-text);
+}
+
+.badge--preorder{
+  background: var(--color-preorder-badge-background);
+  color: var(--color-preorder-badge-text);
+}
+
+.badge--custom {
+  background: var(--color-custom-badge-background);
+  color: var(--color-custom-badge-text);
+}
+
+
+/* ========================================*/
+/*   custom select                         */
+/* ========================================*/
+
+.pointer-events-none {
+  pointer-events: none;
+}
+
+.custom-select__btn {
+  align-items: center;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  height: 4.2rem;
+  font-family: var(--font-stack-body);
+  padding: 0.8rem 2rem;
+  color: rgba(var(--color-heading));
+  border: 0.1rem solid rgba(var(--color-border), 0.4);
+  font-size: 1.6rem;
+  border-radius: 3rem;
+  font-weight: 600;
+  line-height: 150%;
+  text-transform: capitalize;
+  background-color: transparent;
+  gap: 1.2rem;
+  outline: none;
+  box-shadow: none;
+}
+
+.custom-select__btn .custom-select__icon {
+  flex: 0 0 16px;
+  transition: 0.3s ease;
+}
+
+.custom-select__btn[aria-expanded="true"] .custom-select__icon {
+  transform: scaleY(-1);
+  transform-origin: center;
+}
+
+.custom-select__listbox {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  color: rgb(var(--color-heading));
+  background-color: rgb(var(--color-background));
+  border: 0.2rem solid rgb(var(--color-border), 0.4);
+  border-radius: 0.8rem;
+  position: absolute;
+  min-height: 8.2rem;
+  max-height: 24.65rem;
+  max-width: 22rem;
+  min-width: 13rem;
+  width: max-content;
+  overflow: auto;
+  transition: transform 0.5s ease, opacity 0.5s ease;
+  opacity: 0;
+  transform: scaleY(0);
+  visibility: hidden;
+  transform-origin: top;
+  left: 0;
+  top: 100%;
+  z-index: 2;
+}
+
+.is-open .custom-select__listbox {
+  opacity: 1;
+  visibility: visible;
+  transform: scaleY(1);
+}
+
+.custom-select__option {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  font-family: var(--font-stack-body);
+  font-weight: var(--font-weight-body);
+  font-size: var(--font-body-medium);
+  line-height: var(--line-height-body);
+  word-break: break-word;
+  padding: 1rem;
+  border-radius: 0;
+  margin: 0;
+  justify-content: center;
+  text-align: left;
+  text-transform: none;
+  transition: 0.3s ease;
+  cursor: pointer;
+}
+
+.custom-select__option[aria-selected="true"],
+.custom-select__option:hover {
+  color: rgba(var(--color-heading));
+  background: rgb(var(--color-heading), .1);
+}
+
+
+/* ========================================*/
+/* RATIO UTILITIES                         */
+/* ========================================*/
+
+.ratio {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+}
+
+.ratio::before {
+  content: "";
+  position: relative;
+  top: 0;
+  left: 0;
+  padding-bottom: var(--aspect-ratio);
+}

@@ -1,0 +1,52 @@
+<page-transition class="page-transition no-js-hidden">
+  <span class="visually-hidden">Loading</span>
+</page-transition>
+
+{% stylesheet %}
+  .page-transition {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    background: var(--color-foreground);
+    pointer-events: none;
+    opacity: 1;
+    visibility: visible;
+    transform: scale(1.08) translate3d(0, 0, 0);
+    will-change: opacity, transform;
+    backface-visibility: hidden;
+    transform-origin: center center;
+    contain: strict;
+    isolation: isolate;
+  }
+
+  .page-content {
+    position: relative;
+    min-height: 100vh;
+    transform: translate3d(0, 0, 0);
+    will-change: transform, opacity;
+    backface-visibility: hidden;
+    transform-origin: center center;
+  }
+
+  /* smoother rendering */
+  .page-content,
+  .page-transition {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* disable transition */
+  body:not(.page-transitions-enabled) .page-transition {
+    display: none;
+  }
+
+  /* reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    .page-transition,
+    .page-content {
+      transition: none !important;
+      animation: none !important;
+      transform: none !important;
+    }
+  }
+{% endstylesheet %}

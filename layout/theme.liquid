@@ -1,6 +1,6 @@
 {%- capture direction -%}{% render 'direction' %}{%- endcapture -%}
 <!doctype html>
-<html class="js lenis" lang="{{ request.locale.iso_code | default: 'en' }}" dir="{{ direction }}">
+<html class="no-js lenis"  lang="{{ request.locale.iso_code | default: 'en' }}" dir="{{ direction }}">
   <head>
     {%- if settings.favicon != blank -%}
       <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
@@ -12,11 +12,19 @@
     {%- render 'style-variables' -%}
     {%- render 'color-schemes' -%}
     {%- render 'stylesheets' -%}
+
+
     {{ content_for_header }}
   </head>
-  <body class="template-{{ request.page_type }}{% if template.suffix %} template--{{- template.suffix -}}{% endif %}">
+  <body class="{% if settings.enable_page_transitions %} page-transitions-enabled {% endif %} template-{{ request.page_type }}{% if template.suffix %} template--{{- template.suffix -}}{% endif %}">
+  {% render 'skip-to-content-link', href: '#MainContent', text: 'accessibility.skip_to_text' %}
 
-    {% render 'skip-to-content-link', href: '#MainContent', text: 'accessibility.skip_to_text' %}
+   {% if settings.enable_page_transitions %}
+    {%- render 'page-transition'-%}
+  {% endif %}
+
+  <div class="page-content">
+
     <div id="header-group">
       {%- liquid
         sections 'header-group'
@@ -31,5 +39,6 @@
       {{ content_for_layout }}
     </main>
     {% sections 'footer-group' %}
+   </div>
   </body>
 </html>

@@ -2106,7 +2106,7 @@
         ],
         "default": "none"
       },
-       {
+      {
         "type": "header",
         "content": "t:options.pcard_badge"
       },
@@ -2262,7 +2262,7 @@
         ],
         "default": "none"
       },
-           {
+      {
         "type": "range",
         "id": "badge_border_radius",
         "min": 0,
@@ -2467,6 +2467,57 @@
         "step": 30,
         "unit": "px",
         "default": 1320
+      }
+    ]
+  },
+    {
+    "name": "Animation",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "enable_page_transitions",
+        "label": "Enable page transitions",
+        "default": true,
+        "info": "Enable fade overlay effect when navigating between pages."
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_scroll_animations",
+        "label": "Enable animations",
+        "default": true,
+        "info": "Enable scroll-triggered animations for sections and blocks."
+      },
+      {
+        "type": "select",
+        "id": "image_loading_effect",
+        "label": "Image loading effect",
+        "options": [
+          {
+            "value": "",
+            "label": "None"
+          },
+          {
+            "value": "media--fade-in",
+            "label": "Fade in"
+          },
+          {
+            "value": "media--zoom-out",
+            "label": "Zoom out"
+          },
+          {
+            "value": "media--zoom-in",
+            "label": "Zoom in"
+          },
+          {
+            "value": "media--blur-in",
+            "label": "Blur in"
+          },
+          {
+            "value": "media--reveal",
+            "label": "Reveal"
+          }
+        ],
+        "default": "media--reveal"
       }
     ]
   },

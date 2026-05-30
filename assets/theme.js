@@ -1,15 +1,16 @@
 // ------------------------
 // Core modules (always needed) 
 // ------------------------
-
+import  PageTransition  from "@theme/page-transition";
 import Modules from '@theme/modules';
 import { ThemeEvents } from '@theme/events';
 import { requestIdleCallback } from "@theme/utilities";
 import { initScrollbarWidth } from '@theme/scrollbar';
 import { initButtons } from '@theme/component';
 import { initMotionEngine } from "@theme/motion-engine";
+
  
- 
+
 // ------------------------
 // Theme loader
 // ------------------------
@@ -18,9 +19,12 @@ class Theme {
     this.config = window.__THEME__ || {};
     this.template = this.config?.template?.name || null;
     this.cartType = this.config?.cartType || 'page';
+    this.enablePageTransitions = this.config?.enablePageTransitions ||  false ;
     this.modules = new Modules(); 
     
     this.isDesignMode = window.Shopify && Shopify.designMode === true;
+
+  
   }
 
   // ------------------------
@@ -43,12 +47,20 @@ class Theme {
   // Global modules
   // ------------------------
 
-   initGlobalModules() {      
+   initGlobalModules() {  
+    
+    if(this.enablePageTransitions){
+      new PageTransition();
+    }
+ 
     initScrollbarWidth();     
     initButtons(); 
 
      //  Motion Engine (GLOBAL UI BEHAVIOR)
-    initMotionEngine(document);
+       requestIdleCallback(() => {
+        initMotionEngine(document);
+      });
+ 
   }
  
   // ------------------------
@@ -58,7 +70,7 @@ class Theme {
   initSection(section) {
     if (!section) return;
 
-    const id = section.dataset.sectionId;
+    const id = section.dataset.sectionId? section.dataset.sectionId: null;
 
     // Prevent duplicate init
     if (section.dataset.initialized) return;
@@ -98,7 +110,7 @@ class Theme {
     // Shopify lifecycle
     document.addEventListener('shopify:section:load', (e) => {
       this.initSection(e.target);
-      initMotionEngine(e.target);
+       initMotionEngine(e.target);
     });
 
     document.addEventListener('shopify:section:unload', (e) => {
@@ -110,6 +122,7 @@ class Theme {
 // ------------------------
 // Init theme
 // ------------------------
+ 
 const theme = new Theme();
 theme.start();
 

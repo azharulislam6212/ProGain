@@ -1,11 +1,11 @@
 {
   "sections": {
-    "section": {
-      "type": "section",
+    "contact-form": {
+      "type": "contact-form",
       "settings": {}
     }
   },
   "order": [
-    "section"
+    "contact-form"
   ]
 }

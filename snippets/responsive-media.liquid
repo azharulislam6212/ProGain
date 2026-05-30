@@ -1,43 +1,174 @@
 {% doc %}
   Responsive Media
+  Pebble/Horizon-style responsive media renderer.
 
-  Renders responsive image with:
-  - optional mobile image
-  - lazy loading
-  - responsive-image custom element
+  Features:
+  - dynamic responsive widths
+  - preset architecture
+  - mobile art direction
+  - auto width filtering
+  - responsive-image support
+  - eager/lazy loading
+  - intrinsic ratio system
+  - lightweight architecture
   - placeholder fallback
-  - automatic eager/lazy mode
+
+  ------------------------------------------------------------------------------
+  BASIC
+  ------------------------------------------------------------------------------
+
+  {% render 'responsive-media',
+    image: section.settings.image
+  %}
+
+  ------------------------------------------------------------------------------
+  MOBILE IMAGE
+  ------------------------------------------------------------------------------
+
+  {% render 'responsive-media',
+    image: section.settings.image,
+    mobile_image: section.settings.mobile_image
+  %}
+
+  ------------------------------------------------------------------------------
+  PRESETS
+  ------------------------------------------------------------------------------
+
+  Available:
+  - hero
+  - banner
+  - card
+  - product
+  - gallery
+
+  {% render 'responsive-media',
+    image: section.settings.image,
+    media_preset: 'hero'
+  %}
+
+  ------------------------------------------------------------------------------
+  CUSTOM WIDTHS
+  ------------------------------------------------------------------------------
+
+  {% render 'responsive-media',
+    image: section.settings.image,
+
+    desktop_widths: '400,800,1200,1600,2200',
+    mobile_widths: '320,480,640',
+
+    desktop_sizes: '(min-width: 768px) 50vw, 100vw',
+    mobile_sizes: '100vw'
+  %}
+
+  ------------------------------------------------------------------------------
+  PARAMS
+  ------------------------------------------------------------------------------
 
   @param {object} image
   @param {object} [mobile_image]
+
   @param {string} [alt_text]
+
   @param {string} [image_ratio]
   @param {string} [image_ratio_mobile]
-  @param {string} [class]
+
+  @param {string} [media_class]
+  @param {string} [image_class]
+
+  @param {string} [desktop_widths]
+  @param {string} [mobile_widths]
+
+  @param {string} [desktop_sizes]
+  @param {string} [mobile_sizes]
+
+  @param {string} [media_preset]
+
   @param {boolean} [is_hero]
+
   @param {string} [placeholder]
-
-  @example
-
-  {% render 'responsive-media',
-    image: image,
-    mobile_image: mobile_image,
-    image_ratio: image_ratio,
-    image_ratio_mobile: image_ratio_mobile,
-    alt_text: alt_text,
-    class: 'optional-class',
-    is_hero: true,
-    placeholder: 'product-1'
-  %}
 {% enddoc %}
 
 {%- liquid
+
+  assign media_preset = media_preset | default: 'default'
+
+  case media_preset
+
+    when 'hero'
+
+      assign desktop_widths = desktop_widths | default: '768,1200,1600,2000,2400,3000,3840'
+      assign mobile_widths = mobile_widths | default: '320,480,640,750,828,1080'
+
+      assign desktop_sizes = desktop_sizes | default: '100vw'
+      assign mobile_sizes = mobile_sizes | default: '100vw'
+
+    when 'banner'
+
+      assign desktop_widths = desktop_widths | default: '640,960,1280,1600,1920,2400'
+      assign mobile_widths = mobile_widths | default: '320,480,640,750'
+
+      assign desktop_sizes = desktop_sizes | default: '100vw'
+      assign mobile_sizes = mobile_sizes | default: '100vw'
+
+    when 'card'
+
+      assign desktop_widths = desktop_widths | default: '240,320,480,640'
+      assign mobile_widths = mobile_widths | default: '240,320,480'
+
+      assign desktop_sizes = desktop_sizes | default: '(min-width: 768px) 25vw, 50vw'
+      assign mobile_sizes = mobile_sizes | default: '50vw'
+
+    when 'product'
+
+      assign desktop_widths = desktop_widths | default: '480,640,750,960,1200,1440'
+      assign mobile_widths = mobile_widths | default: '320,480,640,750'
+
+      assign desktop_sizes = desktop_sizes | default: '(min-width: 768px) 50vw, 100vw'
+      assign mobile_sizes = mobile_sizes | default: '100vw'
+
+    when 'gallery'
+
+      assign desktop_widths = desktop_widths | default: '640,750,960,1200,1440,1680'
+      assign mobile_widths = mobile_widths | default: '320,480,640,750'
+
+      assign desktop_sizes = desktop_sizes | default: '(min-width: 768px) 33vw, 100vw'
+      assign mobile_sizes = mobile_sizes | default: '100vw'
+
+    else
+
+      assign desktop_widths = desktop_widths | default: '240,352,480,535,640,750,828,960,1024,1280,1440,1680,1920,2560,3840'
+      assign mobile_widths = mobile_widths | default: '240,352,480,535,640,750,828,960,1024'
+
+      assign desktop_sizes = desktop_sizes | default: '100vw'
+      assign mobile_sizes = mobile_sizes | default: desktop_sizes
+
+  endcase
+
+  assign placeholder = placeholder | default: 'detailed-apparel-1'
+
   assign is_hero = is_hero | default: false
-  assign placeholder = placeholder | default: 'product-1'
+
+  assign media_classes = 'media'
+
+  if media_class != blank
+    assign media_classes = media_classes | append: ' ' | append: media_class
+  endif
+
+  if settings.image_loading_effect != blank
+    assign media_classes = media_classes | append: ' ' | append: settings.image_loading_effect
+  endif
+
+  assign image_classes = 'media__image'
+
+  if image_class != blank
+    assign image_classes = image_classes | append: ' ' | append: image_class
+  endif
 
   if alt_text == blank and image != blank
     assign alt_text = image.alt
   endif
+
+  assign alt_text = alt_text | default: shop.name | escape
 
   if image_ratio == 'auto' and image != blank
     assign image_ratio = image.aspect_ratio
@@ -48,13 +179,12 @@
   endif
 
   if image_ratio == blank
-    assign image_ratio = 1
+    assign image_ratio = image.aspect_ratio | default: 'auto'
   endif
 
-  if image_ratio_mobile == blank or mobile_image == blank
-    assign image_ratio_mobile = image_ratio
+  if image_ratio_mobile == blank
+    assign image_ratio_mobile = mobile_image.aspect_ratio | default: image_ratio
   endif
-  
 
   if is_hero
     assign loading = 'eager'
@@ -65,13 +195,38 @@
     assign fetchpriority = 'low'
     assign mode = 'js'
   endif
+
+  assign mobile_widths_array = mobile_widths | split: ','
+
 -%}
 
+{%- capture mobile_srcset -%}
+
+  {%- if mobile_image != blank -%}
+
+    {%- for width in mobile_widths_array -%}
+
+      {%- assign width_num = width | strip | plus: 0 -%}
+
+      {%- if mobile_image.width >= width_num -%}
+
+        {{ mobile_image | image_url: width: width_num }} {{ width_num }}w
+
+        {%- unless forloop.last -%}, {% endunless %}
+
+      {%- endif -%}
+
+    {%- endfor -%}
+
+  {%- endif -%}
+
+{%- endcapture -%}
+
 <div
-  class="media {{ class }}"
+  class="{{ media_classes }}"
   style="
-    --media-ratio: {{ image_ratio }};
-    --media-ratio-mobile: {{ image_ratio_mobile }};
+    --ratio: {{ image_ratio }};
+    --ratio-mobile: {{ image_ratio_mobile }};
   "
 >
 
@@ -83,28 +238,23 @@
 
         <source
           media="(max-width: 767px)"
-          srcset="
-            {{ mobile_image | image_url: width: 360 }} 360w,
-            {{ mobile_image | image_url: width: 535 }} 535w,
-            {{ mobile_image | image_url: width: 750 }} 750w,
-            {{ mobile_image | image_url: width: 828 }} 828w,
-            {{ mobile_image | image_url: width: 1024 }} 1024w
-          "
-          sizes="100vw"
+          srcset="{{ mobile_srcset | strip }}"
+          sizes="{{ mobile_sizes }}"
         >
 
         {{
           image
-          | image_url: width: 3840
+          | image_url: width: image.width
           | image_tag:
-            class: 'media__image media-hover__element no-js-hidden',
-            widths: '120,240,360,480,535,640,750,828,960,1024,1280,1440,1680,1920,2560,3840',
-            sizes: '(min-width: 768px) 100vw, 100vw',
+            class: image_classes,
+            widths: desktop_widths,
+            sizes: desktop_sizes,
             is: 'responsive-image',
             alt: alt_text,
             loading: loading,
             fetchpriority: fetchpriority,
-            data_mode: mode
+            decoding: 'async',
+            data-mode: mode
         }}
 
       </picture>
@@ -113,40 +263,39 @@
 
       {{
         image
-        | image_url: width: 3840
+        | image_url: width: image.width
         | image_tag:
-          class: 'media__image media-hover__element no-js-hidden',
-          widths: '120,240,360,480,535,640,750,828,960,1024,1280,1440,1680,1920,2560,3840',
-          sizes: '(min-width: 768px) 100vw, 100vw',
+          class: image_classes,
+          widths: desktop_widths,
+          sizes: desktop_sizes,
           is: 'responsive-image',
           alt: alt_text,
           loading: loading,
           fetchpriority: fetchpriority,
-          data_mode: mode
+          decoding: 'async',
+          data-mode: mode
       }}
 
     {% endif %}
 
     <noscript>
+
       {{
         image
         | image_url: width: 1920
         | image_tag:
-          class: 'media__image media-hover__element',
+          class: image_classes,
           alt: alt_text,
           loading: 'lazy',
           fetchpriority: 'low'
       }}
+
     </noscript>
 
   {% else %}
 
     <div class="media__placeholder placeholder-svg-wrapper">
-      {% if placeholder %}
-        {{ placeholder }}
-      {% else %}
-        {{ 'detailed-apparel-1' | placeholder_svg_tag: 'placeholder-svg' }}
-      {% endif %}
+      {{ placeholder | placeholder_svg_tag: 'placeholder-svg' }}
     </div>
 
   {% endif %}
