@@ -16,7 +16,7 @@
 
     {{ content_for_header }}
   </head>
-  <body class="{% if settings.enable_page_transitions %} page-transitions-enabled {% endif %} template-{{ request.page_type }}{% if template.suffix %} template--{{- template.suffix -}}{% endif %}">
+  <body class="{% if settings.enable_page_transitions %} page-transitions-enabled {% endif %} animations-enabled template-{{ request.page_type }}{% if template.suffix %} template--{{- template.suffix -}}{% endif %}">
   {% render 'skip-to-content-link', href: '#MainContent', text: 'accessibility.skip_to_text' %}
 
    {% if settings.enable_page_transitions %}

@@ -118,7 +118,7 @@ function syncLenis() {
 }
 
 export function refresh(scope = document) {
-  scope.querySelectorAll("motion-component").forEach(register);
+  scope.querySelectorAll("motion-effect").forEach(register);
 }
 
 export function register(element) {

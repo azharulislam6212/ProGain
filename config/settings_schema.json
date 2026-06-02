@@ -2497,27 +2497,27 @@
             "label": "None"
           },
           {
-            "value": "media--fade-in",
-            "label": "Fade in"
-          },
-          {
-            "value": "media--zoom-out",
-            "label": "Zoom out"
+            "value": "media--fade",
+            "label": "Fade"
           },
           {
             "value": "media--zoom-in",
-            "label": "Zoom in"
+            "label": "Zoom In"
           },
           {
-            "value": "media--blur-in",
-            "label": "Blur in"
+            "value": "media--zoom-out",
+            "label": "Zoom Out"
+          },
+          {
+            "value": "media--blur",
+            "label": "Blur"
           },
           {
             "value": "media--reveal",
             "label": "Reveal"
           }
         ],
-        "default": "media--reveal"
+        "default": "media--fade"
       }
     ]
   },

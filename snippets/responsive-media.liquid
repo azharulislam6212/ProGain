@@ -74,6 +74,7 @@
 
   @param {string} [media_class]
   @param {string} [image_class]
+  @param {string} [motion_effect]
 
   @param {string} [desktop_widths]
   @param {string} [mobile_widths]
@@ -154,8 +155,8 @@
     assign media_classes = media_classes | append: ' ' | append: media_class
   endif
 
-  if settings.image_loading_effect != blank
-    assign media_classes = media_classes | append: ' ' | append: settings.image_loading_effect
+  if motion_effect != blank
+    assign media_classes = media_classes | append: ' media--' | append: motion_effect 
   endif
 
   assign image_classes = 'media__image'
@@ -295,7 +296,7 @@
   {% else %}
 
     <div class="media__placeholder placeholder-svg-wrapper">
-      {{ placeholder | placeholder_svg_tag: 'placeholder-svg' }}
+      {{ placeholder | placeholder_svg_tag: 'placeholder' }}
     </div>
 
   {% endif %}
