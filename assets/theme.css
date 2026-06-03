@@ -4411,12 +4411,9 @@ more-payment-options-link a:hover {
   display: none;
 }
 
-
-
-
-/* ========================================*/
-/* MEDIA                                   */
-/* ========================================*/
+ /* ========================================
+   MEDIA
+======================================== */
 
 
 /* Placeholder SVG */
@@ -4431,16 +4428,20 @@ svg.placeholder {
   object-fit: cover;
 }
 
-.media__placeholder{
+
+.media__placeholder {
   width: 100%;
   height: 100%;
   display: block;
 }
- 
+
+
+
+
+
 /* ========================================
    MEDIA WRAPPER
 ======================================== */
-
 
 .media {
   position: relative;
@@ -4451,30 +4452,44 @@ svg.placeholder {
 
 
 
-/* Mobile ratio */
-
 @media (max-width: 767.98px) {
+
   .media {
     aspect-ratio: var(--ratio-mobile, var(--ratio));
   }
+
 }
+
+
+
+
 
 
 
 /* ========================================
    IMAGE BASE
+   LCP SAFE
 ======================================== */
-
 
 .media__image {
   width: 100%;
   height: 100%;
   display: block;
+
   object-fit: cover;
-  opacity: 0;
-  transition: opacity var(--animation-duration--medium) var(--animation-easing), filter var(--animation-duration--medium) var(--animation-easing);
-  will-change: opacity, filter;
+
+  opacity: 1;
+
+  transform:
+    translateZ(0);
+
+  backface-visibility: hidden;
+
+  will-change: auto;
 }
+
+
+
 
 
 
@@ -4484,60 +4499,83 @@ svg.placeholder {
 ======================================== */
 
 
-.media.is-loading .media__image:not(.media__image--placeholder) {
-  opacity: 0;
+.media.is-loading {
+  background-color:
+    rgb(var(--color-foreground-rgb) / 5%);
 }
+
+
 
 .media.is-loaded {
+
   background-color: transparent;
-  transition: background-color var(--animation-duration--medium) var(--animation-easing) 0.4s;
+
+  transition:
+    background-color
+    var(--animation-duration--medium)
+    var(--animation-easing);
+
 }
 
-.media.is-loaded .media__image {
-  opacity: 1;
-  filter: none;
-  will-change: auto;
-}
+
+
+
+
+
+
 
 
 /* ========================================
-   IMAGE LOAD EFFECT
-   GSAP handles transform
+   IMAGE MOTION PREP
+   before GSAP
+======================================== */
+
+
+/* ========================================
+   IMAGE MOTION PREP
 ======================================== */
 
 
 /* Fade */
 
-.media--fade .media__image {
-  opacity: 0;
+motion-effect:not([data-motion-initialized])
+  .media--fade
+  .media__image {
+  opacity: 0.001;
+  transform: translateY(18px);
 }
 
-/* Zoom In
-   animation by GSAP
-*/
 
-.media--zoom-in .media__image {
-  opacity: 0;
+
+/* Zoom In */
+
+motion-effect:not([data-motion-initialized])
+  .media--zoom-in
+  .media__image {
+  opacity: 0.001;
+  transform: scale(1.12);
 }
 
-/* Zoom Out
-   animation by GSAP
-*/
 
-.media--zoom-out .media__image {
-  opacity: 0;
+
+/* Zoom Out */
+
+motion-effect:not([data-motion-initialized])
+  .media--zoom-out
+  .media__image {
+  opacity: 0.001;
+  transform: scale(0.92);
 }
 
 
 
 /* Blur */
 
-.media--blur .media__image {
+motion-effect:not([data-motion-initialized])
+  .media--blur
+  .media__image {
+  opacity: 0.001;
   filter: blur(12px);
-}
-
-.media--blur.is-loaded .media__image {
-  filter: blur(0);
 }
 
 
@@ -4545,12 +4583,41 @@ svg.placeholder {
 /* Reveal */
 
 .media--reveal {
-  clip-path: inset(0 0 100% 0);
-  transition: clip-path var(--animation-duration--slow) var(--animation-easing--smooth);
+  overflow: hidden;
 }
-.media--reveal.is-loaded {
-  clip-path: inset(0);
+
+
+motion-effect:not([data-motion-initialized])
+  .media--reveal
+  .media__image {
+  opacity: 1;
+  clip-path: inset(100% 0 0 0);
 }
+
+
+
+
+
+
+/* ========================================
+   MOTION COMPLETE CLEAN
+======================================== */
+
+
+motion-effect[data-motion-initialized]
+.media__image {
+
+  will-change: auto;
+
+}
+
+
+
+
+
+
+
+
 
 
 /* ========================================
@@ -4558,21 +4625,29 @@ svg.placeholder {
 ======================================== */
 
 
-body:not(.animations-enabled) .media .media__image:not(svg.placeholder) {
+body:not(.animations-enabled)
+  .media
+  .media__image:not(svg.placeholder) {
+
   opacity: 1;
-  transform: translateZ(0) scale(1);
+
+  transform:
+    translateZ(0)
+    scale(1);
+
   filter: none;
+
+  clip-path: none;
+
   transition: none;
+
   will-change: auto;
+
 }
 
 
 
-body:not(.animations-enabled) .media.is-loaded .media__image:not(svg.placeholder) {
-  opacity: 1;
-  transform: translateZ(0) scale(1);
-  filter: none;
-}
+
 
 
 
@@ -4583,23 +4658,47 @@ body:not(.animations-enabled) .media.is-loaded .media__image:not(svg.placeholder
 ======================================== */
 
 
-.media-hover--scale .media-hover__element {
-  transform: scale(var(--hover-scale-x, 1),  var(--hover-scale-y, 1));
-  transition: transform var(--animation-duration--slow) var(--animation-easing--smooth), opacity var(--animation-duration--medium) var(--animation-easing);
+.media-hover--scale
+.media-hover__element {
+
+  transform:
+    scale(
+      var(--hover-scale-x, 1),
+      var(--hover-scale-y, 1)
+    );
+
+
+  transition:
+    transform
+    var(--animation-duration--slow)
+    var(--animation-easing--smooth);
+
+
   object-position: center;
+
   will-change: transform;
+
 }
+
+
+
 
 
 
 /* Desktop hover only */
 
+
 @media (hover: hover) and (pointer: fine) {
 
-  .media-hover--scale:hover .media-hover__element {
+
+  .media-hover--scale:hover
+  .media-hover__element {
+
     --hover-scale-x: 1.05;
+
     --hover-scale-y: 1.05;
 
   }
+
 
 }

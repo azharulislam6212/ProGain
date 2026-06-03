@@ -2489,35 +2489,35 @@
       },
       {
         "type": "select",
-        "id": "image_loading_effect",
-        "label": "Image loading effect",
+        "id": "motion_effect",
+        "label": "Image motion effect",
         "options": [
           {
             "value": "",
             "label": "None"
           },
           {
-            "value": "media--fade",
+            "value": "fade",
             "label": "Fade"
           },
           {
-            "value": "media--zoom-in",
+            "value": "zoom-in",
             "label": "Zoom In"
           },
           {
-            "value": "media--zoom-out",
+            "value": "zoom-out",
             "label": "Zoom Out"
           },
           {
-            "value": "media--blur",
+            "value": "blur",
             "label": "Blur"
           },
           {
-            "value": "media--reveal",
+            "value": "reveal",
             "label": "Reveal"
           }
         ],
-        "default": "media--fade"
+        "default": "fade"
       }
     ]
   },

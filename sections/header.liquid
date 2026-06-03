@@ -70,14 +70,13 @@
  
  {%- assign section_settings = section.settings -%}
 
- <motion-effect data-motion="{{ section_settings.motion_effect | default: 'zoom-out' }}" class="block h-full">
+ <motion-effect data-motion="{{ settings.motion_effect | default: 'zoom-out' }}" class="block h-full">
 
      {% render 'responsive-media',
      image: section_settings.image,
      mobile_image: section_settings.mobile_image,
      image_ratio: section_settings.image_ratio,
      image_ratio_mobile: section_settings.image_ratio_mobile,
-     motion_effect: section_settings.motion_effect,
      mobile_widths: '320,380,570',
      desktop_widths: '570,750,900,1100,1400',
      mobile_sizes: '(max-width: 767px) 50vw',
@@ -160,39 +159,6 @@
       "id": "alt_text",
       "label": "Alt Text"
     },
-
-         {
-        "type": "select",
-        "id": "motion_effect",
-        "label": "Motion effect",
-        "options": [
-          {
-            "value": "",
-            "label": "None"
-          },
-          {
-            "value": "fade",
-            "label": "Fade"
-          },
-          {
-            "value": "zoom-in",
-            "label": "Zoom In"
-          },
-          {
-            "value": "zoom-out",
-            "label": "Zoom Out"
-          },
-          {
-            "value": "blur",
-            "label": "Blur"
-          },
-          {
-            "value": "reveal",
-            "label": "Reveal"
-          }
-        ],
-        "default": "fade"
-      },
 		{
 			"type": "select",
 			"id": "image_ratio",

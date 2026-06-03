@@ -1,4 +1,4 @@
- import { getLenis } from "@theme/utilities";
+import { getLenis } from "@theme/utilities";
 
 let initialized = false;
 let gsap = null;
@@ -131,7 +131,7 @@ export function register(element) {
     delay: parseInt(element.dataset.motionDelay || 0, 10) / 1000,
     duration: parseFloat(
       element.dataset.motionDuration ||
-        config.defaults.duration
+      config.defaults.duration
     ),
     ease:
       element.dataset.motionEase ||
@@ -215,167 +215,400 @@ async function run(element, data) {
   }
 }
 
-function animate( element,{type,delay, duration,ease,}) {
-  const base = { delay, duration, ease, overwrite: "auto", };
+// function animate( element,{type,delay, duration,ease,}) {
+//   const base = { delay, duration, ease, overwrite: "auto", };
+//   switch (type) {
+//     case "fade-up":
+//       gsap.set(element, {
+//         opacity: 0,
+//         y: 40,
+//         willChange:
+//           "transform, opacity",
+//       });
+
+//       return gsap.to(element, {
+//         opacity: 1,
+//         y: 0,
+//         ...base,
+
+//         onComplete: () => {
+//           element.style.willChange =
+//             "auto";
+//         },
+//       });
+
+//     case "fade-in":
+//       gsap.set(element, {
+//         opacity: 0,
+//         willChange: "opacity",
+//       });
+
+//       return gsap.to(element, {
+//         opacity: 1,
+//         ...base,
+
+//         onComplete: () => {
+//           element.style.willChange =
+//             "auto";
+//         },
+//       });
+
+//     case "slide-left":
+//       gsap.set(element, {
+//         opacity: 0,
+//         x: -50,
+//         willChange:
+//           "transform, opacity",
+//       });
+
+//       return gsap.to(element, {
+//         opacity: 1,
+//         x: 0,
+//         ...base,
+
+//         onComplete: () => {
+//           element.style.willChange =
+//             "auto";
+//         },
+//       });
+
+//     case "slide-right":
+//       gsap.set(element, {
+//         opacity: 0,
+//         x: 50,
+//         willChange:
+//           "transform, opacity",
+//       });
+
+//       return gsap.to(element, {
+//         opacity: 1,
+//         x: 0,
+//         ...base,
+
+//         onComplete: () => {
+//           element.style.willChange =
+//             "auto";
+//         },
+//       });
+
+//     case "zoom-in":
+//       gsap.set(element, {
+//         opacity: 0,
+//         scale: 0.92,
+//         willChange:
+//           "transform, opacity",
+//       });
+
+//       return gsap.to(element, {
+//         opacity: 1,
+//         scale: 1,
+//         ...base,
+
+//         onComplete: () => {
+//           element.style.willChange =
+//             "auto";
+//         },
+//       });
+
+//     case "zoom-out":
+//       gsap.set(element, {
+//         opacity: 0,
+//         scale: 1.08,
+//         willChange:
+//           "transform, opacity",
+//       });
+
+//       return gsap.to(element, {
+//         opacity: 1,
+//         scale: 1,
+//         ...base,
+
+//         onComplete: () => {
+//           element.style.willChange =
+//             "auto";
+//         },
+//       });
+
+//     case "split-text":
+//       if (!SplitText) return;
+
+//       return new Promise((resolve) => {
+//         requestAnimationFrame(() => {
+//           const split = new SplitText(element, {
+//             type: "chars",
+//           });
+
+//           gsap.set(split.chars, {
+//             opacity: 0,
+//             y: 18,
+//           });
+
+//           gsap.to(split.chars, {
+//             opacity: 1,
+//             y: 0,
+//             stagger: 0.025,
+//             ...base,
+
+//             onComplete: () => {
+//               element.style.willChange =
+//                 "auto";
+
+//               resolve();
+//             },
+//           });
+//         });
+//       });
+
+//     case "text":
+//       if (!TextPlugin) return;
+
+//       return gsap.to(element, {
+//         duration,
+//         text:
+//           element.dataset.text ||
+//           element.textContent,
+//         ease: "none",
+//         delay,
+//       });
+
+//     default:
+//       return gsap.to(element, {
+//         opacity: 1,
+//         ...base,
+//       });
+//   }
+// }
+
+
+function animate(element, { type, delay, duration, ease }) {
+  const imageEffects = [
+    "fade",
+    "zoom-in",
+    "zoom-out",
+    "blur",
+    "reveal",
+  ];
+
+
+  const target = imageEffects.includes(type)
+    ? element.querySelector(".media__image") || element
+    : element;
+
+
+  const base = {
+    delay,
+    duration,
+    ease,
+    overwrite: "auto",
+  };
+
+
   switch (type) {
+
+
+    /* CONTENT */
+
     case "fade-up":
-      gsap.set(element, {
+
+      gsap.set(target, {
         opacity: 0,
         y: 40,
-        willChange:
-          "transform, opacity",
       });
 
-      return gsap.to(element, {
+
+      return gsap.to(target, {
         opacity: 1,
         y: 0,
         ...base,
-
-        onComplete: () => {
-          element.style.willChange =
-            "auto";
-        },
       });
+
+
+
 
     case "fade-in":
-      gsap.set(element, {
+
+      gsap.set(target, {
         opacity: 0,
-        willChange: "opacity",
       });
 
-      return gsap.to(element, {
+
+      return gsap.to(target, {
         opacity: 1,
         ...base,
-
-        onComplete: () => {
-          element.style.willChange =
-            "auto";
-        },
       });
+
+
 
     case "slide-left":
-      gsap.set(element, {
+
+      gsap.set(target, {
         opacity: 0,
         x: -50,
-        willChange:
-          "transform, opacity",
       });
 
-      return gsap.to(element, {
+
+      return gsap.to(target, {
         opacity: 1,
         x: 0,
         ...base,
-
-        onComplete: () => {
-          element.style.willChange =
-            "auto";
-        },
       });
+
+
 
     case "slide-right":
-      gsap.set(element, {
+
+      gsap.set(target, {
         opacity: 0,
         x: 50,
-        willChange:
-          "transform, opacity",
       });
 
-      return gsap.to(element, {
+
+      return gsap.to(target, {
         opacity: 1,
         x: 0,
         ...base,
-
-        onComplete: () => {
-          element.style.willChange =
-            "auto";
-        },
       });
+
+
+    /* IMAGE */
+
+
+    case "fade":
+
+      gsap.set(target, {
+        opacity: 0,
+        y: 18,
+      });
+
+
+      return gsap.to(target, {
+        opacity: 1,
+        y: 0,
+        duration: 0.5,
+        ease: "power3.out",
+      });
+
+
 
     case "zoom-in":
-      gsap.set(element, {
+
+      gsap.set(target, {
         opacity: 0,
-        scale: 0.92,
-        willChange:
-          "transform, opacity",
+        scale: 1.12,
       });
 
-      return gsap.to(element, {
+
+      return gsap.to(target, {
         opacity: 1,
         scale: 1,
         ...base,
-
-        onComplete: () => {
-          element.style.willChange =
-            "auto";
-        },
       });
+
+
 
     case "zoom-out":
-      gsap.set(element, {
+
+      gsap.set(target, {
         opacity: 0,
-        scale: 1.08,
-        willChange:
-          "transform, opacity",
+        scale: 0.92,
       });
 
-      return gsap.to(element, {
+
+      return gsap.to(target, {
         opacity: 1,
         scale: 1,
         ...base,
-
-        onComplete: () => {
-          element.style.willChange =
-            "auto";
-        },
       });
 
+
+
+    case "blur":
+
+      gsap.set(target, {
+        opacity: 0,
+        filter: "blur(12px)",
+      });
+
+
+      return gsap.to(target, {
+        opacity: 1,
+        filter: "blur(0)",
+        ...base,
+      });
+
+
+
+    case "reveal":
+
+      gsap.set(target, {
+        clipPath: "inset(100% 0 0 0)",
+        scale: 1.05,
+      });
+
+
+      return gsap.to(target, {
+        clipPath: "inset(0% 0 0 0)",
+        scale: 1,
+
+        duration: 1,
+
+        ease: "power4.out",
+      });
+
+
+
     case "split-text":
+
       if (!SplitText) return;
 
-      return new Promise((resolve) => {
+
+      return new Promise(resolve => {
+
         requestAnimationFrame(() => {
-          const split = new SplitText(element, {
+
+
+          const split = new SplitText(target, {
             type: "chars",
           });
 
-          gsap.set(split.chars, {
+
+          gsap.from(split.chars, {
             opacity: 0,
             y: 18,
-          });
-
-          gsap.to(split.chars, {
-            opacity: 1,
-            y: 0,
-            stagger: 0.025,
+            stagger: .025,
             ...base,
 
-            onComplete: () => {
-              element.style.willChange =
-                "auto";
-
-              resolve();
-            },
+            onComplete: resolve,
           });
+
         });
+
       });
 
+
+
     case "text":
+
       if (!TextPlugin) return;
 
-      return gsap.to(element, {
-        duration,
+
+      return gsap.to(target, {
         text:
-          element.dataset.text ||
-          element.textContent,
-        ease: "none",
+          target.dataset.text ||
+          target.textContent,
+        duration,
         delay,
       });
 
+
+
     default:
-      return gsap.to(element, {
+
+      return gsap.to(target, {
         opacity: 1,
         ...base,
       });
+
   }
 }
 

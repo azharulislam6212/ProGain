@@ -74,8 +74,7 @@
 
   @param {string} [media_class]
   @param {string} [image_class]
-  @param {string} [motion_effect]
-
+ 
   @param {string} [desktop_widths]
   @param {string} [mobile_widths]
 
@@ -155,8 +154,8 @@
     assign media_classes = media_classes | append: ' ' | append: media_class
   endif
 
-  if motion_effect != blank
-    assign media_classes = media_classes | append: ' media--' | append: motion_effect 
+  if settings.motion_effect != blank
+    assign media_classes = media_classes | append: ' media--' | append: settings.motion_effect 
   endif
 
   assign image_classes = 'media__image'

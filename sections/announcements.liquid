@@ -6,12 +6,11 @@
  
  {%- assign section_settings = section.settings -%}
 
- <motion-effect data-motion="{{ section_settings.motion_effect | default: 'zoom-out' }}" class="block h-full">
+ <motion-effect data-motion="{{  settings.motion_effect | default: 'zoom-out' }}" class="block h-full">
 
      {% render 'responsive-media',
      image: section_settings.image,
      image_ratio: section_settings.image_ratio,
-     motion_effect: section_settings.motion_effect,
      mobile_widths: '320,380,570',
      desktop_widths: '570,750,900,1100,1400',
      mobile_sizes: '(max-width: 767px) 50vw',
