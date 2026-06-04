@@ -231,6 +231,18 @@ export function prefersReducedMotion() {
   return reducedMotion.matches;
 }
 
+export function animationsEnabled() {
+  return (
+    document.documentElement.classList.contains(
+      "animations-enabled"
+    ) ||
+    document.body.classList.contains(
+      "animations-enabled"
+    )
+  );
+}
+
+
 const hoverFine = matchMedia("(hover: hover)");
 
 export function mediaHoverFine() {

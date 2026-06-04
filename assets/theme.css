@@ -4613,7 +4613,13 @@ motion-effect[data-motion-initialized]
 
 
 
-
+motion-effect[data-motion-disabled]
+  .media__image {
+  opacity: 1 !important;
+  transform: none !important;
+  filter: none !important;
+  clip-path: none !important;
+}
 
 
 

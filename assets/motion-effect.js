@@ -10,7 +10,7 @@ export class MotionEffect extends Component {
   connectedCallback() {
     super.connectedCallback();
 
-    if (prefersReducedMotion() || this.#disabled()) return;
+    if (this.#disabled()) return;
 
 
     // Start motion immediately
@@ -21,13 +21,9 @@ export class MotionEffect extends Component {
 
   updatedCallback() {
     super.updatedCallback();
-
     this.removeAttribute("data-motion-initialized");
-
     clearCompleted(this);
-
     this.#unbind();
-
     this.#bind(true);
   }
 
@@ -48,7 +44,7 @@ export class MotionEffect extends Component {
       return;
     }
 
-
+    
     this.#stop = coordinatedInView(this, () => {
       initMotionEngine(this);
     });
@@ -57,22 +53,24 @@ export class MotionEffect extends Component {
 
   #unbind() {
     this.#stop?.();
+
     this.#stop = null;
   }
 
 
   replay() {
     clearCompleted(this);
+
     replay(this);
   }
 
 
   #disabled() {
     return (
-      this.hasAttribute("data-motion-off") ||  this.closest("[data-motion-disabled]")
+      prefersReducedMotion() ||  !document.body.classList.contains( "animations-enabled" ) ||  this.hasAttribute( "data-motion-off" ) ||  this.closest( "[data-motion-disabled]")
     );
   }
 }
 
 
-customElements.get("motion-effect") || customElements.define("motion-effect", MotionEffect);
+customElements.get("motion-effect") || customElements.define( "motion-effect", MotionEffect);

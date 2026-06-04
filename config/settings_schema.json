@@ -2482,7 +2482,7 @@
       },
       {
         "type": "checkbox",
-        "id": "enable_scroll_animations",
+        "id": "enable_animations",
         "label": "Enable animations",
         "default": true,
         "info": "Enable scroll-triggered animations for sections and blocks."
@@ -2493,7 +2493,7 @@
         "label": "Image motion effect",
         "options": [
           {
-            "value": "",
+            "value": "none",
             "label": "None"
           },
           {

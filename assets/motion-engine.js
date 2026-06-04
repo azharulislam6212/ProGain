@@ -1,4 +1,4 @@
-import { getLenis } from "@theme/utilities";
+import { getLenis , animationsEnabled} from "@theme/utilities";
 
 let initialized = false;
 let gsap = null;
@@ -25,6 +25,13 @@ const config = {
 };
 
 export async function initMotionEngine(scope = document) {
+
+   if (!animationsEnabled()) {
+    return;
+  }
+
+
+
   if (initialized && scope === document) {
     refresh(scope);
     return;
@@ -118,10 +125,18 @@ function syncLenis() {
 }
 
 export function refresh(scope = document) {
+    if (!animationsEnabled()) {
+    return;
+  }
   scope.querySelectorAll("motion-effect").forEach(register);
 }
 
 export function register(element) {
+
+    if (!animationsEnabled()) {
+    return;
+  }
+
   if (!element) return;
   if (completed.has(element)) return;
   if (queue.has(element)) return;
@@ -197,6 +212,12 @@ function canRun(element, type) {
 }
 
 async function run(element, data) {
+
+   if (!animationsEnabled()) {
+    return;
+  }
+
+  
   active.add(element);
   observer?.unobserve(element);
 
