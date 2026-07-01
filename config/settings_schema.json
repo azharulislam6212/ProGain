@@ -2777,7 +2777,7 @@
         "step": 1,
         "unit": "px",
         "label": "Custom size",
-        "visible_if": "{{  settings.icon_size == 'custom' }}",
+        "visible_if": "{{ settings.icon_size == 'custom' }}",
         "default": 18
       }
     ]

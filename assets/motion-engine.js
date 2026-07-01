@@ -148,7 +148,6 @@ export function register(element) {
   observer?.observe(element);
 }
 
-
 export function unregister(element) {
   observer?.unobserve(element);
 
@@ -187,7 +186,6 @@ function canRun(element, type) {
     }
   }
 
-
   const section = element.closest(
     "section,[class*='section']"
   );
@@ -217,7 +215,6 @@ async function run(element, data) {
 
   try {
     await animate(element, data);
-
     element.setAttribute(
       "data-motion-initialized",
       "true"
@@ -430,7 +427,6 @@ export function replay(element) {
   completed.delete(element);
   register(element);
 }
-
 
 export function clearCompleted(element) {
   completed.delete(element);
