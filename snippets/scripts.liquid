@@ -2,28 +2,46 @@
 <script type="importmap">
   {
     "imports": {
-      "@theme/events": "{{ 'events.js' | asset_url }}",
+      "@theme/shadow-component": "{{ 'shadow-component.js' | asset_url }}",
       "@theme/utilities": "{{ 'utilities.js' | asset_url }}",
-      "@theme/product-form": "{{ 'product-form.js' | asset_url }}",
+      "@theme/modules": "{{ 'modules.js' | asset_url }}",
+      "@theme/component": "{{ 'component.js' | asset_url }}",
+      "@theme/events": "{{ 'events.js' | asset_url }}",
+      "@theme/dialog": "{{ 'dialog.js' | asset_url }}",
+
+      "@theme/scrollbar": "{{ 'scrollbar.js' | asset_url }}",
       "@theme/swiper": "{{ 'swiper.js' | asset_url }}",
+      "@theme/lenis": "{{ 'lenis.js' | asset_url }}",
       "@theme/gsap": "{{ 'gsap.js' | asset_url }}",
       "@theme/ScrollTrigger": "{{ 'ScrollTrigger.js' | asset_url }}",
       "@theme/SplitText": "{{ 'SplitText.js' | asset_url }}",
       "@theme/TextPlugin": "{{ 'TextPlugin.js' | asset_url }}",
-      "@theme/lenis": "{{ 'lenis.js' | asset_url }}"
+      "@theme/morph": "{{ 'morph.js' | asset_url }}",
+      "@theme/motion-engine": "{{ 'motion-engine.js' | asset_url }}",
+      "@theme/motion-effect": "{{ 'motion-effect.js' | asset_url }}",
+      "@theme/page-transition": "{{ 'page-transition.js' | asset_url }}",
+
+      "@theme/product-form": "{{ 'product-form.js' | asset_url }}",
+      "@theme/cart-drawer": "{{ 'cart-drawer.js' | asset_url }}",
+      "@theme/custom-elements": "{{ 'custom-elements.js' | asset_url }}",
+      "@theme/media-coordinator": "{{ 'media-coordinator.js' | asset_url }}"
     }
   }
 </script>
 
-<link rel="modulepreload" href="{{ 'events.js' | asset_url }}" fetchpriority="low">
+<link rel="modulepreload" href="{{ 'modules.js' | asset_url }}" fetchpriority="low">
 <link rel="modulepreload" href="{{ 'utilities.js' | asset_url }}" fetchpriority="low">
-<link rel="modulepreload" href="{{ 'product-form.js' | asset_url }}" fetchpriority="low">
+<link rel="modulepreload" href="{{ 'events.js' | asset_url }}" fetchpriority="low">
+<link rel="modulepreload" href="{{ 'component.js' | asset_url }}" fetchpriority="low">
+<link rel="modulepreload" href="{{ 'scrollbar.js' | asset_url }}" fetchpriority="low">
 <link rel="modulepreload" href="{{ 'swiper.js' | asset_url }}" fetchpriority="low">
-<link rel="modulepreload" href="{{ 'gsap.js' | asset_url }}" fetchpriority="low">
-<link rel="modulepreload" href="{{ 'ScrollTrigger.js' | asset_url }}" fetchpriority="low">
-<link rel="modulepreload" href="{{ 'SplitText.js' | asset_url }}" fetchpriority="low">
-<link rel="modulepreload" href="{{ 'TextPlugin.js' | asset_url }}" fetchpriority="low">
-<link rel="modulepreload" href="{{ 'lenis.js' | asset_url }}" fetchpriority="low">
+<link rel="modulepreload" href="{{ 'morph.js' | asset_url }}" fetchpriority="low">
+<link rel="modulepreload" href="{{ 'motion-engine.js' | asset_url }}" fetchpriority="low">
+<link rel="modulepreload" href="{{ 'motion-effect.js' | asset_url }}" fetchpriority="low">
+<link rel="modulepreload" href="{{ 'page-transition.js' | asset_url }}" fetchpriority="low">
+
+<link rel="modulepreload" href="{{ 'custom-elements.js' | asset_url }}" fetchpriority="low">
+<link rel="modulepreload" href="{{ 'media-coordinator.js' | asset_url }}" fetchpriority="low">
 
 <script>
 window.__THEME__ = {
@@ -46,6 +64,7 @@ window.__THEME__ = {
   },
   template: { name: '{{ template }}' },
   cartType: {{ settings.cart_type | json }},
+  enablePageTransitions: {{ settings.enable_page_transitions}},
   settings: {
       pageTransitionsEnabled: true,
       smoothScroll: true,
@@ -54,7 +73,15 @@ window.__THEME__ = {
 }
 </script>
 
-<script type="module" src="{{ 'animation.js' | asset_url }}"></script>
-
 <!-- Theme.js module -->
+
+<script type="module" src="{{ 'custom-elements.js' | asset_url }}"></script>
 <script type="module" src="{{ 'theme.js' | asset_url }}"></script>
+ 
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace('no-js', 'js');
+  if (window.Shopify && window.Shopify.theme && window.Shopify.designMode) {
+    document.documentElement.classList.add('shopify-design-mode');
+  }
+</script>

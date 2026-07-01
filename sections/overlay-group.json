@@ -12,7 +12,10 @@
     },
     "search-drawer": {
       "type": "search-drawer",
-      "settings": {}
+      "settings": {
+        "alt_text": "",
+        "image_ratio": "3\/4"
+      }
     },
     "newsletter-popup": {
       "type": "newsletter-popup",
@@ -24,7 +27,11 @@
     },
     "mobile-dock": {
       "type": "mobile-dock",
-      "settings": {}
+      "settings": {
+        "image": "shopify:\/\/shop_images\/leather-anchor-bracelet-for-men_925x_80d16260-3e1d-4e71-b274-924c47be4065.jpg",
+        "alt_text": "",
+        "image_ratio": "3\/4"
+      }
     }
   },
   "order": [

@@ -4,11 +4,34 @@
   "sections": {
     "announcements": {
       "type": "announcements",
-      "settings": {}
+      "settings": {
+        "image": "shopify:\/\/shop_images\/womens-gold-necklace_925x_7c2c32cd-f809-4623-9356-3aa20a9313d6.jpg",
+        "alt_text": "",
+        "motion_effect": "fade",
+        "image_ratio": "3\/4"
+      }
     },
     "header": {
       "type": "header",
-      "settings": {}
+      "settings": {
+        "image": "shopify:\/\/shop_images\/necklace-earrings-set_925x_ad43b1af-f774-4625-822d-a441bc545ca4.jpg",
+        "mobile_image": "shopify:\/\/shop_images\/inspired-woman_925x_aefa08d9-1f94-4733-a8d5-d03dca357ef9.jpg",
+        "alt_text": "",
+        "motion_effect": "zoom-in",
+        "image_ratio": "4\/5",
+        "image_ratio_mobile": "3\/4",
+        "button_label": "Button label",
+        "button_link": "shopify:\/\/collections\/all",
+        "button_style": "primary",
+        "button_size": "large",
+        "button_icon": "diagonal-arrow",
+        "icon_only": false,
+        "icon_style": "solid",
+        "icon_align": "end",
+        "plain_icon_align": "end",
+        "color_scheme": "scheme-1",
+        "color_scheme_gradient": "scheme-2"
+      }
     }
   },
   "order": [

@@ -1,0 +1,128 @@
+{%- doc -%}
+ Reusable button component.
+
+All parameters are OPTIONAL except content.
+
+  Accepts:
+  @param {string} [tag]                - HTML tag (a | button)
+  @param {string} [button_label]        - Button label (also aria fallback)
+  @param {string} [button_link]        - Button link (for anchor)
+  @param {string} [button_type]        - Button type (button | submit | reset)
+  @param {string} [button_style]       - Button style variant
+  @param {string} [button_size]        - Button size
+  @param {string} [button_class]       - Additional classes
+  @param {boolean} [loader]            - Loader animation
+  @param {string} [button_icon]        - Button icon
+  @param {boolean} [icon_only]         - Icon only mode
+  @param {string} [icon_style]         - Icon style
+  @param {string} [icon_align]         - Icon alignment (start | end)
+  @param {string} [plain_icon_align]         - Icon alignment (start | end)
+  @param {string} [aria_label]         - Custom aria-label
+  @param {boolean} [button_disabled]   - Disabled state (button only)
+  @param {string} [button_form]        - Form ID (button only)
+  @param {string} [data_attrs]      - Raw data attributes (optional)
+{%- enddoc -%}
+ 
+
+
+{%- assign computed_aria_label = aria_label | default: button_label | default: 'Button' -%}
+{%- assign tag = tag | default: 'button' -%}
+{%- assign button_type = button_type | default: 'button' -%}
+
+{% capture classes %}
+btn
+{% if button_class != blank %} {{ button_class }}{% endif %}
+{% if button_style != blank %} btn--{{ button_style }}{% endif %}
+{% if button_size != blank %} btn--{{ button_size }}{% endif %}
+{% if button_icon == 'none' and icon_style != blank and button_style != 'plain' %} btn--icon-{{ button_icon }}{% endif %}
+{% if button_icon != 'none' and icon_style != blank and button_style != 'plain' %} btn--icon-{{ icon_style }}{% endif %}
+{% if button_icon != 'none' and icon_only and button_style != 'plain' %} btn--icon-only{% endif %}
+{% if button_icon != 'none' and icon_align != blank and icon_only == false %} btn--icon-{{ icon_align }}{% endif %}
+{% if button_icon contains "diagonal-arrow" %} btn--icon-diagonal {% endif %}
+{% if button_icon != 'none' and plain_icon_align != blank and button_style == 'plain' %} btn--icon-{{ plain_icon_align }}{% endif %}
+
+
+{% endcapture %}
+
+ 
+<{{ tag }}
+  class="{{ classes | strip | replace: '  ', ' ' | replace: '  ', ' ' }}"
+
+  aria-label="{{ computed_aria_label | escape }}"
+
+  {% if tag == 'a' %}
+    {% if button_link == blank %}
+      role="link"
+      aria-disabled="true"
+      tabindex="-1"
+    {% else %}
+      href="{{ button_link }}"
+    {% endif %}
+  {% endif %}
+
+  {% if tag == 'button' %}
+    type="{{ button_type }}"
+
+    {% if button_disabled %}
+      disabled
+      aria-disabled="true"
+    {% endif %}
+
+    {% if button_form != blank %}
+      form="{{ button_form }}"
+    {% endif %}
+  {% endif %}
+
+  {% if data_attrs != blank %}
+    {{ data_attrs }}
+  {% endif %}
+>
+
+  {% if loader %}
+    <span class="loading-spinner hidden" aria-hidden="true">
+      {%- render 'icon', icon: 'spinner' ,  size: settings.icon_size  -%}
+      <span class="visually-hidden" role="status">Loading...</span>
+    </span>
+
+  {% endif %}
+
+  <span class="btn__content">
+
+    {%- assign icon_file = button_icon | replace: '_', '-' | prepend: 'icon-' | append: '.svg' -%}
+
+    {% if button_icon != 'none' and icon_align contains 'start' and button_style != 'plain' %}
+       <span class="btn__icon">
+        {%- render 'icon', icon: button_icon ,  size: settings.icon_size  -%}
+      </span>  
+ 
+    {% endif %}
+
+      {% if button_icon != 'none'  and button_style == 'plain' and  plain_icon_align contains 'start'  %}
+      <span class="btn__icon" aria-hidden="true">
+        {{ icon_file | inline_asset_content }}
+      </span>
+    {% endif %}
+
+    {% unless icon_only and button_icon != 'none' and button_style != 'plain'  %}
+      <span class="btn__text">
+        {{ button_label | default: 'Button' }}
+      </span>
+    {% endunless %}
+
+    {% if button_icon != 'none'  and icon_align contains 'end' and button_style != 'plain'  %}
+       <span class="btn__icon">
+        {%- render 'icon', icon: button_icon ,  size: settings.icon_size  -%}
+      </span>  
+ 
+    {% endif %}
+
+      {% if button_icon != 'none' and button_style == 'plain' and plain_icon_align contains 'end' %}
+       <span class="btn__icon">
+        {%- render 'icon', icon: button_icon ,  size: settings.icon_size  -%}
+      </span>  
+ 
+    {% endif %}
+
+  </span>
+
+</{{ tag }}>

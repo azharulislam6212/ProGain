@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+  <path class="spinner-circle" d="M7 12a3 3 0 1 1-6 0a3 3 0 0 1 6 0z" fill="currentColor"></path>
+  <path class="spinner-circle" d="M15 12a3 3 0 1 1-6 0a3 3 0 0 1 6 0z" fill="currentColor"></path>
+  <path class="spinner-circle" d="M23 12a3 3 0 1 1-6 0a3 3 0 0 1 6 0z" fill="currentColor"></path>
+</svg>
+
+

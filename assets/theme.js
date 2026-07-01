@@ -1,11 +1,15 @@
-// theme.js
-
 // ------------------------
 // Core modules (always needed) 
 // ------------------------
-
+import  PageTransition  from "@theme/page-transition";
+import Modules from '@theme/modules';
 import { ThemeEvents } from '@theme/events';
 import { requestIdleCallback } from "@theme/utilities";
+import { initScrollbarWidth } from '@theme/scrollbar';
+import { initButtons } from '@theme/component';
+import { initMotionEngine } from "@theme/motion-engine";
+
+  
 
 // ------------------------
 // Theme loader
@@ -15,141 +19,114 @@ class Theme {
     this.config = window.__THEME__ || {};
     this.template = this.config?.template?.name || null;
     this.cartType = this.config?.cartType || 'page';
+    this.enablePageTransitions = this.config?.enablePageTransitions ||  false ;
+    this.modules = new Modules(); 
+    
+    this.isDesignMode = window.Shopify && Shopify.designMode === true;
+
+  
   }
 
   // ------------------------
-  // Load template-specific modules
+  // Template modules
   // ------------------------
-  async initTemplateModules() {
-    const loaders = [];
 
-    // Product page modules
+    initTemplateModules() {
     if (this.template === 'product') {
-      loaders.push(
-        import('@theme/variant-picker')
-          .then(m => m.default && new m.default())
-          .catch(err => console.error('Variant Picker Failed', err))
-      );
-      loaders.push(
-        import('@theme/product-form')
-          .then(m => m.default && new m.default())
-          .catch(err => console.error('Product Form Failed', err))
-      );
+      this.modules.load('variant-picker', () => import('@theme/variant-picker'));
+      this.modules.load('product-form', () => import('@theme/product-form'));
     }
 
-    // Cart drawer module
-    if (this.cartType === 'drawer') {
-      loaders.push(
-        import('@theme/cart-drawer')
-          .then(m => m.default && new m.default())
-          .catch(err => console.error('Cart Drawer Failed', err))
-      );
+    if (this.cartType === 'drawer' && this.template !== 'cart') {
+      this.modules.load('cart-drawer', () => import('@theme/cart-drawer'));
     }
-
-    // Run all modules independently (non-blocking)
-    await Promise.allSettled(loaders);
   }
 
+
   // ------------------------
-  // Section-specific modules
+  // Global modules
   // ------------------------
+
+   initGlobalModules() {  
+    
+    if(this.enablePageTransitions){
+      new PageTransition();
+    }
+ 
+    initScrollbarWidth();     
+    initButtons(); 
+
+     //  Motion Engine (GLOBAL UI BEHAVIOR)
+       requestIdleCallback(() => {
+        initMotionEngine(document);
+      });
+ 
+  }
+ 
+  // ------------------------
+  // Section modules
+  // ------------------------
+
   initSection(section) {
     if (!section) return;
 
-    // Product form always
-    if (typeof window.initProductForms === 'function') window.initProductForms(section);
+    const id = section.dataset.sectionId? section.dataset.sectionId: null;
 
-    // Featured collection
+    // Prevent duplicate init
+    if (section.dataset.initialized) return;
+    section.dataset.initialized = 'true';
+
     if (section.dataset.section === 'featured-collection') {
-     
-      import('@theme/product-form.js')
-        .then(m => m.default && new m.default(section))
-        .catch(err => console.error('Section Product Form Failed', err));
+      this.modules.load( `product-form-${id}`, () => import('@theme/product-form'), section);
     }
 
+    initButtons(section);
   }
+
+
+    destroySection(section) {
+    if (!section) return;
+    const id = section.dataset.sectionId;
+    this.modules.unload(`product-form-${id}`);
+    delete section.dataset.initialized;
+  }
+
 
   // ------------------------
   // Initialize theme
   // ------------------------
   start() {
-    // DOM ready
-    if (document.readyState !== 'loading') {
+    const init = () => {
       this.initTemplateModules();
+      this.initGlobalModules();
+    };
+
+    if (document.readyState !== 'loading') {
+      init();
     } else {
-      document.addEventListener('DOMContentLoaded', () => this.initTemplateModules());
+      document.addEventListener('DOMContentLoaded', init);
     }
 
-    // Shopify section hydration
-    document.addEventListener('shopify:section:load', (event) => this.initSection(event.target));
+    // Shopify lifecycle
+    document.addEventListener('shopify:section:load', (e) => {
+      this.initSection(e.target);
+       initMotionEngine(e.target);
+    });
+
+    document.addEventListener('shopify:section:unload', (e) => {
+      this.destroySection(e.target);
+    });
   }
 }
 
 // ------------------------
 // Init theme
 // ------------------------
+ 
 const theme = new Theme();
 theme.start();
 
 // Expose globally
 window.Theme = theme;
+window.__DESIGN_MODE__ = theme.isDesignMode;
 window.ThemeEvents = ThemeEvents;
-
-
-
-// const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
-
-// if (scrollbarWidth > 0) {
-//   document.documentElement.style.setProperty(
-//     "--scrollbar-width",
-//     scrollbarWidth + "px"
-//   );
-// }
-
-export class DeclarativeShadowElement extends HTMLElement {
-    connectedCallback() {
-        if (!this.shadowRoot) {
-            const template = this.querySelector(':scope > template[shadowrootmode="open"]');
-            if (!(template instanceof HTMLTemplateElement)) return;
-            this.attachShadow({ mode: "open" }).append(template.content.cloneNode(!0));
-        }
-    }
-}
-export class ResizeNotifier extends ResizeObserver {
-    #initialized = !1;
-    constructor(callback) {
-        super((entries) => {
-            if (this.#initialized) return callback(entries, this);
-            this.#initialized = !0;
-        });
-    }
-    disconnect() {
-        (this.#initialized = !1), super.disconnect();
-    }
-}
-(() => {
-    function setScrollbarWidth() {
-        requestIdleCallback(() => {
-            const outer = document.createElement("div");
-            (outer.style.cssText = "visibility:hidden;overflow:scroll;position:absolute;width:100px;height:100px;"),
-                document.body.appendChild(outer);
-            const inner = document.createElement("div");
-            (inner.style.width = "100%"), outer.appendChild(inner);
-            const scrollbarWidth = outer.offsetWidth - inner.offsetWidth,
-                windowWidth = window.innerWidth,
-                documentWidth = document.documentElement.clientWidth;
-            document.body.removeChild(outer);
-            const finalWidth = scrollbarWidth > 0 ? scrollbarWidth : Math.max(0, windowWidth - documentWidth);
-            document.documentElement.style.setProperty("--scrollbar-width", `${finalWidth}px`);
-        });
-    }
-    document.readyState === "complete"
-        ? setScrollbarWidth()
-        : window.addEventListener("load", setScrollbarWidth, { once: !0 });
-    let resizeTimeout;
-    const debouncedSetScrollbarWidth = () => {
-        clearTimeout(resizeTimeout), (resizeTimeout = setTimeout(setScrollbarWidth, 100));
-    };
-    window.addEventListener("resize", debouncedSetScrollbarWidth),
-        window.addEventListener("orientationchange", debouncedSetScrollbarWidth);
-})();

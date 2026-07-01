@@ -1,0 +1,24 @@
+
+
+
+{% stylesheet %}
+/* ========================================*/
+/* overlay                                 */
+/* ========================================*/
+
+  .overlay {
+  position: absolute;
+  inset: 0;
+  z-index: var(--overlay-layer);
+  pointer-events: none;
+  border-radius: var(--overlay-border-radius, 0);
+}
+
+.overlay--solid {
+  background: var(--overlay-color);
+}
+
+.overlay--gradient {
+  background: linear-gradient(var(--overlay-direction), var(--overlay-color), var(--overlay-color--end));
+}
+{%- endstylesheet -%}
